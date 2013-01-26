@@ -58,16 +58,6 @@ public class BattleMode extends AppMode
         _actor.x = 3;
         _actor.y = 4;
         _ctx.netObjects.addObject(_actor);
-
-        const timerHolder :GameObject = new GameObject();
-        timerHolder.addTask(new RepeatingTask(
-                new FunctionTask(function () :void {
-                    _msgMgr.sendMessage(new MoveMessage(Randoms.RAND.getInt(Aztec.BOARD_SIZE.x), Randoms.RAND.getInt(Aztec.BOARD_SIZE.y)));
-                }),
-                new TimedTask(10))
-        );
-        addObject(timerHolder);
-
     }
     
     override protected function beginUpdate (dt :Number) :void {
