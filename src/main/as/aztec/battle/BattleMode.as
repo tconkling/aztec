@@ -3,27 +3,19 @@
 
 package aztec.battle {
 
-import aspire.util.Randoms;
-
-import aztec.data.AztecMessage;
-import aztec.data.MoveMessage;
-import aztec.net.MessageMgr;
-
 import com.threerings.util.MessageManager;
-
-import flashbang.tasks.FunctionTask;
-
-import flashbang.tasks.RepeatingTask;
-
-import flashbang.tasks.TimedTask;
 
 import starling.display.DisplayObjectContainer;
 
 import aspire.util.Preconditions;
+import aspire.util.Randoms;
 
 import flashbang.core.AppMode;
 import flashbang.core.GameObject;
 import flashbang.core.GameObjectRef;
+import flashbang.tasks.FunctionTask;
+import flashbang.tasks.RepeatingTask;
+import flashbang.tasks.TimedTask;
 
 import aztec.Aztec;
 import aztec.battle.controller.Actor;
@@ -31,6 +23,10 @@ import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleCtx;
 import aztec.battle.controller.BattleObject;
 import aztec.battle.controller.BattleObjectDB;
+import aztec.battle.controller.Player;
+import aztec.data.AztecMessage;
+import aztec.data.MoveMessage;
+import aztec.net.MessageMgr;
 
 public class BattleMode extends AppMode
 {
@@ -50,6 +46,12 @@ public class BattleMode extends AppMode
         // layers
         _modeSprite.addChild(_ctx.boardLayer);
         _modeSprite.addChild(_ctx.uiLayer);
+        
+        // players
+        var player1 :Player = new Player(1, "Tim");
+        var player2 :Player = new Player(2, "Charlie");
+        _ctx.netObjects.addObject(player1);
+        _ctx.netObjects.addObject(player2);
         
         // board
         var board :BattleBoard = new BattleBoard();
