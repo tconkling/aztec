@@ -5,6 +5,8 @@ package aztec {
 
 import aspire.util.Log;
 
+import aztec.connect.ConnectMode;
+
 import flashbang.core.Config;
 import flashbang.core.FlashbangApp;
 
@@ -19,7 +21,11 @@ public class AztecApp extends FlashbangApp
         rsrcs.load(
             function () :void {
                 createViewport("debug").pushMode(new DebugOverlayMode());
-                defaultViewport.pushMode(new BattleMode());
+                if (Aztec.MULTIPLAYER) {
+                    defaultViewport.pushMode(new ConnectMode());
+                } else {
+                    defaultViewport.pushMode(new BattleMode());
+                }
             },
             function (e :Error) :void {
                 Log.getLog(AztecApp).error("Error loading resources", e);

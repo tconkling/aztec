@@ -15,8 +15,8 @@ public class AztecSession extends PresentsSession {
     @Override public void populateBootstrapData (BootstrapData data) {
         super.populateBootstrapData(data);
 
-
-        ((AztecBootstrapData)data).boardOid = 7;
+        AztecMatchManager matchManager = new AztecMatchManager(_rootDObj);
+        ((AztecBootstrapData)data).matchOid = matchManager.getMatchOid();
     }
 
     @Inject private RootDObjectManager _rootDObj;

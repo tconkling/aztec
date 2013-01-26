@@ -14,5 +14,7 @@ public class Aztec
     
     public static const BOARD_SIZE :Vector2 = new Vector2(16, 10);
     public static const TILE_SIZE_PX :Vector2 = new Vector2(64, 64);
+
+    public static const MULTIPLAYER :Boolean = false;
 }
 }
