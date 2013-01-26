@@ -1,0 +1,16 @@
+{
+  "exports": [
+    {
+      "format": "JSONZip",
+      "scale": 1,
+      "maxAtlasSize": 2048,
+      "textureBorder": 1,
+      "additionalScaleFactors": [],
+      "name": "art",
+      "scaleFactorsString": "",
+      "description": "'art' (JSONZip, 100%)"
+    }
+  ],
+  "exportDir": "../rsrc",
+  "importDir": ""
+}
