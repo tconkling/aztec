@@ -21,11 +21,8 @@ public class AztecMatchManager implements MatchProvider {
         domgr.newInterval(new Runnable() {
             @Override
             public void run() {
-                if (!_queuedMessages.isEmpty()) {
-                    System.out.println("Sending " + _queuedMessages);
-                    _mobj.setMessages(_queuedMessages.toArray(new AztecMessage[_queuedMessages.size()]));
-                    _queuedMessages.clear();
-                }
+                _mobj.setMessages(_queuedMessages.toArray(new AztecMessage[_queuedMessages.size()]));
+                _queuedMessages.clear();
             }
         }).schedule(MESSAGE_RATE, true);
     }

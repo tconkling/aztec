@@ -2,6 +2,7 @@
 // aztec
 
 package aztec.net {
+import aztec.data.AztecMessage;
 
 public class LoopbackMessageMgr
     implements MessageMgr
@@ -9,7 +10,6 @@ public class LoopbackMessageMgr
     public function LoopbackMessageMgr (tickInterval :Number) {
         _tickInterval = tickInterval;
         _nextTickTime = tickInterval;
-        _ticks.unshift(new GameTickMsg());
     }
     
     public function get isReady () :Boolean {
@@ -25,27 +25,26 @@ public class LoopbackMessageMgr
             } else {
                 dt -= _nextTickTime;
                 _nextTickTime = _tickInterval;
-                _ticks.unshift(new GameTickMsg());
+                _filled.unshift(_filling);
+                _filling = new <AztecMessage>[];
             }
         }
     }
-    
-    public function get hasTick () :Boolean {
-        return _ticks.length > 1;
+
+    public function get ticks () :Vector.<Vector.<AztecMessage>> {
+        const toReturn :Vector.<Vector.<AztecMessage>> = _filled;
+        _filled =  new <Vector.<AztecMessage>>[];
+        return toReturn;
     }
     
-    public function getNextTick () :GameTickMsg {
-        // we don't return the last tick
-        return (_ticks.length > 1 ? _ticks.pop() : null);
-    }
-    
-    public function sendMessage (msg :Message) :void {
-        _ticks[0].messages.push(msg);
+    public function sendMessage (msg :AztecMessage) :void {
+        _filling.push(msg);
     }
     
     protected var _tickInterval :Number;
     protected var _nextTickTime :Number;
-    
-    protected var _ticks :Vector.<GameTickMsg> = new <GameTickMsg>[];
+
+    protected var _filling :Vector.<AztecMessage> = new <AztecMessage>[];
+    protected var _filled :Vector.<Vector.<AztecMessage>> = new <Vector.<AztecMessage>>[];
 }
 }

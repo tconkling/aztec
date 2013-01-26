@@ -3,6 +3,20 @@
 
 package aztec.battle {
 
+import aspire.util.Randoms;
+
+import aztec.data.AztecMessage;
+import aztec.data.MoveMessage;
+import aztec.net.MessageMgr;
+
+import com.threerings.util.MessageManager;
+
+import flashbang.tasks.FunctionTask;
+
+import flashbang.tasks.RepeatingTask;
+
+import flashbang.tasks.TimedTask;
+
 import starling.display.DisplayObjectContainer;
 
 import aspire.util.Preconditions;
@@ -17,19 +31,20 @@ import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleCtx;
 import aztec.battle.controller.BattleObject;
 import aztec.battle.controller.BattleObjectDB;
-import aztec.net.GameTickMsg;
-import aztec.net.LoopbackMessageMgr;
-import aztec.net.Message;
 
 public class BattleMode extends AppMode
 {
+    public function BattleMode (messageMgr: MessageMgr) {
+        _msgMgr = messageMgr;
+
+    }
     override protected function setup () :void {
         _ctx = new BattleCtx();
         _ctx.viewObjects = this;
         
         // all the network-synced objects live in here
         _ctx.netObjects = new BattleObjectDB(_ctx);
-        _ctx.messages = new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE);
+        _ctx.messages = _msgMgr;
         
         // layers
         _modeSprite.addChild(_ctx.boardLayer);
@@ -39,19 +54,29 @@ public class BattleMode extends AppMode
         var board :BattleBoard = new BattleBoard();
         _ctx.netObjects.addObject(board);
         
-        var actor :Actor = new Actor();
-        actor.x = 3;
-        actor.y = 4;
-        _ctx.netObjects.addObject(actor);
+        _actor = new Actor();
+        _actor.x = 3;
+        _actor.y = 4;
+        _ctx.netObjects.addObject(_actor);
+
+        const timerHolder :GameObject = new GameObject();
+        timerHolder.addTask(new RepeatingTask(
+                new FunctionTask(function () :void {
+                    _msgMgr.sendMessage(new MoveMessage(Randoms.RAND.getInt(Aztec.BOARD_SIZE.x), Randoms.RAND.getInt(Aztec.BOARD_SIZE.y)));
+                }),
+                new TimedTask(10))
+        );
+        addObject(timerHolder);
+
     }
     
     override protected function beginUpdate (dt :Number) :void {
         super.beginUpdate(dt);
-        
+
+        _ctx.messages.update(dt);
         // update the network
-        while (_ctx.messages.hasTick) {
-            var tick :GameTickMsg = _ctx.messages.getNextTick();
-            for each (var msg :Message in tick.messages) {
+        for each (var ticks :Vector.<AztecMessage> in _ctx.messages.ticks) {
+            for each (var msg :AztecMessage in ticks) {
                 handleMessage(msg);
             }
             _ctx.netObjects.update(Aztec.NETWORK_UPDATE_RATE);
@@ -60,8 +85,14 @@ public class BattleMode extends AppMode
         _ctx.board.view.depthSort();
     }
     
-    protected function handleMessage (msg :Message) :void {
-        // TODO
+    protected function handleMessage (msg :AztecMessage) :void {
+        if (msg is MoveMessage) {
+            const move :MoveMessage = MoveMessage(msg);
+            _actor.x = move.x;
+            _actor.y = move.y;
+        } else {
+            trace("Unhandled message! " + msg);
+        }
     }
     
     override public function addObject (obj :GameObject,
@@ -72,7 +103,9 @@ public class BattleMode extends AppMode
             "BattleObjects must be added to the BattleObjectDB");
         return super.addObject(obj, displayParent, displayIdx);
     }
-    
+
+    protected var _actor :Actor;
     protected var _ctx :BattleCtx;
+    protected var _msgMgr: MessageMgr;
 }
 }

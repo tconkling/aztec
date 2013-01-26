@@ -2,15 +2,15 @@
 // aztec
 
 package aztec.net {
+import aztec.data.AztecMessage;
 
 public interface MessageMgr
 {
     function get isReady () :Boolean;
     function update (dt :Number) :void;
     
-    function get hasTick () :Boolean;
-    function getNextTick () :GameTickMsg;
-    
-    function sendMessage (msg :Message) :void;
+    function get ticks () :Vector.<Vector.<AztecMessage>>;
+
+    function sendMessage (msg :AztecMessage) :void;
 }
 }

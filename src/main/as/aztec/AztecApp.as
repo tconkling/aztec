@@ -6,6 +6,7 @@ package aztec {
 import aspire.util.Log;
 
 import aztec.connect.ConnectMode;
+import aztec.net.LoopbackMessageMgr;
 
 import flashbang.core.Config;
 import flashbang.core.FlashbangApp;
@@ -24,7 +25,7 @@ public class AztecApp extends FlashbangApp
                 if (Aztec.MULTIPLAYER) {
                     defaultViewport.pushMode(new ConnectMode());
                 } else {
-                    defaultViewport.pushMode(new BattleMode());
+                    defaultViewport.pushMode(new BattleMode(new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
                 }
             },
             function (e :Error) :void {
