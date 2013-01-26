@@ -12,7 +12,7 @@
 
   <target name="-prepare" depends="-init-ooo">
     <mkdir dir="${classes.dir}"/>
-    <mavendep pom="server/pom.xml" id="pom.xml"/>
+    <mavendep pom="server/pom.xml" id="pom.xml" destDir="dist/server/libs"/>
     <mavendep pom="as-pom.xml" pathProp="aslib.path"/>
     <path id="built.classpath">
       <path refid="pom.xml.path"/>
@@ -35,6 +35,10 @@
   <target name="javac" depends="-prepare" description="Compiles main and test sources.">
     <ooojavac srcdir="${jsrc.dir}" destdir="${classes.dir}" version="1.5"
       classpathref="pom.xml.path"/>
+  </target>
+
+  <target name="jar" depends="javac" description="Compiles main and test sources.">
+    <jar destfile="dist/server/libs/aztec.jar" basedir="${classes.dir}"/>
   </target>
 
   <target name="server" depends="javac" description="Runs the spack server">
