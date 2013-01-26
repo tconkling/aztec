@@ -9,6 +9,15 @@ public class AztecResources extends ResourceSet
 {
     public function AztecResources () {
         add(futuraFont());
+        add(aztecFlump());
+    }
+    
+    protected function aztecFlump () :Object {
+        return {
+            type: "flump",
+            name: "aztec",
+            data: AZTEC_FLUMP
+        }
     }
     
     protected function futuraFont () :Object {
@@ -20,6 +29,9 @@ public class AztecResources extends ResourceSet
             scale: 1
         }
     }
+    
+    [Embed(source="../../../../rsrc/art/aztec.zip", mimeType="application/octet-stream")]
+    protected static const AZTEC_FLUMP :Class;
     
     [Embed(source="../../../../rsrc/fonts/FuturaCondensedExtraBold.fnt", mimeType="application/octet-stream")]
     protected static const UIFONT_XML :Class;

@@ -24,7 +24,7 @@ public class BattleBoardView extends BoardView
         super(Aztec.TILE_SIZE_PX, Aztec.BOARD_SIZE.mult(Aztec.TILE_SIZE_PX));
         _board = board;
         
-        _groundLayer.addChild(drawTiles(board.width, board.height));
+        _groundLayer.addChild(ImageResource.createImage("aztec/img_background"));
         _groundLayer.addChild(createGridLines());
         _groundLayer.flatten();
         
@@ -69,20 +69,6 @@ public class BattleBoardView extends BoardView
         gridLines.flatten();
         
         return gridLines;
-    }
-    
-    protected function drawTiles (width :int, height :int) :Sprite {
-        var sprite :Sprite = new Sprite();
-        for (var yy :int = 0; yy < height; ++yy) {
-            for (var xx :int = 0; xx < width; ++xx) {
-                var img :DisplayObject = ImageResource.createImage("base/img_tile");
-                img.x = _tileSizePx.x * xx;
-                img.y = _tileSizePx.y * yy;
-                sprite.addChild(img);
-            }
-        }
-        sprite.flatten();
-        return sprite;
     }
     
     protected static function depthCompare (a :DisplayObject, b :DisplayObject) :Number {

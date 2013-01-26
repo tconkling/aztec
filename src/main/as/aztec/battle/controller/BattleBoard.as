@@ -40,7 +40,6 @@ public class BattleBoard extends BattleObject
         _view = new BattleBoardView(this);
         addDependentObject(_view, _ctx.boardLayer);
         _view.display.x = (Flashbang.stageWidth - _view.display.width) * 0.5;
-        _view.display.y = 30;
     }
     
     protected var _view :BattleBoardView;
