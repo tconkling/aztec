@@ -4,7 +4,6 @@
 package aztec.battle {
 
 import starling.display.DisplayObjectContainer;
-import starling.display.Sprite;
 
 import aspire.util.Preconditions;
 
@@ -13,11 +12,11 @@ import flashbang.core.GameObject;
 import flashbang.core.GameObjectRef;
 
 import aztec.Aztec;
+import aztec.battle.controller.Actor;
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleCtx;
 import aztec.battle.controller.BattleObject;
 import aztec.battle.controller.BattleObjectDB;
-import aztec.battle.view.BattleBoardView;
 import aztec.net.GameTickMsg;
 import aztec.net.LoopbackMessageMgr;
 import aztec.net.Message;
@@ -39,6 +38,11 @@ public class BattleMode extends AppMode
         // board
         var board :BattleBoard = new BattleBoard();
         _ctx.netObjects.addObject(board);
+        
+        var actor :Actor = new Actor();
+        actor.x = 3;
+        actor.y = 4;
+        _ctx.netObjects.addObject(actor);
     }
     
     override protected function beginUpdate (dt :Number) :void {
