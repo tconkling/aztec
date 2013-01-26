@@ -3,20 +3,23 @@
 
 package aztec {
 
+import aspire.util.Cloneable;
 import aspire.util.Log;
-
-import aztec.connect.ConnectMode;
-import aztec.net.LoopbackMessageMgr;
 
 import flashbang.core.Config;
 import flashbang.core.FlashbangApp;
 
-import aztec.debug.DebugOverlayMode;
 import aztec.battle.BattleMode;
+import aztec.connect.ConnectMode;
+import aztec.debug.DebugOverlayMode;
+import aztec.net.LoopbackMessageMgr;
 
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
 {
+    // classes needed by the network code
+    Cloneable;
+    
     override protected function run () :void {
         var rsrcs :AztecResources = new AztecResources();
         rsrcs.load(

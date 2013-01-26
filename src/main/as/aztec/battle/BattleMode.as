@@ -38,6 +38,7 @@ public class BattleMode extends AppMode
         _msgMgr = messageMgr;
 
     }
+    
     override protected function setup () :void {
         _ctx = new BattleCtx();
         _ctx.viewObjects = this;
