@@ -10,10 +10,11 @@ import aspire.util.Preconditions;
 import flashbang.core.AppMode;
 import flashbang.core.GameObject;
 import flashbang.core.GameObjectRef;
+import aztec.battle.BattleCtx;
 
-public class BattleObjectDB extends AppMode
+public class NetObjectDB extends AppMode
 {
-    public function BattleObjectDB (ctx :BattleCtx) {
+    public function NetObjectDB (ctx :BattleCtx) {
         _ctx = ctx;
     }
     
@@ -21,9 +22,9 @@ public class BattleObjectDB extends AppMode
         displayParent :DisplayObjectContainer = null,
         displayIdx :int = -1) :GameObjectRef {
         
-        Preconditions.checkArgument(obj is BattleObject, "You may only add BattleObjects!");
+        Preconditions.checkArgument(obj is NetObject, "You may only add NetObjects");
         
-        BattleObject(obj)._ctx = _ctx;
+        NetObject(obj).setCtx(_ctx);
         return super.addObject(obj, displayParent, displayIdx);
     }
     

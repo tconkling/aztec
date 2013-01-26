@@ -8,7 +8,7 @@ import aspire.geom.Vector2;
 import aztec.Aztec;
 import aztec.battle.view.BattleBoardView;
 
-public class BattleBoard extends BattleObject
+public class BattleBoard extends NetObject
 {
     public function BattleBoard () {
         _width = Aztec.BOARD_SIZE.x;

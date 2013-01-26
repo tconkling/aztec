@@ -2,11 +2,15 @@
 // aztec
 
 package aztec.battle.desc {
+import aspire.geom.Vector2;
 
 public class GameDesc
 {
-    public static const player1 :PlayerDesc = get_player1();
+    public static const numVillagers :int = 10;
+    public static const villagerLoc :Vector2 = new Vector2(8, 5);
+    public static const villagerSpread :Number = 4;
     
+    public static const player1 :PlayerDesc = get_player1();
     public static const player2 :PlayerDesc = get_player2();
     
     protected static function get_player1 () :PlayerDesc {

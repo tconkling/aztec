@@ -6,8 +6,9 @@ import aspire.geom.Vector2;
 
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.TempleView;
+import aztec.battle.BattleCtx;
 
-public class Player extends BattleObject
+public class Player extends NetObject
 {
     public var templeHealth :Number = 1;
     public var templeDefense :Number = 0;

@@ -12,12 +12,12 @@ import flashbang.core.GameObject;
 import flashbang.core.GameObjectRef;
 
 import aztec.Aztec;
-import aztec.battle.controller.Actor;
 import aztec.battle.controller.BattleBoard;
-import aztec.battle.controller.BattleCtx;
-import aztec.battle.controller.BattleObject;
-import aztec.battle.controller.BattleObjectDB;
+import aztec.battle.controller.NetObject;
+import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
+import aztec.battle.controller.Villager;
+import aztec.battle.controller.VillagerGenerator;
 import aztec.battle.desc.GameDesc;
 import aztec.data.AztecMessage;
 import aztec.data.MoveMessage;
@@ -27,7 +27,6 @@ public class BattleMode extends AppMode
 {
     public function BattleMode (messageMgr: MessageMgr) {
         _msgMgr = messageMgr;
-
     }
     
     override protected function setup () :void {
@@ -41,12 +40,15 @@ public class BattleMode extends AppMode
         _modeSprite.addChild(_ctx.uiLayer);
         
         // all the network-synced objects live in here
-        _ctx.netObjects = new BattleObjectDB(_ctx);
+        _ctx.netObjects = new NetObjectDB(_ctx);
         _ctx.messages = _msgMgr;
         
         // board
         var board :BattleBoard = new BattleBoard();
         _ctx.netObjects.addObject(board);
+        
+        // villagers
+        _ctx.netObjects.addObject(new VillagerGenerator());
         
         // players
         var player1 :Player = new Player(1, "Tim", GameDesc.player1);
@@ -72,9 +74,6 @@ public class BattleMode extends AppMode
     
     protected function handleMessage (msg :AztecMessage) :void {
         if (msg is MoveMessage) {
-            const move :MoveMessage = MoveMessage(msg);
-            _actor.x = move.x;
-            _actor.y = move.y;
         } else {
             trace("Unhandled message! " + msg);
         }
@@ -84,12 +83,17 @@ public class BattleMode extends AppMode
         displayParent :DisplayObjectContainer = null,
         displayIdx :int = -1) :GameObjectRef {
         
-        Preconditions.checkArgument(!(obj is BattleObject),
-            "BattleObjects must be added to the BattleObjectDB");
+        Preconditions.checkArgument(!(obj is NetObject),
+            "NetObjects must be added to the NetObjectDB");
+        
+        if (obj is AutoCtx) {
+            AutoCtx(obj).setCtx(_ctx);
+        }
+        
         return super.addObject(obj, displayParent, displayIdx);
     }
 
-    protected var _actor :Actor;
+    protected var _actor :Villager;
     protected var _ctx :BattleCtx;
     protected var _msgMgr: MessageMgr;
 }
