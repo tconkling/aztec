@@ -13,8 +13,8 @@ import flashbang.core.GameObjectRef;
 
 public class BattleObjectDB extends AppMode
 {
-    public function BattleObjectDB () {
-        _ctx = new BattleCtx();
+    public function BattleObjectDB (ctx :BattleCtx) {
+        _ctx = ctx;
     }
     
     override public function addObject (obj :GameObject,
