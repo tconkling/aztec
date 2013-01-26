@@ -3,19 +3,13 @@
 
 package aztec.battle {
 
-import com.threerings.util.MessageManager;
-
 import starling.display.DisplayObjectContainer;
 
 import aspire.util.Preconditions;
-import aspire.util.Randoms;
 
 import flashbang.core.AppMode;
 import flashbang.core.GameObject;
 import flashbang.core.GameObjectRef;
-import flashbang.tasks.FunctionTask;
-import flashbang.tasks.RepeatingTask;
-import flashbang.tasks.TimedTask;
 
 import aztec.Aztec;
 import aztec.battle.controller.Actor;
