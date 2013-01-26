@@ -8,6 +8,7 @@ import org.osflash.signals.Signal;
 
 import com.threerings.io.ObjectInputStream;
 import com.threerings.io.ObjectOutputStream;
+import com.threerings.io.TypedArray;
 
 import com.threerings.presents.dobj.DObject;
 
@@ -21,14 +22,20 @@ public class MatchObject extends DObject
 // GENERATED STREAMING START
     public var marshaller :MatchMarshaller;
 
+    public var messages :TypedArray;
+
     public var marshallerChanged :Signal = new Signal(MatchMarshaller, MatchMarshaller);
+    public var messagesChanged :Signal = new Signal(TypedArray, TypedArray);
+    public var messagesElementUpdated :Signal = new Signal(int, Object, Object);
 
     public static const MARSHALLER :String = "marshaller";
+    public static const MESSAGES :String = "messages";
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
         marshaller = ins.readObject(MatchMarshaller);
+        messages = ins.readObject(TypedArray);
     }
 
     public function MatchObject ()
@@ -79,6 +86,9 @@ class Signaller
             case "marshaller":
                 signal = _obj.marshallerChanged;
                 break;
+            case "messages":
+                signal = _obj.messagesChanged;
+                break;
             default:
                 return;
         }
@@ -119,6 +129,9 @@ class Signaller
     {
         var signal :Signal;
         switch (event.getName()) {
+            case "messages":
+                signal = _obj.messagesElementUpdated;
+                break;
             default:
                 return;
         }
