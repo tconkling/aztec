@@ -1,0 +1,67 @@
+<?xml version="1.0" standalone="yes"?>
+<project name="aztec" default="swf" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+  <property name="jsrc.dir" location="src/main/java"/>
+  <property name="asrc.dir" location="src/main/as"/>
+  <property name="deploy.dir" location="dist"/>
+  <property name="classes.dir" location="${deploy.dir}/classes"/>
+
+  <property name="ooo-build.vers" value="2.5"/>
+  <ant antfile="etc/bootstrap.xml"/>
+  <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
+
+  <target name="-prepare" depends="-init-ooo">
+    <mkdir dir="${classes.dir}"/>
+    <mavendep pom="pom.xml"/>
+    <mavendep pom="as-pom.xml" pathProp="aslib.path"/>
+    <path id="built.classpath">
+      <path refid="pom.xml.path"/>
+      <pathelement location="${classes.dir}"/>
+    </path>
+  </target>
+
+  <target name="-preptools" depends="-prepare">
+    <artifact:dependencies pathId="tools.classpath">
+      <dependency groupId="com.threerings" artifactId="narya-tools" version="1.11"/>
+    </artifact:dependencies>
+    <taskdef resource="com/threerings/presents/tools.properties" classpathref="tools.classpath"/>
+  </target>
+
+
+  <target name="clean" description="Removes all generated files and directories">
+    <delete dir="${deploy.dir}"/>
+  </target>
+
+  <target name="javac" depends="-prepare" description="Compiles main and test sources.">
+    <ooojavac srcdir="${jsrc.dir}" destdir="${classes.dir}" version="1.5"
+      classpathref="pom.xml.path"/>
+  </target>
+
+  <target name="server" depends="javac" description="Runs the spack server">
+    <java classname="spack.SpackServer" classpathref="built.classpath"/>
+  </target>
+
+  <target name="swf" depends="-prepare" description="Builds the swf">
+    <mkdir dir="${deploy.dir}"/>
+    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.5"/>
+    <mxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
+      dest="${deploy.dir}/${ant.project.name}.swf" static-lrsl="true"
+      main="aztec/AztecApp.as">
+      <arg value="-swf-version=13"/>
+    </mxmlc>
+  </target>
+
+  <target name="gendobj" depends="-preptools"
+    description="Generates additional methods for distributed object classes">
+    <ooojavac srcdir="${jsrc.dir}" destdir="${classes.dir}" version="1.5"
+      classpathref="built.classpath">
+      <include name="**/data/*.java"/>
+    </ooojavac>
+    <gendobj classpathref="built.classpath">
+      <fileset dir="${jsrc.dir}" includes="**/*Object.java"/>
+    </gendobj>
+    <genascriptstreamable header="etc/SOURCE_HEADER" asroot="${asrc.dir}" classpathref="built.classpath">
+      <fileset dir="${jsrc.dir}" includes="**/data/*.java"/>
+    </genascriptstreamable>
+  </target>
+</project>
