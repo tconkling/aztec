@@ -9,6 +9,7 @@ import flashbang.core.Config;
 import flashbang.core.FlashbangApp;
 
 import aztec.debug.DebugOverlayMode;
+import aztec.battle.BattleMode;
 
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
@@ -18,7 +19,7 @@ public class AztecApp extends FlashbangApp
         rsrcs.load(
             function () :void {
                 createViewport("debug").pushMode(new DebugOverlayMode());
-                //defaultViewport.changeMode(new ServerDebugMode());
+                defaultViewport.pushMode(new BattleMode());
             },
             function (e :Error) :void {
                 Log.getLog(AztecApp).error("Error loading resources", e);
