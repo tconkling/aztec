@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <project name="aztec" default="swf" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
-  <property name="jsrc.dir" location="src/main/java"/>
+  <property name="jsrc.dir" location="server/src/main/java"/>
   <property name="asrc.dir" location="src/main/as"/>
   <property name="deploy.dir" location="dist"/>
   <property name="classes.dir" location="${deploy.dir}/classes"/>
@@ -12,7 +12,7 @@
 
   <target name="-prepare" depends="-init-ooo">
     <mkdir dir="${classes.dir}"/>
-    <mavendep pom="pom.xml"/>
+    <mavendep pom="server/pom.xml" id="pom.xml"/>
     <mavendep pom="as-pom.xml" pathProp="aslib.path"/>
     <path id="built.classpath">
       <path refid="pom.xml.path"/>
@@ -38,7 +38,7 @@
   </target>
 
   <target name="server" depends="javac" description="Runs the spack server">
-    <java classname="spack.SpackServer" classpathref="built.classpath"/>
+    <java classname="aztec.SpackServer" classpathref="built.classpath"/>
   </target>
 
   <target name="swf" depends="-prepare" description="Builds the swf">
