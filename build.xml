@@ -38,7 +38,7 @@
   </target>
 
   <target name="server" depends="javac" description="Runs the spack server">
-    <java classname="aztec.SpackServer" classpathref="built.classpath"/>
+    <java classname="aztec.AztecServer" classpathref="built.classpath"/>
   </target>
 
   <target name="swf" depends="-prepare" description="Builds the swf">

@@ -1,22 +1,22 @@
 
 package aztec;
 
-import aztec.data.SpackBootstrapData;
+import aztec.data.AztecBootstrapData;
 import com.threerings.presents.dobj.RootDObjectManager;
 import com.google.inject.Inject;
 import com.threerings.presents.net.BootstrapData;
 import com.threerings.presents.server.PresentsSession;
 
-public class SpackSession extends PresentsSession {
+public class AztecSession extends PresentsSession {
     @Override public BootstrapData createBootstrapData () {
-        return new SpackBootstrapData();
+        return new AztecBootstrapData();
     }
 
     @Override public void populateBootstrapData (BootstrapData data) {
         super.populateBootstrapData(data);
 
 
-        ((SpackBootstrapData)data).boardOid = 7;
+        ((AztecBootstrapData)data).boardOid = 7;
     }
 
     @Inject private RootDObjectManager _rootDObj;

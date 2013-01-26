@@ -9,9 +9,9 @@ import com.threerings.presents.net.AuthRequest;
 import com.threerings.presents.server.SessionFactory;
 import com.threerings.presents.server.PresentsServer;
 
-public class SpackServer extends PresentsServer {
+public class AztecServer extends PresentsServer {
     public static void main (String[] args) {
-        runServer(new PresentsModule(), new PresentsServerModule(SpackServer.class));
+        runServer(new PresentsModule(), new PresentsServerModule(AztecServer.class));
     }
 
     @Override public void init (Injector injector) throws Exception {
@@ -19,7 +19,7 @@ public class SpackServer extends PresentsServer {
 
         _clmgr.setDefaultSessionFactory(new SessionFactory () {
             @Override public Class<? extends PresentsSession> getSessionClass (AuthRequest req) {
-                return SpackSession.class;
+                return AztecSession.class;
             }
 
             @Override public Class<? extends ClientResolver> getClientResolverClass (Name username) {
