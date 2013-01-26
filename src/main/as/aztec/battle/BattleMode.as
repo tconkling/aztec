@@ -24,6 +24,7 @@ import aztec.battle.controller.BattleCtx;
 import aztec.battle.controller.BattleObject;
 import aztec.battle.controller.BattleObjectDB;
 import aztec.battle.controller.Player;
+import aztec.battle.desc.GameDesc;
 import aztec.data.AztecMessage;
 import aztec.data.MoveMessage;
 import aztec.net.MessageMgr;
@@ -36,31 +37,28 @@ public class BattleMode extends AppMode
     }
     
     override protected function setup () :void {
+        // BattleCtx
         _ctx = new BattleCtx();
         _ctx.viewObjects = this;
-        
-        // all the network-synced objects live in here
-        _ctx.netObjects = new BattleObjectDB(_ctx);
-        _ctx.messages = _msgMgr;
+        addObject(_ctx);
         
         // layers
         _modeSprite.addChild(_ctx.boardLayer);
         _modeSprite.addChild(_ctx.uiLayer);
         
-        // players
-        var player1 :Player = new Player(1, "Tim");
-        var player2 :Player = new Player(2, "Charlie");
-        _ctx.netObjects.addObject(player1);
-        _ctx.netObjects.addObject(player2);
+        // all the network-synced objects live in here
+        _ctx.netObjects = new BattleObjectDB(_ctx);
+        _ctx.messages = _msgMgr;
         
         // board
         var board :BattleBoard = new BattleBoard();
         _ctx.netObjects.addObject(board);
         
-        _actor = new Actor();
-        _actor.x = 3;
-        _actor.y = 4;
-        _ctx.netObjects.addObject(_actor);
+        // players
+        var player1 :Player = new Player(1, "Tim", GameDesc.player1);
+        var player2 :Player = new Player(2, "Charlie", GameDesc.player2);
+        _ctx.netObjects.addObject(player1);
+        _ctx.netObjects.addObject(player2);
     }
     
     override protected function beginUpdate (dt :Number) :void {
