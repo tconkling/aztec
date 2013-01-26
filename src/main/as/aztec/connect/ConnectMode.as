@@ -10,6 +10,7 @@ import flashbang.core.Flashbang;
 public class ConnectMode extends AppMode
 {
     override protected function setup () :void {
+        trace("Connecting");
         _client = new AztecClient();
         _client.onMatchObject.add(function (matchObj: MatchObject) :void {
             trace("Switching to battle mode!");

@@ -16,5 +16,7 @@ public class Aztec
     public static const TILE_SIZE_PX :Vector2 = new Vector2(64, 64);
 
     public static const MULTIPLAYER :Boolean = false;
+//    public static const SERVER :String = "localhost";
+    public static const SERVER :String = "aztec.bungleton.com";
 }
 }

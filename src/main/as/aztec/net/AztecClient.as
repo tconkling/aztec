@@ -3,6 +3,8 @@ package aztec.net {
 
 import aspire.util.Log;
 
+import aztec.Aztec;
+
 import aztec.data.AztecBootstrapData;
 import aztec.data.MatchObject;
 
@@ -21,7 +23,7 @@ public class AztecClient extends Client {
 
     public function AztecClient() {
         super(new UsernamePasswordCreds(new Name("test"), "test"));
-        setServer("localhost", [47624]);
+        setServer(Aztec.SERVER, [47624]);
     }
 
     override public function gotClientObject (clobj :ClientObject) :void {
