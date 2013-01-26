@@ -1,6 +1,7 @@
 
 package aztec;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.threerings.presents.server.ClientResolver;
 import com.threerings.util.Name;
@@ -23,8 +24,10 @@ public class AztecServer extends PresentsServer {
             }
 
             @Override public Class<? extends ClientResolver> getClientResolverClass (Name username) {
-                return ClientResolver.class;
+                return AztecClientResolver.class;
             }
         });
     }
+
+    @Inject AztecMatchmaker _matchmaker;
 }

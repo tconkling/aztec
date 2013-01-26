@@ -22,7 +22,6 @@ public class VillagerGenerator extends NetObject
     
     protected function generate () :void {
         var name :String = generateName();
-        log.info("generated name '" + name + "'");
         _ctx.netObjects.addObject(new Villager(name));
     }
     

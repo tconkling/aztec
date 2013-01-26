@@ -1,21 +1,20 @@
 package aztec;
 
-import aztec.data.AztecBootstrapData;
-import aztec.data.AztecMessage;
-import aztec.data.MatchMarshaller;
-import aztec.data.MatchObject;
+import aztec.data.*;
 import aztec.server.MatchProvider;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.samskivert.util.Interval;
 import com.threerings.presents.data.ClientObject;
+import com.threerings.presents.dobj.ObjectDeathListener;
+import com.threerings.presents.dobj.ObjectDestroyedEvent;
 import com.threerings.presents.dobj.RootDObjectManager;
 import com.threerings.presents.server.InvocationManager;
 import static aztec.AztecLog.log;
 
 import java.util.List;
 
-public class AztecMatchManager implements MatchProvider, AztecSession.SessionEndListener {
+public class AztecMatchManager implements MatchProvider {
     public static long MESSAGE_RATE = 1000/10; // 10 messages/sec
     @Inject
     AztecMatchManager(InvocationManager invMgr, RootDObjectManager domgr) {
@@ -34,28 +33,16 @@ public class AztecMatchManager implements MatchProvider, AztecSession.SessionEnd
         return _mobj;
     }
 
-    public void addPlayer(AztecSession session, AztecBootstrapData data) {
-        _sessions.add(session);
-        if (_sessions.size() == 1) {
-            log.info("Set player 1");
-            _mobj.setPlayer1(session.getAuthName());
+    public void addPlayer(AztecClientObject client) {
+        _clients.add(client);
+        if (_clients.size() == 1) {
+            _mobj.setPlayer1(client.username);
         } else {
-            log.info("Set player 2");
-            _mobj.setPlayer2(session.getAuthName());
+            _mobj.setPlayer2(client.username);
             _messageSender.schedule(MESSAGE_RATE, true);
         }
-        data.matchOid = _mobj.getOid();
-        session.addSessionEndListener(this);
-    }
-
-    @Override
-    public void sessionEnded(AztecSession session) {
-        log.info("Session ended");
-        for (AztecSession listenedSession : _sessions) {
-            listenedSession.removeSessionEndListener(this);
-        }
-        _messageSender.cancel();
-        _mobj.destroy();
+        client.setMatchOid(_mobj.getOid());
+        client.addListener(_clientDeathListener, true);
     }
 
     @Override
@@ -64,9 +51,23 @@ public class AztecMatchManager implements MatchProvider, AztecSession.SessionEnd
         _queuedMessages.add(message);
     }
 
+    private final ObjectDeathListener _clientDeathListener = new ObjectDeathListener() {
+        @Override
+        public void objectDestroyed(ObjectDestroyedEvent objectDestroyedEvent) {
+            for (AztecClientObject client : _clients) {
+                if (client.getOid() != objectDestroyedEvent.getTargetOid()) {
+                    // If the client is still connected, tell it it needs to find a new match id
+                    client.setMatchOid(-1);
+                }
+            }
+            _messageSender.cancel();
+            _mobj.destroy();
+        }
+    };
+
     private final List<AztecMessage> _queuedMessages = Lists.newArrayList();
 
     private final MatchObject _mobj = new MatchObject();
-    private final List<AztecSession> _sessions = Lists.newArrayList();
+    private final List<AztecClientObject> _clients = Lists.newArrayList();
     private final Interval _messageSender;
 }
