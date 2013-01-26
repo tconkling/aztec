@@ -56,6 +56,7 @@
     <ooojavac srcdir="${jsrc.dir}" destdir="${classes.dir}" version="1.5"
       classpathref="built.classpath">
       <include name="**/data/*.java"/>
+      <include name="**/client/*.java"/>
     </ooojavac>
     <gendobj classpathref="built.classpath">
       <fileset dir="${jsrc.dir}" includes="**/*Object.java"/>
@@ -63,5 +64,9 @@
     <genascriptstreamable header="etc/SOURCE_HEADER" asroot="${asrc.dir}" classpathref="built.classpath">
       <fileset dir="${jsrc.dir}" includes="**/data/*.java"/>
     </genascriptstreamable>
+
+    <genservice header="etc/SOURCE_HEADER" asroot="${asrc.dir}" classpathref="built.classpath">
+      <fileset dir="${jsrc.dir}" includes="**/*Service.java"/>
+    </genservice>
   </target>
 </project>

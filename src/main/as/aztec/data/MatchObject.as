@@ -3,6 +3,7 @@
 // GENERATED PREAMBLE START
 package aztec.data {
 
+import aztec.data.MatchMarshaller;
 import org.osflash.signals.Signal;
 
 import com.threerings.io.ObjectInputStream;
@@ -18,11 +19,16 @@ public class MatchObject extends DObject
 // GENERATED CLASSDECL END
 
 // GENERATED STREAMING START
+    public var marshaller :MatchMarshaller;
 
+    public var marshallerChanged :Signal = new Signal(MatchMarshaller, MatchMarshaller);
+
+    public static const MARSHALLER :String = "marshaller";
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
+        marshaller = ins.readObject(MatchMarshaller);
     }
 
     public function MatchObject ()
@@ -70,6 +76,9 @@ class Signaller
     {
         var signal :Signal;
         switch (event.getName()) {
+            case "marshaller":
+                signal = _obj.marshallerChanged;
+                break;
             default:
                 return;
         }
