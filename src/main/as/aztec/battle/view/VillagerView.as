@@ -4,13 +4,16 @@
 package aztec.battle.view {
 
 import aspire.geom.Vector2;
-
-import flump.display.Movie;
-
-import flashbang.resource.MovieResource;
+import aspire.util.StringUtil;
 
 import aztec.battle.controller.Villager;
 import aztec.battle.desc.GameDesc;
+
+import flash.geom.Rectangle;
+
+import flashbang.resource.MovieResource;
+
+import flump.display.Movie;
 
 public class VillagerView extends LocalSpriteObject
 {
@@ -18,6 +21,12 @@ public class VillagerView extends LocalSpriteObject
         _actor = villager;
         _movie = MovieResource.createMovie("aztec/villager");
         _sprite.addChild(_movie);
+        
+        _textView = new SelectableTextSprite(StringUtil.capitalize(villager.name));
+        var bounds :Rectangle = _sprite.getBounds(_sprite);
+        _textView.x = ((bounds.width - _textView.width) * 0.5) + bounds.x;
+        _textView.y = -_textView.height + bounds.y;
+        _sprite.addChild(_textView);
         
         _regs.addSignalListener(villager.destroyed, destroySelf);
     }
@@ -39,7 +48,9 @@ public class VillagerView extends LocalSpriteObject
     }
     
     protected var _actor :Villager;
+    
     protected var _movie :Movie;
+    protected var _textView :SelectableTextSprite;
     
     protected var _loc :Vector2;
     
