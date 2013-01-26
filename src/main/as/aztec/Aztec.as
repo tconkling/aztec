@@ -7,6 +7,8 @@ import aspire.geom.Vector2;
 
 public class Aztec
 {
+    public static const NETWORK_UPDATE_RATE :Number = 1.0 / 10.0; // 10 messages/sec
+        
     /** Constants */
     public static const UI_FONT :String = "futura";
     
