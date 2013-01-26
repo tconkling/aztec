@@ -10,6 +10,8 @@ import com.threerings.io.ObjectInputStream;
 import com.threerings.io.ObjectOutputStream;
 import com.threerings.io.TypedArray;
 
+import com.threerings.util.Name;
+
 import com.threerings.presents.dobj.DObject;
 
 // GENERATED PREAMBLE END
@@ -24,18 +26,28 @@ public class MatchObject extends DObject
 
     public var messages :TypedArray;
 
+    public var player1 :Name;
+
+    public var player2 :Name;
+
     public var marshallerChanged :Signal = new Signal(MatchMarshaller, MatchMarshaller);
     public var messagesChanged :Signal = new Signal(TypedArray, TypedArray);
     public var messagesElementUpdated :Signal = new Signal(int, Object, Object);
+    public var player1Changed :Signal = new Signal(Name, Name);
+    public var player2Changed :Signal = new Signal(Name, Name);
 
     public static const MARSHALLER :String = "marshaller";
     public static const MESSAGES :String = "messages";
+    public static const PLAYER1 :String = "player1";
+    public static const PLAYER2 :String = "player2";
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
         marshaller = ins.readObject(MatchMarshaller);
         messages = ins.readObject(TypedArray);
+        player1 = ins.readObject(Name);
+        player2 = ins.readObject(Name);
     }
 
     public function MatchObject ()
@@ -88,6 +100,12 @@ class Signaller
                 break;
             case "messages":
                 signal = _obj.messagesChanged;
+                break;
+            case "player1":
+                signal = _obj.player1Changed;
+                break;
+            case "player2":
+                signal = _obj.player2Changed;
                 break;
             default:
                 return;

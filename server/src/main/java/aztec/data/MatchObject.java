@@ -2,6 +2,7 @@ package aztec.data;
 
 import javax.annotation.Generated;
 import com.threerings.presents.dobj.DObject;
+import com.threerings.util.Name;
 
 public class MatchObject extends DObject {
 
@@ -13,11 +14,23 @@ public class MatchObject extends DObject {
     /** The field name of the <code>messages</code> field. */
     @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
     public static final String MESSAGES = "messages";
+
+    /** The field name of the <code>player1</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public static final String PLAYER1 = "player1";
+
+    /** The field name of the <code>player2</code> field. */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public static final String PLAYER2 = "player2";
     // AUTO-GENERATED: FIELDS END
 
     public MatchMarshaller marshaller;
 
     public AztecMessage[] messages;
+
+    public Name player1;
+
+    public Name player2;
 
     // AUTO-GENERATED: METHODS START
     /**
@@ -70,6 +83,40 @@ public class MatchObject extends DObject {
         requestElementUpdate(
             MESSAGES, index, value, ovalue);
         this.messages[index] = value;
+    }
+
+    /**
+     * Requests that the <code>player1</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
+     * clients) will apply the value change when they received the
+     * attribute changed notification.
+     */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void setPlayer1 (Name value)
+    {
+        Name ovalue = this.player1;
+        requestAttributeChange(
+            PLAYER1, value, ovalue);
+        this.player1 = value;
+    }
+
+    /**
+     * Requests that the <code>player2</code> field be set to the
+     * specified value. The local value will be updated immediately and an
+     * event will be propagated through the system to notify all listeners
+     * that the attribute did change. Proxied copies of this object (on
+     * clients) will apply the value change when they received the
+     * attribute changed notification.
+     */
+    @Generated(value={"com.threerings.presents.tools.GenDObjectTask"})
+    public void setPlayer2 (Name value)
+    {
+        Name ovalue = this.player2;
+        requestAttributeChange(
+            PLAYER2, value, ovalue);
+        this.player2 = value;
     }
     // AUTO-GENERATED: METHODS END
 }

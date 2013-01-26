@@ -2,6 +2,8 @@
 package aztec.net {
 
 import aspire.util.Log;
+import aspire.util.Random;
+import aspire.util.Randoms;
 
 import aztec.Aztec;
 
@@ -22,7 +24,7 @@ public class AztecClient extends Client {
     public const onMatchObject :Signal = new Signal(MatchObject);
 
     public function AztecClient() {
-        super(new UsernamePasswordCreds(new Name("test"), "test"));
+        super(new UsernamePasswordCreds(new Name("test" + Randoms.RAND.getInt(100000)), "test"));
         setServer(Aztec.SERVER, [47624]);
     }
 

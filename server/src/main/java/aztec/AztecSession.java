@@ -2,13 +2,22 @@
 package aztec;
 
 import aztec.data.AztecBootstrapData;
+import com.google.common.collect.Lists;
 import com.threerings.presents.dobj.RootDObjectManager;
 import com.google.inject.Inject;
 import com.threerings.presents.net.BootstrapData;
 import com.threerings.presents.server.InvocationManager;
 import com.threerings.presents.server.PresentsSession;
 
+import java.util.Collections;
+import java.util.List;
+
 public class AztecSession extends PresentsSession {
+    public interface SessionEndListener
+    {
+        void sessionEnded(AztecSession session);
+    }
+
     @Override public BootstrapData createBootstrapData () {
         return new AztecBootstrapData();
     }
@@ -16,11 +25,37 @@ public class AztecSession extends PresentsSession {
     @Override public void populateBootstrapData (BootstrapData data) {
         super.populateBootstrapData(data);
 
-        AztecMatchManager matchManager = new AztecMatchManager(_invMgr, _rootDObj);
-        ((AztecBootstrapData)data).matchOid = matchManager.getMatchOid();
+        _matchmaker.matchmake(this, (AztecBootstrapData)data);
     }
 
-    @Inject private RootDObjectManager _rootDObj;
-    @Inject private InvocationManager _invMgr;
+    @Override
+    protected void sessionConnectionClosed ()
+    {
+        super.sessionConnectionClosed();
+        // Since there's no place state in corpsecraft, we don't keep disconnected sessions
+        endSession();
+    }
 
+    @Override
+    protected void sessionDidEnd ()
+    {
+        super.sessionDidEnd();
+        for (SessionEndListener listener : _endListeners.toArray(new SessionEndListener[0])) {
+            listener.sessionEnded(this);
+        }
+    }
+
+    public void addSessionEndListener (SessionEndListener listener)
+    {
+        _endListeners.add(listener);
+    }
+
+    public void removeSessionEndListener (SessionEndListener sessionEndListener)
+    {
+        _endListeners.remove(sessionEndListener);
+    }
+
+    @Inject AztecMatchmaker _matchmaker;
+
+    protected final List<SessionEndListener> _endListeners = Collections.<SessionEndListener>synchronizedList(Lists.<SessionEndListener>newArrayList());
 }
