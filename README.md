@@ -1,4 +1,4 @@
 aztec
 =====
 
-Global Game Jam 2013
+Multiplayer human sacrifice-themed typing tutor/RTS
