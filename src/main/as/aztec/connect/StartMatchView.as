@@ -17,10 +17,22 @@ public class StartMatchView extends SpriteObject implements KeyboardListener {
     public const startEntered :Signal = new Signal();
 
     public function StartMatchView() {
-        _sprite.addChild(ImageResource.createImage("aztec/img_start_match"));
         _textField = new TextField(200, 30, "", Aztec.UI_FONT, 24);
-        _textField.y = 303;
-        _textField.x = 184;
+        var imageName :String;
+        if (Aztec.startCondition == Aztec.START_INITIAL) {
+            imageName =  "aztec/img_start_match";
+            _textField.y = 303;
+            _textField.x = 184;
+        } else {
+            if (Aztec.startCondition == Aztec.START_WIN) {
+                imageName = "aztec/img_start_win";
+            } else {
+                imageName = "aztec/img_start_lose";
+            }
+            _textField.y = 627;
+            _textField.x = 184;
+        }
+        _sprite.addChild(ImageResource.createImage(imageName));
         _sprite.addChild(_textField);
     }
 
@@ -31,10 +43,14 @@ public class StartMatchView extends SpriteObject implements KeyboardListener {
 
         if (e.keyCode == KeyboardCodes.ENTER) {
             if (_textField.text.toLowerCase() == "start") {
-
                 var searching :TextField = new TextField(400, 300, "Searching for opponent", Aztec.UI_FONT, 36);
-                searching.x = 300;
-                searching.y = 100;
+                if (Aztec.startCondition == Aztec.START_INITIAL) {
+                    searching.x = 300;
+                    searching.y = 100;
+                } else {
+                    searching.x = 95;
+                    searching.y = 340;
+                }
                 _sprite.addChild(searching);
                 startEntered.dispatch();
             }
