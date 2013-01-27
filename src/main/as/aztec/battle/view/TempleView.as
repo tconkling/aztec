@@ -3,6 +3,8 @@
 
 package aztec.battle.view {
 
+import aztec.Aztec;
+
 import flashbang.util.RectMeter;
 
 import flump.display.Movie;
@@ -10,9 +12,12 @@ import flump.display.Movie;
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
 
+import starling.text.TextField;
+import starling.utils.HAlign;
+
 public class TempleView extends SpriteObject
 {
-    public function TempleView (healthColor :uint) {
+    public function TempleView (name :String,  healthColor :uint) {
         _movie = MovieResource.createMovie("aztec/temple");
         _sprite.addChild(_movie);
         addDependentObject(_healthMeter, _sprite);
@@ -28,6 +33,12 @@ public class TempleView extends SpriteObject
         _defenseMeter.maxValue = 1.0;
         _defenseMeter.value = 0.0;
         _defenseMeter.foregroundColor = 0x00FF00;
+
+        var nameField :TextField = new TextField(200, 50, name, Aztec.UI_FONT, 24);
+        nameField.hAlign = HAlign.CENTER;
+        nameField.y = 20;
+        nameField.x = -110;
+        sprite.addChild(nameField);
     }
 
     public function updateHealth(templeHealth:Number):void {

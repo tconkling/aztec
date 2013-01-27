@@ -16,5 +16,6 @@ public class PlayerDesc
     public const sacrificeCommandLoc :Vector2 = new Vector2();
     public const festivalCommandLoc :Vector2 = new Vector2();
     public const worshipCommandLoc :Vector2 = new Vector2();
+    public const nameLoc :Vector2 = new Vector2();
 }
 }

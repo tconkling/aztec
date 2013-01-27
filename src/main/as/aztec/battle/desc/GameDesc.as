@@ -57,7 +57,7 @@ public class GameDesc
         desc.templeLoc.x = 2 * 64;
         desc.templeLoc.y = 7 * 64;
         desc.festivalLoc.x = 4 * 64;
-        desc.festivalLoc.y = 10* 64;
+        desc.festivalLoc.y = 11 * 64;
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
         // TODO
@@ -76,7 +76,7 @@ public class GameDesc
         desc.templeLoc.x = 13 * 64;
         desc.templeLoc.y = 7 * 64;
         desc.festivalLoc.x = 12 * 64;
-        desc.festivalLoc.y = 10 * 64;
+        desc.festivalLoc.y = 11 * 64;
         desc.heartLoc.x = 990;
         desc.heartLoc.y = 170;
         desc.displayedOnRight = true;
