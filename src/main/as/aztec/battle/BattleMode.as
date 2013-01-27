@@ -5,16 +5,13 @@ package aztec.battle {
 
 import aspire.util.Preconditions;
 
-import aztec.Aztec;
 import aztec.battle.controller.BattleBoard;
+import aztec.battle.controller.BattleDebug;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
-import aztec.battle.controller.Villager;
 import aztec.battle.controller.VillagerGenerator;
 import aztec.battle.desc.GameDesc;
-import aztec.data.AztecMessage;
-import aztec.data.MoveMessage;
 import aztec.net.MessageMgr;
 
 import flashbang.core.AppMode;
@@ -69,11 +66,13 @@ public class BattleMode extends AppMode
         var player2 :Player = new Player(2, "Charlie", GameDesc.player2);
         _ctx.netObjects.addObject(player1);
         _ctx.netObjects.addObject(player2);
-        
         _ctx.localPlayer = player1;
-        
+
         // ActorSelector
         addObject(new ActorSelector());
+
+        // debug
+        addObject(new BattleDebug());
     }
     
     override protected function beginUpdate (dt :Number) :void {
@@ -99,7 +98,6 @@ public class BattleMode extends AppMode
         return super.addObject(obj, displayParent, displayIdx);
     }
 
-    protected var _actor :Villager;
     protected var _ctx :BattleCtx;
     protected var _msgMgr: MessageMgr;
 }

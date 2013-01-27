@@ -7,13 +7,16 @@ import aspire.geom.Vector2;
 import aztec.battle.BattleCtx;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.TempleView;
+import aztec.battle.BattleCtx;
+import aztec.data.SacrificeMessage;
 
 public class Player extends NetObject
 {
     public var templeHealth :Number = 1;
     public var templeDefense :Number = 0;
     public var summonPower :int = 0;
-    
+    public var villagerAffinity :Number = .5;
+
     public static function withOid (ctx :BattleCtx, oid :int) :Player {
         return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
     }
@@ -31,6 +34,10 @@ public class Player extends NetObject
     override public function get objectNames () :Array {
         return [ nameForOid(oid) ].concat(super.objectNames);
     }
+
+    override public function get objectGroups () :Array {
+        return [ Player ].concat(super.objectGroups);
+    }
     
     override protected function addedToMode () :void {
         super.addedToMode();
@@ -40,6 +47,14 @@ public class Player extends NetObject
         _templeView.display.x = loc.x;
         _templeView.display.y = loc.y;
         _ctx.viewObjects.addObject(_templeView, _ctx.board.view.objectLayer);
+    }
+    public function sacrifice(msg:SacrificeMessage):void {
+        if (msg.senderOid == _oid) {
+            villagerAffinity -= .2;
+            summonPower++;
+        } else {
+            villagerAffinity += .2;
+        }
     }
     
     protected static function nameForOid (oid :int) :String {
@@ -51,5 +66,6 @@ public class Player extends NetObject
     protected var _desc :PlayerDesc;
     
     protected var _templeView :TempleView;
+
 }
 }

@@ -43,7 +43,7 @@ public class BattleBoardView extends BoardView
     public function get objectLayer () :Sprite {
         return _objectLayer;
     }
-    
+
     protected function createGridLines () :Sprite {
         var gridLines :Sprite = new Sprite();
         

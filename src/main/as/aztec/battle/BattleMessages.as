@@ -9,6 +9,7 @@ import aztec.Aztec;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
+import aztec.data.SacrificeMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.net.MessageMgr;
 
@@ -17,6 +18,10 @@ public class BattleMessages
     public function BattleMessages (ctx :BattleCtx, mgr :MessageMgr) {
         _ctx = ctx;
         _mgr = mgr;
+    }
+
+    public function sacrifice (villager :Villager) :void {
+        _mgr.sendMessage(new SacrificeMessage(villager.name));
     }
     
     public function selectVillager (villager :Villager) :void {
@@ -52,12 +57,19 @@ public class BattleMessages
             } else {
                 villager.select(sender);
             }
-            
+        } else if (msg is SacrificeMessage) {
+            handleSacrifice(SacrificeMessage(msg));
         } else {
             log.error("Unhandled message!", "msg", msg);
         }
     }
-    
+
+    protected function handleSacrifice (msg :SacrificeMessage) :void  {
+        for each (var player :Player in _ctx.netObjects.getObjectsInGroup(Player)) {
+            player.sacrifice(msg);
+        }
+        Villager.withName(_ctx, msg.villager).sacrifice();
+    }
     protected var _ctx :BattleCtx;
     protected var _mgr :MessageMgr;
     

@@ -9,7 +9,7 @@ import aztec.battle.view.VillagerView;
 public class Villager extends NetObject
 {
     public static function getCount (ctx :BattleCtx) :int {
-        return ctx.netObjects.getObjectRefsInGroup(GROUP).length;
+        return ctx.netObjects.getObjectRefsInGroup(Villager).length;
     }
     
     public static function withName (ctx :BattleCtx, name :String) :Villager {
@@ -17,7 +17,7 @@ public class Villager extends NetObject
     }
     
     public static function getAll (ctx :BattleCtx) :Array {
-        return ctx.netObjects.getObjectsInGroup(GROUP);
+        return ctx.netObjects.getObjectsInGroup(Villager);
     }
     
     public function Villager (name :String) {
@@ -41,6 +41,10 @@ public class Villager extends NetObject
     public function get firstLetter () :String {
         return _name.substr(0, 1);
     }
+
+    public function sacrifice () :void {
+        destroySelf();
+    }
     
     public function get view () :VillagerView {
         return _view;
@@ -51,7 +55,7 @@ public class Villager extends NetObject
     }
     
     override public function get objectGroups () :Array {
-        return [ GROUP ].concat(super.objectGroups);
+        return [ Villager ].concat(super.objectGroups);
     }
     
     override protected function addedToMode () :void {
@@ -68,7 +72,5 @@ public class Villager extends NetObject
     protected var _name :String;
     protected var _view :VillagerView;
     protected var _selectedBy :Player;
-    
-    protected static const GROUP :String = "Villager";
 }
 }
