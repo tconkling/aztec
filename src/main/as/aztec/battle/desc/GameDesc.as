@@ -25,11 +25,6 @@ public class GameDesc
 
     public static const MAX_HEARTS :int = 5;
     
-    public static function commandText (villagerName :String, action :VillagerAction,
-        normalizedAffinity :Number) :String {
-        return action.name() + ", " + villagerName;
-    }
-    
     public static function godHearts (god :God) :int {
         switch (god) {
         case God.QUETZ: return 1;

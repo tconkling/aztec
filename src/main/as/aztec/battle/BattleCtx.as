@@ -37,6 +37,8 @@ public class BattleCtx extends GameObject
     
     public var board :BattleBoard;
     
+    public var commandGenerator :VillagerCommandGenerator;
+    
     public var boardLayer :Sprite = new Sprite();
     public var uiLayer :Sprite = new Sprite();
     

@@ -66,6 +66,7 @@ public class BattleMode extends AppMode
         _ctx.netObjects.addObject(board);
         
         // villagers
+        _ctx.viewObjects.addObject(new VillagerCommandGenerator());
         _ctx.netObjects.addObject(new VillagerGenerator());
         
         // players

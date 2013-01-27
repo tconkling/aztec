@@ -11,6 +11,7 @@ public class AztecResources extends ResourceSet
         add(futuraFont());
         add(aztecFlump());
         add(villagerNames());
+        add(villagerCommands());
     }
     
     protected function aztecFlump () :Object {
@@ -39,6 +40,14 @@ public class AztecResources extends ResourceSet
         };
     }
     
+    protected function villagerCommands () :Object {
+        return {
+            type: "xml",
+            name: "villagerCommands",
+            data: VILLAGER_COMMANDS_XML
+        };
+    }
+    
     [Embed(source="../../../../rsrc/art/aztec.zip", mimeType="application/octet-stream")]
     protected static const AZTEC_FLUMP :Class;
     
@@ -50,5 +59,8 @@ public class AztecResources extends ResourceSet
     
     [Embed(source="../../../../rsrc/villager_names.xml", mimeType="application/octet-stream")]
     protected static const VILLAGER_NAMES_XML :Class;
+    
+    [Embed(source="../../../../rsrc/villager_commands.xml", mimeType="application/octet-stream")]
+    protected static const VILLAGER_COMMANDS_XML :Class;
 }
 }

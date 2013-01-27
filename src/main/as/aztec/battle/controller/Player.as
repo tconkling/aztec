@@ -148,7 +148,7 @@ public class Player extends NetObject
     }
     
     protected function getCommandText (villager :Villager, action :VillagerAction) :String {
-        return GameDesc.commandText(villager.name, action, this.normalizedAffinity);
+        return _ctx.commandGenerator.getCommandText(action, villager, this.normalizedAffinity);
     }
     
     protected function getCommandLoc (action :VillagerAction) :Vector2 {
