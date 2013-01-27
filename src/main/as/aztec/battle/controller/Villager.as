@@ -16,6 +16,10 @@ public class Villager extends NetObject
         return Villager(ctx.netObjects.getObjectNamed(villagerName(name)));
     }
     
+    public static function getAll (ctx :BattleCtx) :Array {
+        return ctx.netObjects.getObjectsInGroup(GROUP);
+    }
+    
     public function Villager (name :String) {
         _name = name;
     }
@@ -26,6 +30,10 @@ public class Villager extends NetObject
     
     public function get firstLetter () :String {
         return _name.substr(0, 1);
+    }
+    
+    public function get view () :VillagerView {
+        return _view;
     }
     
     override public function get objectNames () :Array {

@@ -46,7 +46,7 @@ public class SelectableTextSprite extends Sprite
             _tfUnselected.x = 0;
             addChild(_tfUnselected);
             
-        } else if (numCharacters == _text.length - 1) {
+        } else if (numCharacters == _text.length) {
             _tfSelected.text = _text;
             _tfSelected.x = 0;
             addChild(_tfSelected);

@@ -68,6 +68,9 @@ public class BattleMode extends AppMode
         var player2 :Player = new Player(2, "Charlie", GameDesc.player2);
         _ctx.netObjects.addObject(player1);
         _ctx.netObjects.addObject(player2);
+        
+        // ActorSelector
+        addObject(new ActorSelector());
     }
     
     override protected function beginUpdate (dt :Number) :void {

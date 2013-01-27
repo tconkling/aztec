@@ -31,6 +31,10 @@ public class VillagerView extends LocalSpriteObject
         _regs.addSignalListener(villager.destroyed, destroySelf);
     }
     
+    public function get textView () :SelectableTextSprite {
+        return _textView;
+    }
+    
     override protected function addedToMode () :void {
         super.addedToMode();
         
