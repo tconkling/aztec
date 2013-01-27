@@ -13,13 +13,13 @@ import starling.text.TextFieldAutoSize;
 
 public class SelectableTextSprite extends Sprite
 {
-    public function SelectableTextSprite (text :String) {
+    public function SelectableTextSprite (text :String, size :Number = 24) {
         _text = text;
         
-        _tfUnselected = new TextField(1, 1, "", Aztec.UI_FONT, SIZE, 0xffffff);
+        _tfUnselected = new TextField(1, 1, "", Aztec.UI_FONT, size, 0xffffff);
         _tfUnselected.autoSize = TextFieldAutoSize.SINGLE_LINE;
         
-        _tfSelected = new TextField(1, 1, "", Aztec.UI_FONT, SIZE, 0x00ff00);
+        _tfSelected = new TextField(1, 1, "", Aztec.UI_FONT, size, 0x00ff00);
         _tfSelected.autoSize = TextFieldAutoSize.SINGLE_LINE;
         
         touchable = false;
@@ -67,7 +67,5 @@ public class SelectableTextSprite extends Sprite
     protected var _text :String;
     protected var _tfUnselected :TextField;
     protected var _tfSelected :TextField;
-    
-    protected static const SIZE :Number = 24;
 }
 }
