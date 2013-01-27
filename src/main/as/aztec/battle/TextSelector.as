@@ -30,9 +30,15 @@ public class TextSelector
             _curSelectable = null;
         }
         
-        if (e.keyCode == KeyboardCodes.ESCAPE && _curSelectable != null) {
-            // escape deselects the actor
-            endCurSelection();
+        if (e.keyCode == KeyboardCodes.ESCAPE) {
+            // if we have an actor selected, escape deselects.
+            // else, escape "cancels" the text selection
+            if (_curSelectable != null) {
+                endCurSelection();
+            } else {
+                this.canceled.dispatch();
+            }
+            
             return true;
             
         } else if (e.keyCode == KeyboardCodes.ENTER &&
@@ -63,7 +69,7 @@ public class TextSelector
             var nextLetter :String = this.getLetter(_curSelectable, _selectionLength);
             if (nextLetter == typedLetter) {
                 _selectionLength++;
-                _curSelectable.selectableTextSprite.select(_selectionLength, _selectionColor);
+                _curSelectable.textSprite.select(_selectionLength, _selectionColor);
             }
         }
         
@@ -71,11 +77,11 @@ public class TextSelector
     }
     
     protected function get curText () :String {
-        return _curSelectable.selectableTextSprite.text;
+        return _curSelectable.textSprite.text;
     }
     
     protected function getLetter (s :Selectable, idx :int) :String {
-        return s.selectableTextSprite.text.substr(idx, 1).toLowerCase();
+        return s.textSprite.text.substr(idx, 1).toLowerCase();
     }
     
     protected function beginSelection (s :Selectable) :void {
@@ -88,7 +94,7 @@ public class TextSelector
     protected function endCurSelection () :void {
         if (_curSelectable != null) {
             if (isValidSelectable(_curSelectable)) {
-                _curSelectable.selectableTextSprite.deselect();
+                _curSelectable.textSprite.deselect();
             }
             var old :Selectable = _curSelectable;
             _curSelectable = null;

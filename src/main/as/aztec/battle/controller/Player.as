@@ -7,10 +7,10 @@ import aspire.util.Log;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.desc.PlayerDesc;
+import aztec.battle.view.ActorVerbMenu;
 import aztec.battle.view.FestivalView;
 import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
-import aztec.battle.BattleCtx;
 import aztec.data.SacrificeMessage;
 import aztec.data.SummonMessage;
 
@@ -61,11 +61,24 @@ public class Player extends NetObject
         return Villager(_selectedVillager.object);
     }
     
+    public function get isLocalPlayer () :Boolean {
+        return _ctx.localPlayer == this;
+    }
+    
     public function selectVillager (villager :Villager) :void {
         deselectVillager();
         _selectedVillager = villager.ref;
         villager.selected.dispatch();
         villager.view.textView.select(villager.name.length, _desc.color);
+        
+        if (this.isLocalPlayer) {
+            // throw up a verb menu
+            const VERBS :Vector.<String> = new <String>[ "Worship", "Festival", "Temple" ];
+            var verbMenu :ActorVerbMenu = new ActorVerbMenu(VERBS);
+            verbMenu.display.x = 400;
+            verbMenu.display.y = 200
+            _ctx.viewObjects.addObject(verbMenu, _ctx.uiLayer);
+        }
     }
     
     public function deselectVillager () :void {

@@ -35,7 +35,7 @@ public class Villager extends NetObject
         return _name;
     }
     
-    public function get selectableTextSprite () :SelectableTextSprite {
+    public function get textSprite () :SelectableTextSprite {
         return _view.textView;
     }
     

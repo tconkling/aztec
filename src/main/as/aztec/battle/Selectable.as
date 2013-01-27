@@ -7,6 +7,6 @@ import aztec.battle.view.SelectableTextSprite;
 
 public interface Selectable
 {
-    function get selectableTextSprite () :SelectableTextSprite;
+    function get textSprite () :SelectableTextSprite;
 }
 }
