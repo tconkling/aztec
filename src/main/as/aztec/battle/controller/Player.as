@@ -174,15 +174,13 @@ public class Player extends NetObject
         super.addedToMode();
 
         _templeView = new TempleView(_desc.color);
-        var loc :Vector2 = _ctx.board.view.boardToLocal(_desc.templeLoc);
-        _templeView.display.x = loc.x;
-        _templeView.display.y = loc.y;
+        _templeView.display.x = _desc.templeLoc.x;
+        _templeView.display.y = _desc.templeLoc.y;
         _ctx.viewObjects.addObject(_templeView, _ctx.board.view.objectLayer);
 
         _festivalView = new FestivalView();
-        loc = _ctx.board.view.boardToLocal(_desc.festivalLoc);
-        _festivalView.display.x = loc.x;
-        _festivalView.display.y = loc.y;
+        _festivalView.display.x = _desc.festivalLoc.x;
+        _festivalView.display.y = _desc.festivalLoc.y;
         _ctx.viewObjects.addObject(_festivalView, _ctx.board.view.objectLayer);
 
         _heartView = new HeartView();

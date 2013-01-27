@@ -48,9 +48,8 @@ public class VillagerView extends LocalSpriteObject
     }
     
     override protected function update (dt :Number) :void {
-        var viewLoc :Vector2 = getViewLoc(_loc, SCRATCH);
-        _sprite.x = viewLoc.x;
-        _sprite.y = viewLoc.y;
+        _sprite.x = _loc.x;
+        _sprite.y = _loc.y;
     }
     
     protected var _actor :Villager;

@@ -5,14 +5,14 @@ package aztec.battle.controller {
 
 import aspire.geom.Vector2;
 
-import aztec.Aztec;
+import aztec.battle.desc.GameDesc;
 import aztec.battle.view.BattleBoardView;
 
 public class BattleBoard extends NetObject
 {
     public function BattleBoard () {
-        _width = Aztec.BOARD_SIZE.x;
-        _height = Aztec.BOARD_SIZE.y;
+        _width = GameDesc.BOARD_SIZE.x;
+        _height = GameDesc.BOARD_SIZE.y;
     }
     
     public function get width () :int {

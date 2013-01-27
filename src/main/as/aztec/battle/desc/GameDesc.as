@@ -10,9 +10,11 @@ import aztec.battle.VillagerAction;
 
 public class GameDesc
 {
+    public static const BOARD_SIZE :Vector2 = new Vector2(1024, 768);
+    
     public static const numVillagers :int = 6;
-    public static const villagerLoc :Vector2 = new Vector2(8, 5);
-    public static const villagerSpread :Number = 4;
+    public static const villagerLoc :Vector2 = new Vector2(8 * 64, 5 * 64);
+    public static const villagerSpread :Number = 4 * 64;
 
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
@@ -52,10 +54,10 @@ public class GameDesc
     protected static function get_player1 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0xFF2109;
-        desc.templeLoc.x = 2;
-        desc.templeLoc.y = 7;
-        desc.festivalLoc.x = 4;
-        desc.festivalLoc.y = 10;
+        desc.templeLoc.x = 2 * 64;
+        desc.templeLoc.y = 7 * 64;
+        desc.festivalLoc.x = 4 * 64;
+        desc.festivalLoc.y = 10* 64;
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
         // TODO
@@ -71,10 +73,10 @@ public class GameDesc
     protected static function get_player2 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0x1B23DE;
-        desc.templeLoc.x = 13;
-        desc.templeLoc.y = 7;
-        desc.festivalLoc.x = 12;
-        desc.festivalLoc.y = 10;
+        desc.templeLoc.x = 13 * 64;
+        desc.templeLoc.y = 7 * 64;
+        desc.festivalLoc.x = 12 * 64;
+        desc.festivalLoc.y = 10 * 64;
         desc.heartLoc.x = 990;
         desc.heartLoc.y = 170;
         // TODO
