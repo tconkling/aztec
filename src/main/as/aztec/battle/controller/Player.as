@@ -6,7 +6,6 @@ package aztec.battle.controller {
 import aspire.geom.Vector2;
 import aspire.util.Log;
 import aspire.util.MathUtil;
-import aspire.util.Preconditions;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.God;
@@ -17,14 +16,11 @@ import aztec.battle.view.ActorVerbMenu;
 import aztec.battle.view.FestivalView;
 import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
-import aztec.data.SummonMessage;
 
 import flashbang.core.GameObjectRef;
 
 public class Player extends NetObject
 {
-    public var affinitySign :int;
-
     public static function withOid (ctx :BattleCtx, oid :int) :Player {
         return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
     }
@@ -49,6 +45,15 @@ public class Player extends NetObject
     public function get name () :String { return _name; }
     public function get oid () :int { return _oid; }
     public function get desc () :PlayerDesc { return _desc; }
+    
+    /** Map [-1, 1] to [0, 1] */
+    public function get normalizedAffinity () :Number {
+        return (1.0 + (_ctx.affinity.affinity * affinitySign)) * 0.5;
+    }
+    
+    public function get affinitySign () :Number {
+        return (_ctx.players[0] == this ? -1 : 1);
+    }
 
     override public function get objectNames () :Array {
         return [ nameForOid(oid) ].concat(super.objectNames);
@@ -132,8 +137,10 @@ public class Player extends NetObject
     }
     
     public function sacrifice (villager :Villager) :void {
-        _hearts++;
-        _heartView.addHeart();
+        if (_hearts < GameDesc.MAX_HEARTS) {
+            _hearts++;
+            _heartView.addHeart();
+        }
     }
     
     public function worship (villager :Villager) :void {
@@ -153,8 +160,6 @@ public class Player extends NetObject
     override protected function addedToMode () :void {
         super.addedToMode();
 
-        affinitySign = _ctx.players[0] == this ? -1 : 1;
-        
         _templeView = new TempleView(_desc.color);
         var loc :Vector2 = _ctx.board.view.boardToLocal(_desc.templeLoc);
         _templeView.display.x = loc.x;

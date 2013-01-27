@@ -22,6 +22,10 @@ public class GameDesc
 
     public static const MAX_HEARTS :int = 5;
     
+    public static function festivalText (villagerName :String, normalizedAffinity :Number) :String {
+        return "FESTIVAL";
+    }
+    
     public static function godHearts (god :God) :int {
         switch (god) {
         case God.QUETZ: return 1;
