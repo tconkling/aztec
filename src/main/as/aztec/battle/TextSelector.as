@@ -59,6 +59,10 @@ public class TextSelector extends LocalObject
             _curSelectable = null;
             selectable.markSelected();
             return true;
+            
+        } else if (e.keyCode == KeyboardCodes.SPACE) {
+            // ignore spaces
+            return true;
         }
         
         var typedLetter :String = String.fromCharCode(e.charCode).toLowerCase();
@@ -75,9 +79,13 @@ public class TextSelector extends LocalObject
         }
 
         if (_curSelectable != null && _selectionLength < this.curText.length) {
-            var nextLetter :String = this.getLetter(_curSelectable, _selectionLength);
+            var nextLetter :String = getLetter(_curSelectable, _selectionLength);
             if (nextLetter == typedLetter) {
                 _selectionLength++;
+                // eat spaces
+                while (_selectionLength < this.curText.length && getLetter(_curSelectable, _selectionLength) == " ") {
+                    _selectionLength++;
+                }
                 _curSelectable.textSprite.select(_selectionLength, _selectionColor);
             }
         }

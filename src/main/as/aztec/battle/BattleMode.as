@@ -6,14 +6,12 @@ package aztec.battle {
 import aspire.util.Preconditions;
 
 import aztec.battle.controller.Affinity;
-
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleDebug;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.VillagerGenerator;
-import aztec.battle.desc.GameDesc;
 import aztec.net.MessageMgr;
 
 import flashbang.core.AppMode;

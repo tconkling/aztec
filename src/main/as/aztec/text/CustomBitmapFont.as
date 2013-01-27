@@ -10,6 +10,8 @@
 
 package aztec.text
 {
+import aspire.util.Preconditions;
+
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
@@ -199,10 +201,15 @@ public class CustomBitmapFont
         if (numChars > 8192)
             throw new ArgumentError("Bitmap Font text is limited to 8192 characters.");
         
-        for (var i:int=0; i<numChars; ++i)
-        {
+        var charIdx :int = 0;
+        for (var ii :int = 0; ii < text.length; ++ii) {
+            if (text.charAt(ii) == " ") {
+                continue;
+            }
+            
+            var charLocation:CharLocation = charLocations[charIdx++];
             var quadBatch :QuadBatch;
-            if (i < selectionLength) {
+            if (ii < selectionLength) {
                 quadBatch = quadBatchSelected;
                 mHelperImage.color = selectionColor;
             } else {
@@ -210,7 +217,6 @@ public class CustomBitmapFont
                 mHelperImage.color = color;
             }
             
-            var charLocation:CharLocation = charLocations[i];
             mHelperImage.texture = charLocation.char.texture;
             mHelperImage.readjustSize();
             mHelperImage.x = charLocation.x;
