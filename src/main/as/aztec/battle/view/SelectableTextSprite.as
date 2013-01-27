@@ -9,17 +9,18 @@ import aztec.Aztec;
 import aztec.text.CustomTextField;
 
 import starling.display.Sprite;
-import starling.text.TextFieldAutoSize;
 
 public class SelectableTextSprite extends Sprite
 {
-    public function SelectableTextSprite (text :String, size :Number = 24) {
+    public function SelectableTextSprite (text :String, size :Number = 24,
+        autoSize :String = "singleLine", maxWidth :Number = 0) {
         _text = text;
         
         _tf = new CustomTextField(1, 1, text, Aztec.UI_FONT, size);
         _tf.color = 0xffffff;
         _tf.selectionColor = 0x00ff00;
-        _tf.autoSize = TextFieldAutoSize.SINGLE_LINE;
+        _tf.autoSize = autoSize;
+        _tf.autoSizeMaxWidth = maxWidth;
         addChild(_tf);
         
         touchable = false;
