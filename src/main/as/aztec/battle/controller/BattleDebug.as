@@ -18,7 +18,10 @@ public class BattleDebug extends LocalObject {
         _ctx.messages.sacrifice(Villager.getAll(_ctx)[0]);
     }
 
-    protected var _view :DebugView;
+    public function summon():void {
+        _ctx.messages.summon();
+    }
 
+    protected var _view :DebugView;
 }
 }

@@ -12,6 +12,8 @@ import aztec.data.AztecMessage;
 import aztec.data.SacrificeMessage;
 import aztec.data.SacrificeMessage;
 import aztec.data.SelectVillagerMessage;
+import aztec.data.SummonMessage;
+import aztec.data.SummonMessage;
 import aztec.net.MessageMgr;
 
 public class BattleMessages
@@ -23,6 +25,13 @@ public class BattleMessages
 
     public function sacrifice (villager :Villager) :void {
         var msg :SacrificeMessage = new SacrificeMessage(villager.name);
+        msg.senderOid = 1;
+        _mgr.sendMessage(msg);
+    }
+
+    public function summon () :void {
+        var msg :SummonMessage = new SummonMessage();
+        msg.attackStrength = .2;
         msg.senderOid = 1;
         _mgr.sendMessage(msg);
     }
@@ -58,6 +67,8 @@ public class BattleMessages
         } else if (msg is SacrificeMessage) {
             handleSacrifice(SacrificeMessage(msg));
             
+        } else if (msg is SummonMessage ) {
+            handleSummon(SummonMessage(msg));
         } else {
             log.error("Unhandled message!", "msg", msg);
         }
@@ -81,6 +92,11 @@ public class BattleMessages
         }
         Villager.withName(_ctx, msg.villager).sacrifice();
     }
+
+    protected function handleSummon (msg :SummonMessage) :void {
+        Player.withOtherOid(_ctx, msg.senderOid).suffer(msg);
+    }
+
     protected var _ctx :BattleCtx;
     protected var _mgr :MessageMgr;
     

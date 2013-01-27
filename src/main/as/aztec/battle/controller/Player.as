@@ -11,6 +11,7 @@ import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
 import aztec.battle.BattleCtx;
 import aztec.data.SacrificeMessage;
+import aztec.data.SummonMessage;
 
 import flashbang.core.GameObjectRef;
 
@@ -23,6 +24,11 @@ public class Player extends NetObject
 
     public static function withOid (ctx :BattleCtx, oid :int) :Player {
         return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
+    }
+
+    public static function withOtherOid(_ctx:BattleCtx, senderOid:int) :Player {
+        const players :Array = _ctx.netObjects.getObjectsInGroup(Player);
+        return players[0].oid == senderOid ? players[1] : players[0];
     }
     
     public function Player (oid :int, name :String, desc :PlayerDesc) {
@@ -60,6 +66,21 @@ public class Player extends NetObject
             _selectedVillager = GameObjectRef.Null();
         }
     }
+
+    public function suffer (msg :SummonMessage) {
+        templeHealth -= msg.attackStrength;
+        _templeView.updateHealth(templeHealth);
+    }
+
+    public function sacrifice(msg:SacrificeMessage):void {
+        if (msg.senderOid == _oid) {
+            villagerAffinity -= .2;
+            summonPower++;
+            _heartView.addHeart();
+        } else {
+            villagerAffinity += .2;
+        }
+    }
     
     override protected function addedToMode () :void {
         super.addedToMode();
@@ -80,17 +101,6 @@ public class Player extends NetObject
         _heartView.sprite.x = desc.player1 ? 35 : 990;
         _heartView.sprite.y = 700;
         _ctx.viewObjects.addObject(_heartView, _ctx.uiLayer);
-
-
-    }
-    public function sacrifice(msg:SacrificeMessage):void {
-        if (msg.senderOid == _oid) {
-            villagerAffinity -= .2;
-            summonPower++;
-            _heartView.addHeart();
-        } else {
-            villagerAffinity += .2;
-        }
     }
     
     protected static function nameForOid (oid :int) :String {
@@ -106,6 +116,5 @@ public class Player extends NetObject
     protected var _templeView :TempleView;
     protected var _festivalView :FestivalView;
     protected var _heartView :HeartView;
-
 }
 }

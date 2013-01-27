@@ -23,7 +23,12 @@ public class TempleView extends SpriteObject
         _healthMeter.foregroundColor = 0xFF0000;
     }
 
+    public function updateHealth(templeHealth:Number):void {
+        _healthMeter.value = templeHealth;
+    }
+
     protected var _healthMeter :RectMeter = new RectMeter(120, 20);
     protected var _movie :Movie;
+
 }
 }
