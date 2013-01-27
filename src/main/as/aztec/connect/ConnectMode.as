@@ -14,7 +14,7 @@ public class ConnectMode extends AppMode
         _client = new AztecClient();
         _client.onMatchObject.add(function (matchObj: MatchObject) :void {
             trace("Switching to battle mode!");
-            Flashbang.app.defaultViewport.changeMode(new BattleMode(new NetworkedMessageMgr(matchObj)));
+            Flashbang.app.defaultViewport.changeMode(new BattleMode(matchObj.seed, new NetworkedMessageMgr(matchObj)));
         });
         _client.logon();
     }

@@ -25,8 +25,9 @@ import starling.events.KeyboardEvent;
 
 public class BattleMode extends AppMode
 {
-    public function BattleMode (messageMgr: MessageMgr) {
+    public function BattleMode (randomSeed :int, messageMgr: MessageMgr) {
         _msgMgr = messageMgr;
+        _randomSeed = randomSeed;
     }
     
     override public function onKeyDown (keyEvent :KeyboardEvent) :void {
@@ -43,7 +44,7 @@ public class BattleMode extends AppMode
     
     override protected function setup () :void {
         // BattleCtx
-        _ctx = new BattleCtx();
+        _ctx = new BattleCtx(_randomSeed);
         _ctx.viewObjects = this;
         addObject(_ctx);
         
@@ -105,6 +106,7 @@ public class BattleMode extends AppMode
         return super.addObject(obj, displayParent, displayIdx);
     }
 
+    private var _randomSeed:int;
     protected var _ctx :BattleCtx;
     protected var _msgMgr: MessageMgr;
 }

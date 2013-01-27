@@ -30,16 +30,20 @@ public class MatchObject extends DObject
 
     public var player2 :Name;
 
+    public var seed :int;
+
     public var marshallerChanged :Signal = new Signal(MatchMarshaller, MatchMarshaller);
     public var messagesChanged :Signal = new Signal(TypedArray, TypedArray);
     public var messagesElementUpdated :Signal = new Signal(int, Object, Object);
     public var player1Changed :Signal = new Signal(Name, Name);
     public var player2Changed :Signal = new Signal(Name, Name);
+    public var seedChanged :Signal = new Signal(int, int);
 
     public static const MARSHALLER :String = "marshaller";
     public static const MESSAGES :String = "messages";
     public static const PLAYER1 :String = "player1";
     public static const PLAYER2 :String = "player2";
+    public static const SEED :String = "seed";
 
     override public function readObject (ins :ObjectInputStream) :void
     {
@@ -48,6 +52,7 @@ public class MatchObject extends DObject
         messages = ins.readObject(TypedArray);
         player1 = ins.readObject(Name);
         player2 = ins.readObject(Name);
+        seed = ins.readInt();
     }
 
     public function MatchObject ()
@@ -106,6 +111,9 @@ class Signaller
                 break;
             case "player2":
                 signal = _obj.player2Changed;
+                break;
+            case "seed":
+                signal = _obj.seedChanged;
                 break;
             default:
                 return;

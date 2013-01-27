@@ -28,7 +28,7 @@ public class AztecApp extends FlashbangApp
                 if (Aztec.MULTIPLAYER) {
                     defaultViewport.pushMode(new ConnectMode());
                 } else {
-                    defaultViewport.pushMode(new BattleMode(new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
+                    defaultViewport.pushMode(new BattleMode(Aztec.rands.getInt(1000), new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
                 }
             },
             function (e :Error) :void {

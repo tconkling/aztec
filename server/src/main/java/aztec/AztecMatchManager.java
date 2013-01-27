@@ -5,6 +5,7 @@ import aztec.server.MatchProvider;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.samskivert.util.Interval;
+import com.samskivert.util.Randoms;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.dobj.ObjectDeathListener;
 import com.threerings.presents.dobj.ObjectDestroyedEvent;
@@ -13,12 +14,14 @@ import com.threerings.presents.server.InvocationManager;
 import static aztec.AztecLog.log;
 
 import java.util.List;
+import java.util.Random;
 
 public class AztecMatchManager implements MatchProvider {
     public static long MESSAGE_RATE = 1000/10; // 10 messages/sec
     @Inject
     AztecMatchManager(InvocationManager invMgr, RootDObjectManager domgr) {
         _mobj.marshaller = invMgr.registerProvider(this, MatchMarshaller.class);
+        _mobj.seed = new Random().nextInt();
         domgr.registerObject(_mobj);
         _messageSender = domgr.newInterval(new Runnable() {
             @Override

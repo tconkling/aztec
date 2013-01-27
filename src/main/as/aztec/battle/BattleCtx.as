@@ -19,6 +19,10 @@ import starling.display.Sprite;
 
 public class BattleCtx extends GameObject
 {
+    public function BattleCtx (netRandomSeed :int) {
+        _netRandoms = new Randoms(new Random(netRandomSeed));
+    }
+
     public var localPlayer :Player;
     
     public var players :Vector.<Player> = new Vector.<Player>(2, true);
@@ -40,7 +44,7 @@ public class BattleCtx extends GameObject
         return (obj is NetObject ? _netRandoms : _viewRandoms);
     }
     
-    protected var _netRandoms :Randoms = new Randoms(Random.create());
+    protected var _netRandoms :Randoms;
     protected var _viewRandoms :Randoms = new Randoms(Random.create());
 }
 }

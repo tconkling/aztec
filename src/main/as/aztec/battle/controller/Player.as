@@ -21,7 +21,7 @@ import flashbang.core.GameObjectRef;
 public class Player extends NetObject
 {
     public var templeHealth :Number = 1;
-    public var templeDefense :Number = 1;
+    public var templeDefense :Number = 0;
     public var summonPower :int = 0;
     public var affinitySign :int;
 
