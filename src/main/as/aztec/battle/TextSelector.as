@@ -5,6 +5,8 @@ package aztec.battle {
 
 import aspire.ui.KeyboardCodes;
 import aspire.util.Arrays;
+import aspire.util.Registration;
+import aspire.util.Registrations;
 
 import aztec.input.KeyboardListener;
 
@@ -21,12 +23,11 @@ public class TextSelector extends LocalObject
         _selectionColor = selectionColor;
     }
 
-    public function addProvider (provider :SelectableProvider) :void {
+    public function registerProvider (provider :SelectableProvider) :Registration {
         _providers.push(provider);
-    }
-
-    public function removeProvider(provider :SelectableProvider):void {
-        Arrays.removeAll(_providers, provider);
+        return Registrations.createWithFunction(function () :void {
+            Arrays.removeAll(_providers, provider);
+        });
     }
 
     public function onKeyboardEvent (e :KeyboardEvent) :Boolean {
