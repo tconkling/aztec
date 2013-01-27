@@ -11,32 +11,23 @@ import com.threerings.io.ObjectOutputStream;
 // GENERATED PREAMBLE END
 
 // GENERATED CLASSDECL START
-public class MoveMessage extends AztecMessage
+public class DeselectVillagerMessage extends AztecMessage
 {
 // GENERATED CLASSDECL END
 
-    public function MoveMessage (x :int = 0, y :int = 0) {
-        this.x = x;
-        this.y = y;
-    }
-
 // GENERATED STREAMING START
-    public var x :int;
-
-    public var y :int;
+    public var villagerName :String;
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
-        x = ins.readInt();
-        y = ins.readInt();
+        villagerName = ins.readField(String);
     }
 
     override public function writeObject (out :ObjectOutputStream) :void
     {
         super.writeObject(out);
-        out.writeInt(x);
-        out.writeInt(y);
+        out.writeField(villagerName);
     }
 
 // GENERATED STREAMING END

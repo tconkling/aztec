@@ -5,8 +5,6 @@ package aztec.battle {
 
 import aspire.util.Registration;
 
-import aztec.battle.controller.Player;
-
 import aztec.battle.controller.Villager;
 
 public class ActorSelector extends LocalObject
