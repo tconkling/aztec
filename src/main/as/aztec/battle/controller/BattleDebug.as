@@ -27,7 +27,7 @@ public class BattleDebug extends LocalObject {
     }
 
     public function summon (senderOid :int):void {
-        _ctx.messages.summon(God.HUITZ, senderOid);
+        _ctx.messages.summon(God.TLAH, senderOid);
     }
 
     public function win (senderOid :int):void {

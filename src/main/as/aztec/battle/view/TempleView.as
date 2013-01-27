@@ -49,14 +49,14 @@ public class TempleView extends SpriteObject
     }
 
     public function updateHealth(templeHealth:Number):void {
-        addTask(new SerialTask( new TimedTask(3.5),
+        addTask(new SerialTask( new TimedTask(2.5),
                 new FunctionTask(function () :void {
         _healthMeter.value = templeHealth;
                 })));
     }
 
     public function updateDefense(templeDefense:Number):void {
-        addTask(new SerialTask( new TimedTask(3.5),
+        addTask(new SerialTask( new TimedTask(2.5),
                 new FunctionTask(function () :void {
                     _defenseMeter.value = templeDefense;
                 })));
