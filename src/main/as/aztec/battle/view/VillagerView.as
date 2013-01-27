@@ -6,6 +6,8 @@ package aztec.battle.view {
 import aspire.geom.Vector2;
 import aspire.util.StringUtil;
 
+import aztec.Aztec;
+
 import aztec.battle.controller.Villager;
 import aztec.battle.desc.GameDesc;
 
@@ -19,7 +21,7 @@ public class VillagerView extends LocalSpriteObject
 {
     public function VillagerView (villager :Villager) {
         _actor = villager;
-        _movie = MovieResource.createMovie("aztec/villager");
+        _movie = MovieResource.createMovie("aztec/villager_0" + Aztec.rands.getInRange(1, 4));
         _sprite.addChild(_movie);
         
         _textView = new SelectableTextSprite(StringUtil.capitalize(villager.name));

@@ -25,7 +25,7 @@ public class BattleBoardView extends BoardView
         _board = board;
         
         _groundLayer.addChild(ImageResource.createImage("aztec/img_background"));
-        _groundLayer.addChild(createGridLines());
+//        _groundLayer.addChild(createGridLines());
         _groundLayer.flatten();
         
         _scroller.addChild(_groundLayer);
