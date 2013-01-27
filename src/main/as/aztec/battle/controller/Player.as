@@ -10,6 +10,8 @@ import aztec.battle.view.TempleView;
 import aztec.battle.BattleCtx;
 import aztec.data.SacrificeMessage;
 
+import flashbang.core.GameObjectRef;
+
 public class Player extends NetObject
 {
     public var templeHealth :Number = 1;
@@ -39,6 +41,23 @@ public class Player extends NetObject
         return [ Player ].concat(super.objectGroups);
     }
     
+    public function get selectedVillager () :Villager {
+        return Villager(_selectedVillager.object);
+    }
+    
+    public function selectVillager (villager :Villager) :void {
+        deselectVillager();
+        _selectedVillager = villager.ref;
+        villager.view.textView.select(villager.name.length, _desc.color);
+    }
+    
+    public function deselectVillager () :void {
+        if (this.selectedVillager != null) {
+            this.selectedVillager.view.textView.deselect();
+            _selectedVillager = GameObjectRef.Null();
+        }
+    }
+    
     override protected function addedToMode () :void {
         super.addedToMode();
         
@@ -64,6 +83,8 @@ public class Player extends NetObject
     protected var _oid :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
+    
+    protected var _selectedVillager :GameObjectRef = GameObjectRef.Null();
     
     protected var _templeView :TempleView;
 

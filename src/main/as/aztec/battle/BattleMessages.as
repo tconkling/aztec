@@ -58,7 +58,7 @@ public class BattleMessages
             if (villager == null) {
                 log.warning("SelectVillager: no such villager", "name", villagerName);
             } else {
-                villager.select(sender);
+                sender.selectVillager(villager);
             }
         } else if (msg is SacrificeMessage) {
             handleSacrifice(SacrificeMessage(msg));

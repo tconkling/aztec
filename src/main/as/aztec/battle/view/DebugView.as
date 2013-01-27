@@ -1,9 +1,8 @@
 package aztec.battle.view {
+
 import aztec.battle.controller.BattleDebug;
 
 import flashbang.objects.SimpleTextButton;
-
-import starling.display.Button;
 
 public class DebugView extends LocalSpriteObject {
     public function DebugView(debug :BattleDebug) {
