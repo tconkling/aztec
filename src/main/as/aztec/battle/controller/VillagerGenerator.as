@@ -10,6 +10,7 @@ import aspire.util.Set;
 import aspire.util.Sets;
 import aspire.util.XmlUtil;
 
+import aztec.battle.God;
 import aztec.battle.desc.GameDesc;
 
 import flashbang.resource.XmlResource;
@@ -70,9 +71,16 @@ public class VillagerGenerator extends NetObject
         
         var list :Array;
         
+        // remove our gods' names' first letters from our alphabet
+        var allowedFirstLetters :String = ALPHABET.concat();
+        for each (var god :God in God.values()) {
+            var godLetter :String = god.displayName.substr(0, 1).toLowerCase();
+            allowedFirstLetters = allowedFirstLetters.replace(godLetter, "");
+        }
+        
         _names = Maps.newMapOf(String);
-        for (var ii :int = 0; ii < ALPHABET.length; ++ii) {
-            var letter :String = ALPHABET.charAt(ii);
+        for (var ii :int = 0; ii < allowedFirstLetters.length; ++ii) {
+            var letter :String = allowedFirstLetters.charAt(ii);
             _names.put(letter, []);
         }
         
