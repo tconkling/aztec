@@ -2,8 +2,6 @@ package aztec.battle.view {
 
 import aztec.battle.controller.BattleDebug;
 
-import flash.display.SimpleButton;
-
 import flashbang.objects.SimpleTextButton;
 
 public class DebugView extends LocalSpriteObject {
@@ -23,7 +21,6 @@ public class DebugView extends LocalSpriteObject {
     }
 
     private var _debug :BattleDebug;
-    private var _senderOid :int;
     private var _buttonCount :int;
 }
 }

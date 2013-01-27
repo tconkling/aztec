@@ -5,6 +5,8 @@ package aztec.battle {
 
 import aspire.util.Preconditions;
 
+import aztec.battle.controller.Affinity;
+
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleDebug;
 import aztec.battle.controller.NetObject;
@@ -72,6 +74,9 @@ public class BattleMode extends AppMode
 
         // ActorSelector
         addObject(new ActorSelector());
+
+        // Affinity
+        _ctx.netObjects.addObject(new Affinity());
 
         // debug
         addObject(new BattleDebug());
