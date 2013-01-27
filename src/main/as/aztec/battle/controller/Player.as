@@ -167,6 +167,9 @@ public class Player extends NetObject
     
     protected function offsetHealth (offset :Number) :void {
         _templeHealth = MathUtil.clamp(_templeHealth + offset, 0, 1);
+        if (_templeHealth <= 0 && _ctx.localPlayer != this) {
+            _ctx.messages.win();
+        }
         _templeView.updateHealth(_templeHealth);
     }
     

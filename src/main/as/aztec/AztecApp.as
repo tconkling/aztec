@@ -31,13 +31,10 @@ public class AztecApp extends FlashbangApp
         rsrcs.load(
             function () :void {
 //                createViewport("debug").pushMode(new DebugOverlayMode());
-                if (Aztec.MULTIPLAYER) {
-                    defaultViewport.pushMode(new ConnectMode());
-                } else {
-                    var player1 :Player = new Player(1, "Tim", GameDesc.player1, true);
-                    var player2 :Player = new Player(2, "Charlie", GameDesc.player2, false);
-                    defaultViewport.pushMode(new BattleMode(player1, player2, Aztec.rands.getInt(1000), new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
-                }
+                defaultViewport.pushMode(new ConnectMode());
+                var player1 :Player = new Player(1, "Tim", GameDesc.player1, true);
+                var player2 :Player = new Player(2, "Charlie", GameDesc.player2, false);
+                defaultViewport.pushMode(new BattleMode(player1, player2, Aztec.rands.getInt(1000), new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
             },
             function (e :Error) :void {
                 Log.getLog(AztecApp).error("Error loading resources", e);

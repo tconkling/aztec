@@ -10,16 +10,25 @@ import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.DeselectVillagerMessage;
+import aztec.data.IWonMessage;
+import aztec.data.IWonMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.data.SummonMessage;
 import aztec.data.VillagerActionMessage;
 import aztec.net.MessageMgr;
+
+import flashbang.core.AppMode;
+import flashbang.core.Flashbang;
 
 public class BattleMessages
 {
     public function BattleMessages (ctx :BattleCtx, mgr :MessageMgr) {
         _ctx = ctx;
         _mgr = mgr;
+    }
+
+    public function win (senderOid :int = 0) :void {
+        _mgr.sendMessage(defaultToLocal(senderOid), new IWonMessage());
     }
 
     public function summon (god :God, senderOid :int = 0) :void {
@@ -82,6 +91,13 @@ public class BattleMessages
             
         } else if (msg is SummonMessage) {
             handleSummon(sender, SummonMessage(msg));
+        } else if (msg is IWonMessage) {
+            if (sender == _ctx.localPlayer) {
+                Aztec.startCondition = Aztec.START_WIN;
+            } else {
+                Aztec.startCondition = Aztec.START_LOST;
+            }
+            Flashbang.app.defaultViewport.popMode();
         } else {
             log.error("Unhandled message!", "msg", msg);
         }

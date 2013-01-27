@@ -1,4 +1,5 @@
 package aztec.connect {
+import aztec.Aztec;
 import aztec.battle.BattleMode;
 import aztec.battle.controller.Player;
 import aztec.battle.desc.GameDesc;
@@ -17,6 +18,7 @@ public class ConnectMode extends AppMode
     public const keyboardInput :KeyboardInput = new KeyboardInput();
 
     override protected function setup() :void {
+        if (!Aztec.MULTIPLAYER) { return; }
         var nameEntry :NameEntryView = new NameEntryView();
         _regs.addOneShotSignalListener(nameEntry.nameEntered, function (name :String) :void {
             nameEntry.destroySelf();
@@ -26,7 +28,7 @@ public class ConnectMode extends AppMode
     }
 
     override protected function enter () :void {
-        if (_client != null) {
+        if (_client != null || !Aztec.MULTIPLAYER) {
             showStartMatch();
         }
     }

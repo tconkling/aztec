@@ -11,6 +11,7 @@ public class DebugView extends LocalSpriteObject {
         _sprite.y = 768;
         createButton("Sacrifice").clicked.add(function () :void { _debug.sacrifice(senderOid); });
         createButton("Summon").clicked.add(function () :void { _debug.summon(senderOid); });
+        createButton("Win").clicked.add(function () :void { _debug.win(senderOid); });
     }
 
     protected function createButton (title :String) :SimpleTextButton {
