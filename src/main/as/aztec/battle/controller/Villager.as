@@ -24,6 +24,10 @@ public class Villager extends NetObject
         return _name;
     }
     
+    public function get firstLetter () :String {
+        return _name.substr(0, 1);
+    }
+    
     override public function get objectNames () :Array {
         return [ villagerName(_name) ].concat(super.objectNames);
     }

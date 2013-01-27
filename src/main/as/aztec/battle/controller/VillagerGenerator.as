@@ -2,14 +2,17 @@
 // aztec
 
 package aztec.battle.controller {
+
 import aspire.util.Log;
 import aspire.util.Map;
 import aspire.util.Maps;
+import aspire.util.Set;
+import aspire.util.Sets;
 import aspire.util.XmlUtil;
 
-import flashbang.resource.XmlResource;
-
 import aztec.battle.desc.GameDesc;
+
+import flashbang.resource.XmlResource;
 
 public class VillagerGenerator extends NetObject
 {
@@ -22,48 +25,83 @@ public class VillagerGenerator extends NetObject
     
     protected function generate () :void {
         var name :String = generateName();
-        _ctx.netObjects.addObject(new Villager(name));
+        var firstLetter :String = name.substr(0, 1);
+        var villager :Villager = new Villager(name);
+        
+        // track claimed letters
+        var added :Boolean = _claimedLetters.add(firstLetter);
+        if (!added) {
+            log.error("First letter was already claimed!", "name", name);
+        }
+        
+        _regs.addSignalListener(villager.destroyed, function () :void {
+             var removed :Boolean = _claimedLetters.remove(firstLetter);
+             if (!removed) {
+                 log.error("First letter was already un-claimed!", "name", name);
+             }
+        });
+        
+        _ctx.netObjects.addObject(villager);
     }
     
     protected function generateName () :String {
-        var list :Array;
-        var name :String;
+        initNameMap();
         
-        if (_names == null) {
-            _names = Maps.newMapOf(String);
-            for (var ii :int = 0; ii < ALPHABET.length; ++ii) {
-                var letter :String = ALPHABET.charAt(ii);
-                _names.put(letter, []);
-            }
-            
-            var allNamesXml :XML = XmlResource.requireXml("villagerNames");
-            for each (var nameXml :XML in allNamesXml.name) {
-                name = XmlUtil.getText(nameXml).toLowerCase();
-                var firstLetter :String = name.substr(0, 1);
-                list = _names.get(firstLetter);
-                if (list == null) {
-                    log.warning("Unsupported letter?", "letter", firstLetter, "name", name);
-                } else {
-                    list.push(name);
-                }
-            }
-            
-            for each (var key :String in _names.keys()) {
-                list = _names.get(key);
-                if (list.length == 0) {
-                    log.info("No names starting with '" + key + "'");
-                    _names.remove(key);
-                }
+        var lists :Array = [];
+        for each (var letter :String in _names.keys()) {
+            if (!_claimedLetters.contains(letter)) {
+                lists.push(_names.get(letter));
             }
         }
         
-        list = rands().pick(_names.values());
-        name = rands().pick(list);
+        if (lists.length == 0) {
+            log.error("Can't generate a unique name!");
+            return "Error";
+        }
         
-        return name;
+        var list :Array = rands().pick(lists);
+        return rands().pick(list);
+    }
+    
+    protected static function initNameMap () :void {
+        if (_names != null) {
+            return;
+        }
+        
+        var list :Array;
+        
+        _names = Maps.newMapOf(String);
+        for (var ii :int = 0; ii < ALPHABET.length; ++ii) {
+            var letter :String = ALPHABET.charAt(ii);
+            _names.put(letter, []);
+        }
+        
+        var allNamesXml :XML = XmlResource.requireXml("villagerNames");
+        for each (var nameXml :XML in allNamesXml.name) {
+            var name :String = XmlUtil.getText(nameXml).toLowerCase();
+            var firstLetter :String = name.substr(0, 1);
+            list = _names.get(firstLetter);
+            if (list == null) {
+                log.warning("Unsupported letter?", "letter", firstLetter, "name", name);
+            } else {
+                list.push(name);
+            }
+        }
+        
+        for each (var key :String in _names.keys()) {
+            list = _names.get(key);
+            if (list.length == 0) {
+                log.info("No names starting with '" + key + "'");
+                _names.remove(key);
+            }
+        }
     }
     
     protected static var _names :Map; // <String, Array<String>>
+    
+    // Each Villager must have a name that starts with a unique letter.
+    // This tracks with letters are claimed by existing Villagers.
+    protected static var _claimedLetters :Set = Sets.newSetOf(String);
     
     protected static const log :Log = Log.getLog(VillagerGenerator);
     

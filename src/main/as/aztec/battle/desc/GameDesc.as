@@ -6,7 +6,7 @@ import aspire.geom.Vector2;
 
 public class GameDesc
 {
-    public static const numVillagers :int = 10;
+    public static const numVillagers :int = 6;
     public static const villagerLoc :Vector2 = new Vector2(8, 5);
     public static const villagerSpread :Number = 4;
     
