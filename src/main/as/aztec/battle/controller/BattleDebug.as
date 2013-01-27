@@ -21,6 +21,7 @@ public class BattleDebug extends LocalObject {
     }
 
     public function sacrifice(senderOid :int):void {
+        _ctx.messages.selectVillager(Villager.getAll(_ctx)[0], senderOid);
         _ctx.messages.doVillagerAction(Villager.getAll(_ctx)[0], VillagerAction.SACRIFICE, senderOid);
     }
 
