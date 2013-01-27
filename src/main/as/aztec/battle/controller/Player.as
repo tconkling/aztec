@@ -16,8 +16,6 @@ import aztec.data.SummonMessage;
 
 import flashbang.core.GameObjectRef;
 
-import mx.logging.LogLogger;
-
 public class Player extends NetObject
 {
     public var templeHealth :Number = 1;

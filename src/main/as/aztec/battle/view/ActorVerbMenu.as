@@ -61,7 +61,7 @@ public class ActorVerbMenu extends LocalSpriteObject
         
         var self :ActorVerbMenu = this;
         _regs.addSignalListener(_verbSelector.selected, function (verb :Verb) :void {
-            this.verbSelected.dispatch(verb.name);
+            self.verbSelected.dispatch(verb.name);
         });
     }
     
