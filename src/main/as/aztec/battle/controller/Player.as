@@ -121,7 +121,7 @@ public class Player extends NetObject
             for (; heartsUsed > 0; heartsUsed--) {
                 _heartView.removeHeart();
             }
-            
+            _templeView.summonGod(god);
         } else {
             var damage :Number = GameDesc.godDamage(god);
             var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
