@@ -7,29 +7,24 @@ import aztec.Aztec;
 import aztec.battle.God;
 
 import flashbang.objects.MovieObject;
-import flashbang.resource.ImageResource;
+import flashbang.objects.SpriteObject;
+import flashbang.resource.MovieResource;
 import flashbang.tasks.FunctionTask;
-import flashbang.tasks.LocationTask;
 import flashbang.tasks.ScaleTask;
 import flashbang.tasks.SelfDestructTask;
 import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
-
 import flashbang.util.RectMeter;
 
 import flump.display.Movie;
-
-import flashbang.objects.SpriteObject;
-import flashbang.resource.MovieResource;
-
-import starling.display.Image;
 
 import starling.text.TextField;
 import starling.utils.HAlign;
 
 public class TempleView extends SpriteObject
 {
-    public function TempleView (name :String,  healthColor :uint) {
+    public function TempleView (name :String,  healthColor :uint, onRight :Boolean) {
+        _onRight = onRight;
         _movie = MovieResource.createMovie("aztec/temple");
         _sprite.addChild(_movie);
         addDependentObject(_healthMeter, _sprite);
@@ -77,7 +72,7 @@ public class TempleView extends SpriteObject
         var movie :Movie = Movie(godMovie.display);
         movie.stop();
         godMovie.addTask(new SerialTask(
-            new ScaleTask(-1, 1, 1),
+            new ScaleTask(_onRight ? 1 : -1, 1, 1),
             new FunctionTask(function () :void {movie.playOnce();}),
             new TimedTask(1.5),
             new SelfDestructTask()
@@ -87,6 +82,7 @@ public class TempleView extends SpriteObject
     protected var _defenseMeter :RectMeter = new RectMeter(120, 10);
     protected var _healthMeter :RectMeter = new RectMeter(120, 20);
     protected var _movie :Movie;
+    protected var _onRight :Boolean;
 
 }
 }

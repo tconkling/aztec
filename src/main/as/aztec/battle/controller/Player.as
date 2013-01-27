@@ -176,7 +176,7 @@ public class Player extends NetObject
     override protected function addedToMode () :void {
         super.addedToMode();
 
-        _templeView = new TempleView(_name, _desc.color);
+        _templeView = new TempleView(_name, _desc.color, desc.displayedOnRight);
         _templeView.display.x = _desc.templeLoc.x;
         _templeView.display.y = _desc.templeLoc.y;
         _ctx.viewObjects.addObject(_templeView, _ctx.board.view.objectLayer);
