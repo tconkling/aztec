@@ -8,10 +8,6 @@ import aspire.util.Arrays;
 
 import aztec.input.KeyboardListener;
 
-import flashbang.core.GameObject;
-
-import mx.logging.LogLogger;
-
 import org.osflash.signals.Signal;
 
 import starling.events.KeyboardEvent;
