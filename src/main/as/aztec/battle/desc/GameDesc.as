@@ -19,6 +19,8 @@ public class GameDesc
     public static const sacrificeAffinityOffset :Number = -0.2;
     public static const festivalAffinityOffset :Number = 0.1;
     public static const worshipDefenseOffset :Number = 0.1;
+
+    public static const MAX_HEARTS :int = 5;
     
     public static function godHearts (god :God) :int {
         switch (god) {
@@ -45,11 +47,11 @@ public class GameDesc
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0xFF2109;
         desc.templeLoc.x = 2;
-        desc.templeLoc.y = 6;
+        desc.templeLoc.y = 7;
         desc.festivalLoc.x = 4;
         desc.festivalLoc.y = 10;
         desc.heartLoc.x = 35;
-        desc.heartLoc.y = 200;
+        desc.heartLoc.y = 170;
         return desc;
     }
     
@@ -57,11 +59,11 @@ public class GameDesc
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0x1B23DE;
         desc.templeLoc.x = 13;
-        desc.templeLoc.y = 6;
+        desc.templeLoc.y = 7;
         desc.festivalLoc.x = 12;
         desc.festivalLoc.y = 10;
         desc.heartLoc.x = 990;
-        desc.heartLoc.y = 200;
+        desc.heartLoc.y = 170;
         return desc;
     }
 }
