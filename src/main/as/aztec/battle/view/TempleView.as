@@ -13,6 +13,7 @@ import flashbang.tasks.LocationTask;
 import flashbang.tasks.ScaleTask;
 import flashbang.tasks.SelfDestructTask;
 import flashbang.tasks.SerialTask;
+import flashbang.tasks.TimedTask;
 
 import flashbang.util.RectMeter;
 
@@ -53,23 +54,32 @@ public class TempleView extends SpriteObject
     }
 
     public function updateHealth(templeHealth:Number):void {
+        addTask(new SerialTask( new TimedTask(3.5),
+                new FunctionTask(function () :void {
         _healthMeter.value = templeHealth;
+                })));
     }
 
     public function updateDefense(templeDefense:Number):void {
-        _defenseMeter.value = templeDefense;
+        addTask(new SerialTask( new TimedTask(3.5),
+                new FunctionTask(function () :void {
+                    _defenseMeter.value = templeDefense;
+                })));
     }
 
     public function summonGod(god :God) :void {
-        var godMovie :MovieObject = MovieObject.create("aztec/villager_01");
-        godMovie.display.y = -160;
-        addDependentObject(godMovie, sprite);
+        var godMovie :MovieObject = MovieObject.create("aztec/" + god.name());
+        godMovie.display.y = -140;
+        addDependentObject(godMovie);
+        sprite.addChildAt(godMovie.display, 0);
         godMovie.display.scaleY = 0;
-        var attackImage :Image = ImageResource.createImage("aztec/img_alignment_head");
+        godMovie.display.scaleX = 0;
+        var movie :Movie = Movie(godMovie.display);
+        movie.stop();
         godMovie.addTask(new SerialTask(
-            new ScaleTask(1, 1, 2),
-            new FunctionTask(function () :void {Movie(godMovie.display).addChild(attackImage);}),
-            new LocationTask(500, 500, 2, null, attackImage),
+            new ScaleTask(-1, 1, 1),
+            new FunctionTask(function () :void {movie.playOnce();}),
+            new TimedTask(1.5),
             new SelfDestructTask()
         ));
     }
