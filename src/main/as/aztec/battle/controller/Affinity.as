@@ -12,7 +12,7 @@ public class Affinity extends NetObject {
     }
 
     public function sacrifice (msg :SacrificeMessage) :void {
-        adjustAffinity(Player.withOid(_ctx, msg.senderOid).desc.player1 ? .2 : -.2);
+        adjustAffinity(Player.withOid(_ctx, msg.senderOid).affinitySign * .2);
     }
 
     protected function adjustAffinity (amount :Number) :void {

@@ -21,6 +21,7 @@ public class Player extends NetObject
     public var templeHealth :Number = 1;
     public var templeDefense :Number = 0;
     public var summonPower :int = 0;
+    public var affinitySign :int;
 
     public static function withOid (ctx :BattleCtx, oid :int) :Player {
         return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
@@ -115,6 +116,8 @@ public class Player extends NetObject
     
     override protected function addedToMode () :void {
         super.addedToMode();
+
+        affinitySign = _ctx.players[0] == this ? -1 : 1;
         
         _templeView = new TempleView();
         var loc :Vector2 = _ctx.board.view.boardToLocal(_desc.templeLoc);
