@@ -54,7 +54,8 @@ public class BattleMode extends AppMode
         
         // all the network-synced objects live in here
         _ctx.netObjects = new NetObjectDB(_ctx);
-        _ctx.messages = _msgMgr;
+        
+        _ctx.messages = new BattleMessages(_ctx, _msgMgr);
         
         // board
         var board :BattleBoard = new BattleBoard();
@@ -75,24 +76,11 @@ public class BattleMode extends AppMode
     
     override protected function beginUpdate (dt :Number) :void {
         super.beginUpdate(dt);
-
-        _ctx.messages.update(dt);
+        
         // update the network
-        for each (var ticks :Vector.<AztecMessage> in _ctx.messages.ticks) {
-            for each (var msg :AztecMessage in ticks) {
-                handleMessage(msg);
-            }
-            _ctx.netObjects.update(Aztec.NETWORK_UPDATE_RATE);
-        }
+        _ctx.messages.processTicks(dt);
         
         _ctx.board.view.depthSort();
-    }
-    
-    protected function handleMessage (msg :AztecMessage) :void {
-        if (msg is MoveMessage) {
-        } else {
-            trace("Unhandled message! " + msg);
-        }
     }
     
     override public function addObject (obj :GameObject,

@@ -10,7 +10,6 @@ import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
 import aztec.input.KeyboardInput;
-import aztec.net.MessageMgr;
 
 import flashbang.core.GameObject;
 
@@ -21,7 +20,7 @@ public class BattleCtx extends GameObject
     public var netObjects :NetObjectDB;
     public var viewObjects :BattleMode;
     
-    public var messages :MessageMgr;
+    public var messages :BattleMessages;
     
     public var board :BattleBoard;
     
