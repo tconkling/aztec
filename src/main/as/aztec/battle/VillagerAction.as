@@ -7,9 +7,12 @@ import aspire.util.Enum;
 
 public final class VillagerAction extends Enum
 {
-    public static const SACRIFICE :VillagerAction = new VillagerAction("SACRIFICE");
-    public static const FESTIVAL :VillagerAction = new VillagerAction("FESTIVAL");
-    public static const WORSHIP :VillagerAction = new VillagerAction("WORSHIP");
+    public static const SACRIFICE :VillagerAction = new VillagerAction("SACRIFICE",
+        "Sacrifice: +HEART, --Villager Affinity");
+    public static const FESTIVAL :VillagerAction = new VillagerAction("FESTIVAL",
+        "Festival: +Villager Affinity");
+    public static const WORSHIP :VillagerAction = new VillagerAction("WORSHIP",
+        "Worship: +Temple Defense");
     finishedEnumerating(VillagerAction);
     
     /**
@@ -29,11 +32,17 @@ public final class VillagerAction extends Enum
         return Enum.valueOf(VillagerAction, name) as VillagerAction;
     }
     
-    /** @private */
-    public function VillagerAction (name :String)
-    {
-        super(name);
+    public function get description () :String {
+        return _description;
     }
+    
+    /** @private */
+    public function VillagerAction (name :String, description :String) {
+        super(name);
+        _description = description;
+    }
+    
+    protected var _description :String;
 }
 }
 

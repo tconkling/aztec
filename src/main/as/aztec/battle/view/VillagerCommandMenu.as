@@ -3,15 +3,19 @@
 
 package aztec.battle.view {
 
+import aztec.Aztec;
 import aztec.battle.SelectableProvider;
 import aztec.battle.VillagerAction;
 import aztec.battle.VillagerCommand;
+import aztec.text.CustomTextField;
 
 import flashbang.util.DisplayUtil;
 
 import org.osflash.signals.Signal;
 
 import starling.display.Sprite;
+import starling.text.TextField;
+import starling.text.TextFieldAutoSize;
 
 public class VillagerCommandMenu extends LocalSpriteObject implements SelectableProvider
 {
@@ -54,6 +58,12 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
             textSprite.x = HMARGIN;
             textSprite.y = VMARGIN;
             bg.addChild(textSprite);
+            
+            var title :CustomTextField =
+                new CustomTextField(1, 1, cmd.action.description, Aztec.UI_FONT, 24, 0xF2CC00);
+            title.autoSize = TextFieldAutoSize.SINGLE_LINE;
+            title.y = -title.height;
+            bg.addChild(title);
             
             _sprite.addChild(bg);
             bg.x = cmd.loc.x - (bg.width * 0.5);
