@@ -15,23 +15,25 @@ public class GameDesc
     
     protected static function get_player1 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
-        desc.player1 = true;
         desc.color = 0xFF2109;
         desc.templeLoc.x = 2;
         desc.templeLoc.y = 6;
         desc.festivalLoc.x = 4;
         desc.festivalLoc.y = 10;
+        desc.heartLoc.x = 35;
+        desc.heartLoc.y = 700;
         return desc;
     }
     
     protected static function get_player2 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
-        desc.player1 = false;
         desc.color = 0x1BDE23;
         desc.templeLoc.x = 14;
         desc.templeLoc.y = 6;
         desc.festivalLoc.x = 12;
         desc.festivalLoc.y = 10;
+        desc.heartLoc.x = 990;
+        desc.heartLoc.y = 700;
         return desc;
     }
 }

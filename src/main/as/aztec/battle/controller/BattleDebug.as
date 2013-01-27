@@ -1,7 +1,7 @@
 package aztec.battle.controller {
+
 import aztec.battle.LocalObject;
 import aztec.battle.view.DebugView;
-import aztec.data.SacrificeMessage;
 
 public class BattleDebug extends LocalObject {
     public function BattleDebug() {
@@ -12,7 +12,7 @@ public class BattleDebug extends LocalObject {
 
         for each (var player :Player in Player.getAll(_ctx)) {
             var view :DebugView = new DebugView(this, player.oid);
-            if (!player.desc.player1) {
+            if (!player.isLocalPlayer) {
                 view.sprite.x = 960;
             }
             _ctx.viewObjects.addObject(view, _ctx.uiLayer);

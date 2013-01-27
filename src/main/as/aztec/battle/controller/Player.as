@@ -133,8 +133,8 @@ public class Player extends NetObject
         _ctx.viewObjects.addObject(_festivalView, _ctx.board.view.objectLayer);
 
         _heartView = new HeartView();
-        _heartView.sprite.x = desc.player1 ? 35 : 990;
-        _heartView.sprite.y = 700;
+        _heartView.sprite.x = desc.heartLoc.x;
+        _heartView.sprite.y = desc.heartLoc.y;
         _ctx.viewObjects.addObject(_heartView, _ctx.uiLayer);
     }
     
