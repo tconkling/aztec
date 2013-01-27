@@ -16,18 +16,18 @@ public class SummonMessage extends AztecMessage
 // GENERATED CLASSDECL END
 
 // GENERATED STREAMING START
-    public var power :int;
+    public var godName :String;
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
-        power = ins.readInt();
+        godName = ins.readField(String);
     }
 
     override public function writeObject (out :ObjectOutputStream) :void
     {
         super.writeObject(out);
-        out.writeInt(power);
+        out.writeField(godName);
     }
 
 // GENERATED STREAMING END

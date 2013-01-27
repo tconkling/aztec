@@ -6,8 +6,10 @@ package aztec.battle.controller {
 import aspire.geom.Vector2;
 import aspire.util.Log;
 import aspire.util.MathUtil;
+import aspire.util.Preconditions;
 
 import aztec.battle.BattleCtx;
+import aztec.battle.God;
 import aztec.battle.VillagerAction;
 import aztec.battle.desc.GameDesc;
 import aztec.battle.desc.PlayerDesc;
@@ -107,26 +109,30 @@ public class Player extends NetObject
         }
     }
 
-    public function summon (msg :SummonMessage) :void {
-        if (msg.senderOid == _oid) {
-            if (msg.power > _summonPower) { log.warning("Asked to summon with more power than present!", "summonPower", _summonPower, "requestedPower", msg.power)}
-            var powerUsed :int = Math.min(msg.power, _summonPower);
-            _summonPower -= powerUsed;
-            for (; powerUsed > 0; powerUsed--) {
+    public function handleSummon (god :God, summoner :Player) :void {
+        if (this == summoner) {
+            var heartsUsed :int = GameDesc.godHearts(god);
+            _hearts -= heartsUsed;
+            for (; heartsUsed > 0; heartsUsed--) {
                 _heartView.removeHeart();
             }
+            
         } else {
-            var attack :Number = msg.power * .2;
+            var damage :Number = GameDesc.godDamage(god);
             var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
-            var defenseUsed :Number = Math.min(defensePossible, attack);
+            var defenseUsed :Number = Math.min(defensePossible, damage);
             offsetDefense(defenseUsed);
-            attack -= defenseUsed;
-            offsetHealth(-attack);
+            damage -= defenseUsed;
+            offsetHealth(-damage);
         }
     }
     
+    public function canSummon (god :God) :Boolean {
+        return (_hearts >= GameDesc.godHearts(god));
+    }
+    
     public function sacrifice (villager :Villager) :void {
-        _summonPower++;
+        _hearts++;
         _heartView.addHeart();
     }
     
@@ -178,7 +184,7 @@ public class Player extends NetObject
     
     protected var _templeHealth :Number = 1;
     protected var _templeDefense :Number = 0;
-    protected var _summonPower :int = 0;
+    protected var _hearts :int = 0;
 
     protected var _selectedVillager :GameObjectRef = GameObjectRef.Null();
     

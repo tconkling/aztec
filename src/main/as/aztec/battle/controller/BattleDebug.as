@@ -1,13 +1,14 @@
+//
+// aztec
+
 package aztec.battle.controller {
 
+import aztec.battle.God;
 import aztec.battle.LocalObject;
 import aztec.battle.VillagerAction;
 import aztec.battle.view.DebugView;
 
 public class BattleDebug extends LocalObject {
-    public function BattleDebug() {
-    }
-
     override protected function addedToMode () :void {
         super.addedToMode();
 
@@ -25,9 +26,8 @@ public class BattleDebug extends LocalObject {
         _ctx.messages.doVillagerAction(Villager.getAll(_ctx)[0], VillagerAction.SACRIFICE, senderOid);
     }
 
-    public function summon(senderOid :int):void {
-        _ctx.messages.summon(senderOid);
+    public function summon (senderOid :int):void {
+        _ctx.messages.summon(God.QUETZ, senderOid);
     }
-
 }
 }

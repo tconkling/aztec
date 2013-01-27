@@ -22,9 +22,9 @@ public class BattleMessages
         _mgr = mgr;
     }
 
-    public function summon (senderOid :int = 0) :void {
+    public function summon (god :God, senderOid :int = 0) :void {
         var msg :SummonMessage = new SummonMessage();
-        msg.power = 2;
+        msg.godName = god.name();
         _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
     
@@ -80,8 +80,8 @@ public class BattleMessages
         } else if (msg is VillagerActionMessage) {
             handleVillagerAction(sender, VillagerActionMessage(msg));
             
-        } else if (msg is SummonMessage ) {
-            handleSummon(SummonMessage(msg));
+        } else if (msg is SummonMessage) {
+            handleSummon(sender, SummonMessage(msg));
         } else {
             log.error("Unhandled message!", "msg", msg);
         }
@@ -151,9 +151,21 @@ public class BattleMessages
         }
     }
 
-    protected function handleSummon (msg :SummonMessage) :void {
+    protected function handleSummon (sender :Player, msg :SummonMessage) :void {
+        var god :God;
+        try {
+            god = God.valueOf(msg.godName);
+        } catch (e :Error) {
+            log.error("unrecognized god name: " + msg.godName);
+        }
+        
+        if (!sender.canSummon(god)) {
+            log.warning("handleSummon: player can't summon god", "player", player, "god", god);
+            return;
+        }
+        
         for each (var player :Player in _ctx.netObjects.getObjectsInGroup(Player)) {
-            player.summon(msg);
+            player.handleSummon(god, sender);
         }
     }
 

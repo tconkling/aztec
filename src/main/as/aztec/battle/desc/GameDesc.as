@@ -2,7 +2,10 @@
 // aztec
 
 package aztec.battle.desc {
+
 import aspire.geom.Vector2;
+
+import aztec.battle.God;
 
 public class GameDesc
 {
@@ -16,6 +19,24 @@ public class GameDesc
     public static const sacrificeAffinityOffset :Number = -0.2;
     public static const festivalAffinityOffset :Number = 0.1;
     public static const worshipDefenseOffset :Number = 0.1;
+    
+    public static function godHearts (god :God) :int {
+        switch (god) {
+        case God.QUETZ: return 1;
+        case God.HUITZ: return 3;
+        case God.TLAH: return 5;
+        }
+        throw new Error("Unrecognized god " + god);
+    }
+    
+    public static function godDamage (god :God) :Number {
+        switch (god) {
+        case God.QUETZ: return 0.05;
+        case God.HUITZ: return 0.2;
+        case God.TLAH: return 0.5;
+        }
+        throw new Error("Unrecognized god " + god);
+    }
     
     public static const player1 :PlayerDesc = get_player1();
     public static const player2 :PlayerDesc = get_player2();
