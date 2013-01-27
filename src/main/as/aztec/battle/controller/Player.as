@@ -10,12 +10,13 @@ import aspire.util.MathUtil;
 import aztec.battle.BattleCtx;
 import aztec.battle.God;
 import aztec.battle.VillagerAction;
+import aztec.battle.VillagerCommand;
 import aztec.battle.desc.GameDesc;
 import aztec.battle.desc.PlayerDesc;
-import aztec.battle.view.ActorVerbMenu;
 import aztec.battle.view.FestivalView;
 import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
+import aztec.battle.view.VillagerCommandMenu;
 
 import flashbang.core.GameObjectRef;
 
@@ -78,28 +79,29 @@ public class Player extends NetObject
         villager.view.textView.select(villager.name.length, _desc.color);
         
         if (this.isLocalPlayer) {
-            // throw up a verb menu
-            var verbs :Array = VillagerAction.values().map(
-                function (o :VillagerAction, ..._) :String {
-                    return o.name();
+            // show the command menu
+            var commands :Array = VillagerAction.values().map(
+                function (action :VillagerAction, ..._) :VillagerCommand {
+                    return new VillagerCommand(
+                        action,
+                        getCommandText(villager, action),
+                        getCommandLoc(action));
                 });
-            var verbMenu :ActorVerbMenu = new ActorVerbMenu(verbs);
-            verbMenu.display.x = 400;
-            verbMenu.display.y = 200
-            _ctx.viewObjects.addObject(verbMenu, _ctx.uiLayer);
             
-            _regs.addSignalListener(verbMenu.verbSelected, function (verbName :String) :void {
-                verbMenu.destroySelf();
+            var commandMenu :VillagerCommandMenu = new VillagerCommandMenu(commands);
+            _ctx.viewObjects.addObject(commandMenu, _ctx.uiLayer);
+            
+            _regs.addSignalListener(commandMenu.actionSelected, function (action :VillagerAction) :void {
+                commandMenu.destroySelf();
                 if (_selectedVillager == villager.ref) {
-                    var action :VillagerAction = VillagerAction.valueOf(verbName);
                     _ctx.messages.doVillagerAction(villager, action);
                     // hide the selected text
                     villager.textSprite.deselect();
                 }
             });
             
-            _regs.addSignalListener(verbMenu.canceled, function () :void {
-                verbMenu.destroySelf();
+            _regs.addSignalListener(commandMenu.canceled, function () :void {
+                commandMenu.destroySelf();
                 if (_selectedVillager == villager.ref) {
                     _ctx.messages.deselectVillager(villager);
                 }
@@ -145,6 +147,19 @@ public class Player extends NetObject
     
     public function worship (villager :Villager) :void {
         offsetDefense(GameDesc.worshipDefenseOffset);
+    }
+    
+    protected function getCommandText (villager :Villager, action :VillagerAction) :String {
+        return GameDesc.commandText(villager.name, action, this.normalizedAffinity);
+    }
+    
+    protected function getCommandLoc (action :VillagerAction) :Vector2 {
+        switch (action) {
+        case VillagerAction.FESTIVAL: return _desc.festivalCommandLoc;
+        case VillagerAction.SACRIFICE: return _desc.sacrificeCommandLoc;
+        case VillagerAction.WORSHIP: return _desc.worshipCommandLoc;
+        }
+        return new Vector2();
     }
     
     protected function offsetDefense (offset :Number) :void {

@@ -6,6 +6,7 @@ package aztec.battle.desc {
 import aspire.geom.Vector2;
 
 import aztec.battle.God;
+import aztec.battle.VillagerAction;
 
 public class GameDesc
 {
@@ -22,8 +23,9 @@ public class GameDesc
 
     public static const MAX_HEARTS :int = 5;
     
-    public static function festivalText (villagerName :String, normalizedAffinity :Number) :String {
-        return "FESTIVAL";
+    public static function commandText (villagerName :String, action :VillagerAction,
+        normalizedAffinity :Number) :String {
+        return action.name() + ", " + villagerName;
     }
     
     public static function godHearts (god :God) :int {
@@ -56,6 +58,13 @@ public class GameDesc
         desc.festivalLoc.y = 10;
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
+        // TODO
+        desc.sacrificeCommandLoc.x = 100;
+        desc.sacrificeCommandLoc.y = 100;
+        desc.festivalCommandLoc.x = 500;
+        desc.festivalCommandLoc.y = 100;
+        desc.worshipCommandLoc.x = 900;
+        desc.worshipCommandLoc.y = 100;
         return desc;
     }
     
@@ -68,6 +77,13 @@ public class GameDesc
         desc.festivalLoc.y = 10;
         desc.heartLoc.x = 990;
         desc.heartLoc.y = 170;
+        // TODO
+        desc.sacrificeCommandLoc.x = 100;
+        desc.sacrificeCommandLoc.y = 100;
+        desc.festivalCommandLoc.x = 500;
+        desc.festivalCommandLoc.y = 100;
+        desc.worshipCommandLoc.x = 900;
+        desc.worshipCommandLoc.y = 100;
         return desc;
     }
 }
