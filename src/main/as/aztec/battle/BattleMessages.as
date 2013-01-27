@@ -10,6 +10,7 @@ import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.SacrificeMessage;
+import aztec.data.SacrificeMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.net.MessageMgr;
 
@@ -21,7 +22,9 @@ public class BattleMessages
     }
 
     public function sacrifice (villager :Villager) :void {
-        _mgr.sendMessage(new SacrificeMessage(villager.name));
+        var msg :SacrificeMessage = new SacrificeMessage(villager.name);
+        msg.senderOid = 1;
+        _mgr.sendMessage(msg);
     }
     
     public function selectVillager (villager :Villager) :void {

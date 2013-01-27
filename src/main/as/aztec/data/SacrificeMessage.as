@@ -20,21 +20,17 @@ public class SacrificeMessage extends AztecMessage
     }
 
 // GENERATED STREAMING START
-    public var player :int;
-
     public var villager :String;
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
-        player = ins.readInt();
         villager = ins.readField(String);
     }
 
     override public function writeObject (out :ObjectOutputStream) :void
     {
         super.writeObject(out);
-        out.writeInt(player);
         out.writeField(villager);
     }
 
