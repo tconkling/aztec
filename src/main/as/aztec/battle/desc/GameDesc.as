@@ -54,13 +54,13 @@ public class GameDesc
         desc.festivalLoc.y = 11 * 64;
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
-        // TODO
+        
         desc.sacrificeCommandLoc.x = 40;
         desc.sacrificeCommandLoc.y = 152;
-        desc.festivalCommandLoc.x = 500;
-        desc.festivalCommandLoc.y = 100;
-        desc.worshipCommandLoc.x = 900;
-        desc.worshipCommandLoc.y = 100;
+        desc.festivalCommandLoc.x = 119;
+        desc.festivalCommandLoc.y = 498;
+        desc.worshipCommandLoc.x = 348;
+        desc.worshipCommandLoc.y = 332;
         return desc;
     }
     
@@ -74,13 +74,13 @@ public class GameDesc
         desc.heartLoc.x = 990;
         desc.heartLoc.y = 170;
         desc.displayedOnRight = true;
-        // TODO
-        desc.sacrificeCommandLoc.x = 100;
-        desc.sacrificeCommandLoc.y = 100;
-        desc.festivalCommandLoc.x = 500;
-        desc.festivalCommandLoc.y = 100;
-        desc.worshipCommandLoc.x = 900;
-        desc.worshipCommandLoc.y = 100;
+        
+        desc.sacrificeCommandLoc.x = 575;
+        desc.sacrificeCommandLoc.y = 152;
+        desc.festivalCommandLoc.x = 619;
+        desc.festivalCommandLoc.y = 498;
+        desc.worshipCommandLoc.x = 348;
+        desc.worshipCommandLoc.y = 332;
         return desc;
     }
 }

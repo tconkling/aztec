@@ -123,9 +123,9 @@ class CommandSprite extends Sprite
         var bg :Sprite = DisplayUtil.outlineFillRect(
             _textSprite.width + (HMARGIN * 2),
             _textSprite.height + (VMARGIN * 2),
-            0x707070,   // fill color
+            0xb1926d,   // fill color
             2,
-            0x000000);  // outline color
+            0x8b6444);  // outline color
         textSprite.x = HMARGIN;
         textSprite.y = VMARGIN;
         bg.addChild(_textSprite);
@@ -138,7 +138,7 @@ class CommandSprite extends Sprite
         
         addChild(bg);
         
-        this.x = cmd.loc.x - (bg.width * 0.5);
+        this.x = cmd.loc.x;
         this.y = cmd.loc.y;
     }
     
