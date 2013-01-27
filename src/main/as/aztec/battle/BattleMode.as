@@ -84,7 +84,7 @@ public class BattleMode extends AppMode
         _ctx.netObjects.addObject(new Affinity());
 
         // debug
-        addObject(new BattleDebug());
+//        addObject(new BattleDebug());
     }
     
     override protected function beginUpdate (dt :Number) :void {
