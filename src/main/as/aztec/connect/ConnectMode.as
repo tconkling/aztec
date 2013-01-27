@@ -26,14 +26,23 @@ public class ConnectMode extends AppMode
     }
 
     override protected function enter () :void {
-        if (_client == null) {
-            return;
+        if (_client != null) {
+            showStartMatch();
         }
-        var startMatch :StartMatchView = new StartMatchView();
-        _regs.addOneShotSignalListener(startMatch.startEntered, function () :void {
+    }
+
+
+    override protected function exit():void {
+        super.exit();
+        _startMatch.destroySelf();
+    }
+
+    protected function showStartMatch () :void {
+        _startMatch = new StartMatchView();
+        _regs.addOneShotSignalListener(_startMatch.startEntered, function () :void {
             _client.findMatch();
         });
-        addObject(startMatch, modeSprite);
+        addObject(_startMatch, modeSprite);
     }
 
     override public function onKeyDown (keyEvent :KeyboardEvent) :void {
@@ -58,9 +67,11 @@ public class ConnectMode extends AppMode
             Flashbang.app.defaultViewport.pushMode(new BattleMode(player1, player2, matchObj.seed, new NetworkedMessageMgr(matchObj)));
         });
         _client.logon();
-
+        showStartMatch();
     }
 
     protected var _client :AztecClient;
+
+    protected var _startMatch :StartMatchView;
 }
 }
