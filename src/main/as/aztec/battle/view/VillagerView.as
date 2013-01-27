@@ -4,10 +4,10 @@
 package aztec.battle.view {
 
 import aspire.geom.Vector2;
+import aspire.util.Randoms;
 import aspire.util.StringUtil;
 
 import aztec.Aztec;
-
 import aztec.battle.controller.Villager;
 import aztec.battle.desc.GameDesc;
 
@@ -40,20 +40,26 @@ public class VillagerView extends LocalSpriteObject
     override protected function addedToMode () :void {
         super.addedToMode();
         
-        _movie.goTo(_ctx.randomsFor(this).getInRange(0, _movie.frames));
+        var rands :Randoms = _ctx.randomsFor(this);
+        _movie.goTo(rands.getInRange(0, _movie.frames));
         _movie.loop();
         
         // generate our loc
-        var dist :Number = rands().getNumberInRange(0, GameDesc.villagerSpread);
-        var angle :Number = rands().getNumberInRange(0, Math.PI * 2);
-        _loc = Vector2.fromAngle(angle, dist);
-        _loc.addLocal(GameDesc.villagerLoc);
+        _loc = pickRandomLoc();
     }
     
     override protected function update (dt :Number) :void {
         _sprite.x = _loc.x;
         _sprite.y = _loc.y;
         _movie.advanceTime(dt);
+    }
+    
+    protected function pickRandomLoc () :Vector2 {
+        var rands :Randoms = _ctx.randomsFor(this);
+        var r :Rectangle = GameDesc.villagerWalkBounds;
+        return new Vector2(
+            r.x + rands.getNumberInRange(0, r.width),
+            r.y + rands.getNumberInRange(0, r.height));
     }
     
     protected var _actor :Villager;
