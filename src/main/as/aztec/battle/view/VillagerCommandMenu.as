@@ -4,6 +4,7 @@
 package aztec.battle.view {
 
 import aztec.Aztec;
+import aztec.battle.Selectable;
 import aztec.battle.SelectableProvider;
 import aztec.battle.VillagerAction;
 import aztec.battle.VillagerCommand;
@@ -14,7 +15,6 @@ import flashbang.util.DisplayUtil;
 import org.osflash.signals.Signal;
 
 import starling.display.Sprite;
-import starling.text.TextField;
 import starling.text.TextFieldAutoSize;
 
 public class VillagerCommandMenu extends LocalSpriteObject implements SelectableProvider
@@ -26,7 +26,7 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
     }
 
     public function get selectables():Array {
-        return _commands;
+        return _commandSprites;
     }
 
     public function get isExclusive():Boolean {
@@ -38,73 +38,112 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
         
         // build command views
         
-        // make the VillagerCommands selectable
-        _commands = _commands.map(function (cmd :VillagerCommand, ..._) :SelectableCommand {
-            return new SelectableCommand(cmd, actionSelected.dispatch);
+        _commandSprites = _commands.map(function (cmd :VillagerCommand, ..._) :CommandSprite {
+            return new CommandSprite(cmd, actionSelected.dispatch);
         });
         
-        for each (var cmd :SelectableCommand in _commands) {
-            var textSprite :SelectableTextSprite = cmd.textSprite;
-            
-            const HMARGIN :int = 8;
-            const VMARGIN :int = 12;
-            
-            var bg :Sprite = DisplayUtil.outlineFillRect(
-                textSprite.width + (HMARGIN * 2),
-                textSprite.height + (VMARGIN * 2),
-                0x707070,   // fill color
-                2,
-                0x000000);  // outline color
-            textSprite.x = HMARGIN;
-            textSprite.y = VMARGIN;
-            bg.addChild(textSprite);
-            
-            var title :CustomTextField =
-                new CustomTextField(1, 1, cmd.action.description, Aztec.UI_FONT, 24, 0xF2CC00);
-            title.autoSize = TextFieldAutoSize.SINGLE_LINE;
-            title.y = -title.height;
-            bg.addChild(title);
-            
-            _sprite.addChild(bg);
-            bg.x = cmd.loc.x - (bg.width * 0.5);
-            bg.y = cmd.loc.y - (bg.height * 0.5);
+        for each (var cmdSprite :CommandSprite in _commandSprites) {
+            _sprite.addChild(cmdSprite);
+            cmdSprite.x = cmdSprite.cmd.loc.x;
+            cmdSprite.y = cmdSprite.cmd.loc.y;
         }
 
         _regs.add(_ctx.selector.registerProvider(this));
+        _regs.addSignalListener(_ctx.selector.selectionBegan, function (s :Selectable) :void {
+            if (s is CommandSprite) {
+                CommandSprite(s).expanded = true;
+            }
+        });
+        _regs.addSignalListener(_ctx.selector.selectionCanceled, function (s :Selectable) :void {
+            if (s is CommandSprite) {
+                CommandSprite(s).expanded = false;
+            }
+        });
         _regs.addSignalListener(_ctx.selector.canceled, destroySelf);
     }
 
     protected var _commands :Array;
+    protected var _commandSprites :Array;
 }
 }
 
+import aztec.Aztec;
 import aztec.battle.Selectable;
 import aztec.battle.VillagerCommand;
 import aztec.battle.view.SelectableTextSprite;
+import aztec.text.CustomTextField;
 
+import flashbang.util.DisplayUtil;
+
+import starling.display.Sprite;
 import starling.text.TextFieldAutoSize;
 
-class SelectableCommand extends VillagerCommand
+class CommandSprite extends Sprite
     implements Selectable
 {
-    public function SelectableCommand (cmd :VillagerCommand, onSelected :Function) {
-        super(cmd.action, cmd.text, cmd.loc);
-        _textSprite = new SelectableTextSprite(cmd.text, "herculanum", 18, TextFieldAutoSize.MULTI_LINE, 400);
+    public var cmd :VillagerCommand;
+    
+    public function CommandSprite (cmd :VillagerCommand, onSelected :Function) {
+        this.cmd = cmd;
         _onSelected = onSelected;
+        
+        _textSprite = new SelectableTextSprite(cmd.text, "herculanum", 18,
+            TextFieldAutoSize.MULTI_LINE, 400);
+        
+        redraw();
     }
     
     public function get textSprite () :SelectableTextSprite {
         return _textSprite;
     }
-
+    
     public function get isSelectable () :Boolean {
         return true;
     }
-
+    
     public function markSelected():void {
-        _onSelected(action);
+        _onSelected(cmd.action);
     }
-
+    
+    public function get expanded () :Boolean {
+        return _expanded;
+    }
+    
+    public function set expanded (val :Boolean) :void {
+        if (_expanded != val) {
+            _expanded = val;
+            redraw();
+        }
+    }
+    
+    protected function redraw () :void {
+        removeChildren();
+        
+        _textSprite.text = (_expanded ? cmd.text : cmd.text.substr(0, 35) + "...");
+        
+        const HMARGIN :int = 8;
+        const VMARGIN :int = 12;
+        
+        var bg :Sprite = DisplayUtil.outlineFillRect(
+            _textSprite.width + (HMARGIN * 2),
+            _textSprite.height + (VMARGIN * 2),
+            0x707070,   // fill color
+            2,
+            0x000000);  // outline color
+        textSprite.x = HMARGIN;
+        textSprite.y = VMARGIN;
+        bg.addChild(_textSprite);
+        
+        var title :CustomTextField =
+            new CustomTextField(1, 1, cmd.action.description, Aztec.UI_FONT, 24, 0xF2CC00);
+        title.autoSize = TextFieldAutoSize.SINGLE_LINE;
+        title.y = -title.height;
+        bg.addChild(title);
+        
+        addChild(bg);
+    }
+    
     protected var _onSelected :Function;
     protected var _textSprite :SelectableTextSprite;
+    protected var _expanded :Boolean;
 }

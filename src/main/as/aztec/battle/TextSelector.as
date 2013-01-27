@@ -18,6 +18,9 @@ public class TextSelector extends LocalObject
     implements KeyboardListener
 {
     public const canceled :Signal = new Signal();
+    public const selectionBegan :Signal = new Signal(Selectable);
+    public const selectionCanceled :Signal = new Signal(Selectable);
+    
     public var selectionColor :uint;
 
     public function registerProvider (provider :SelectableProvider) :Registration {
@@ -107,7 +110,7 @@ public class TextSelector extends LocalObject
         endCurSelection();
         _curSelectable = s;
         _selectionLength = 0;
-        onSelectionBegan(_curSelectable);
+        this.selectionBegan.dispatch(_curSelectable);
     }
     
     protected function endCurSelection () :void {
@@ -117,7 +120,7 @@ public class TextSelector extends LocalObject
             }
             var old :Selectable = _curSelectable;
             _curSelectable = null;
-            onSelectionCanceled(old);
+            this.selectionCanceled.dispatch(old);
         }
     }
     
@@ -140,12 +143,6 @@ public class TextSelector extends LocalObject
             activeSelectables = activeSelectables.concat(provider.selectables);
         }
         return activeSelectables;
-    }
-    
-    protected function onSelectionBegan (s :Selectable) :void {
-    }
-    
-    protected function onSelectionCanceled (s :Selectable) :void {
     }
 
     protected var _providers :Array = [];

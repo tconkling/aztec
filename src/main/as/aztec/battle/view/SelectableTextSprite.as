@@ -13,7 +13,6 @@ public class SelectableTextSprite extends Sprite
 {
     public function SelectableTextSprite (text :String, font = "futura", size :Number = 24,
         autoSize :String = "singleLine", maxWidth :Number = 0) {
-        _text = text;
         
         _tf = new CustomTextField(1, 1, text, font, size);
         _tf.color = 0xffffff;
@@ -28,7 +27,11 @@ public class SelectableTextSprite extends Sprite
     }
     
     public function get text () :String {
-        return _text;
+        return _tf.text;
+    }
+    
+    public function set text (val :String) :void {
+        _tf.text = val;
     }
     
     public function deselect () :void {
@@ -36,13 +39,12 @@ public class SelectableTextSprite extends Sprite
     }
     
     public function select (numCharacters :uint, color :uint) :void {
-        Preconditions.checkArgument(numCharacters <= _text.length);
+        Preconditions.checkArgument(numCharacters <= _tf.text.length);
         
         _tf.selectionColor = color;
         _tf.selectionLength = numCharacters;
     }
     
-    protected var _text :String;
     protected var _tf :CustomTextField;
 }
 }
