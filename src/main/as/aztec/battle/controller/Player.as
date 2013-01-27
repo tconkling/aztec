@@ -76,6 +76,13 @@ public class Player extends NetObject
             verbMenu.display.x = 400;
             verbMenu.display.y = 200
             _ctx.viewObjects.addObject(verbMenu, _ctx.uiLayer);
+            
+            _regs.addSignalListener(verbMenu.canceled, function () :void {
+                verbMenu.destroySelf();
+                if (_selectedVillager == villager.ref) {
+                    _ctx.messages.deselectVillager(villager);
+                }
+            });
         }
     }
     

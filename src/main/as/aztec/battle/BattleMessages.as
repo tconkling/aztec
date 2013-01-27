@@ -9,6 +9,7 @@ import aztec.Aztec;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
+import aztec.data.DeselectVillagerMessage;
 import aztec.data.SacrificeMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.data.SummonMessage;
@@ -21,21 +22,27 @@ public class BattleMessages
         _mgr = mgr;
     }
 
-    public function sacrifice (senderOid :int, villager :Villager) :void {
+    public function sacrifice (villager :Villager, senderOid :int = 0) :void {
         var msg :SacrificeMessage = new SacrificeMessage(villager.name);
-        _mgr.sendMessage(senderOid,  msg);
+        _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
 
-    public function summon (senderOid :int) :void {
+    public function summon (senderOid :int = 0) :void {
         var msg :SummonMessage = new SummonMessage();
         msg.power = 2;
-        _mgr.sendMessage(senderOid,  msg);
+        _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
     
-    public function selectVillager (villager :Villager, senderOid :int) :void {
+    public function selectVillager (villager :Villager, senderOid :int = 0) :void {
         var msg :SelectVillagerMessage = new SelectVillagerMessage();
         msg.villagerName = villager.name;
-        _mgr.sendMessage(senderOid,  msg);
+        _mgr.sendMessage(defaultToLocal(senderOid), msg);
+    }
+    
+    public function deselectVillager (villager :Villager, senderOid :int = 0) :void {
+        var msg :DeselectVillagerMessage = new DeselectVillagerMessage();
+        msg.villagerName = villager.name;
+        _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
     
     public function processTicks (dt :Number) :void {
@@ -50,6 +57,10 @@ public class BattleMessages
         }
     }
     
+    protected function defaultToLocal (oid :int) :int {
+        return (oid != 0 ? oid : _ctx.localPlayer.oid);
+    }
+    
     protected function handleMessage (msg :AztecMessage) :void {
         var sender :Player = Player.withOid(_ctx, msg.senderOid);
         if (sender == null) {
@@ -59,6 +70,9 @@ public class BattleMessages
         
         if (msg is SelectVillagerMessage) {
             handleSelectVillager(sender, SelectVillagerMessage(msg));
+            
+        } else if (msg is DeselectVillagerMessage) {
+            handleDeselectVillager(sender, DeselectVillagerMessage(msg));
             
         } else if (msg is SacrificeMessage) {
             handleSacrifice(SacrificeMessage(msg));
@@ -71,14 +85,24 @@ public class BattleMessages
     }
     
     protected function handleSelectVillager (sender :Player, msg :SelectVillagerMessage) :void {
-        var villagerName :String = SelectVillagerMessage(msg).villagerName;
-        var villager :Villager = Villager.withName(_ctx, villagerName);
+        var villager :Villager = Villager.withName(_ctx, msg.villagerName);
         if (villager == null) {
-            log.warning("SelectVillager: no such villager", "name", villagerName);
+            log.warning("SelectVillager: no such villager", "name", msg.villagerName);
         } else if (villager.isSelected) {
             log.warning("SelectVillager: villager is already selected!", "msg", msg);
         } else {
             sender.selectVillager(villager);
+        }
+    }
+    
+    protected function handleDeselectVillager (sender :Player, msg :DeselectVillagerMessage) :void {
+        var villager :Villager = Villager.withName(_ctx, msg.villagerName);
+        if (villager == null) {
+            log.warning("DeselectVillager: no such villager", "name", msg.villagerName);
+        } else if (sender.selectedVillager != villager) {
+            log.warning("DeselectVillager: villager not selected by this player", "msg", msg);
+        } else {
+            sender.deselectVillager();
         }
     }
 

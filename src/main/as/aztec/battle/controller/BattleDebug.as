@@ -20,7 +20,7 @@ public class BattleDebug extends LocalObject {
     }
 
     public function sacrifice(senderOid :int):void {
-        _ctx.messages.sacrifice(senderOid, Villager.getAll(_ctx)[0]);
+        _ctx.messages.sacrifice(Villager.getAll(_ctx)[0], senderOid);
     }
 
     public function summon(senderOid :int):void {
