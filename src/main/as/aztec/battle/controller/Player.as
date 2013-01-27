@@ -90,18 +90,16 @@ public class Player extends NetObject
             
             var commandMenu :VillagerCommandMenu = new VillagerCommandMenu(commands);
             _ctx.viewObjects.addObject(commandMenu, _ctx.uiLayer);
-            
             _regs.addSignalListener(commandMenu.actionSelected, function (action :VillagerAction) :void {
-                commandMenu.destroySelf();
                 if (_selectedVillager == villager.ref) {
                     _ctx.messages.doVillagerAction(villager, action);
                     // hide the selected text
                     villager.textSprite.deselect();
                 }
+                commandMenu.destroySelf();
             });
             
-            _regs.addSignalListener(commandMenu.canceled, function () :void {
-                commandMenu.destroySelf();
+            _regs.addOneShotSignalListener(_ctx.selector.canceled, function () :void {
                 if (_selectedVillager == villager.ref) {
                     _ctx.messages.deselectVillager(villager);
                 }

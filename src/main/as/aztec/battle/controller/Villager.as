@@ -33,6 +33,10 @@ public class Villager extends NetObject
     public function Villager (name :String) {
         _name = name;
     }
+
+    public function get isSelectable() :Boolean {
+        return this.isLiveObject && !this.isSelected;
+    }
     
     public function get name () :String {
         return _name;
@@ -40,6 +44,10 @@ public class Villager extends NetObject
     
     public function get textSprite () :SelectableTextSprite {
         return _view.textView;
+    }
+
+    public function markSelected () :void {
+        _ctx.messages.selectVillager(this, _ctx.localPlayer.oid);
     }
     
     public function select (player :Player) :void {

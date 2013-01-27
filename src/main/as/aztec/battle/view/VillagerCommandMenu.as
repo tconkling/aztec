@@ -3,6 +3,7 @@
 
 package aztec.battle.view {
 
+import aztec.battle.SelectableProvider;
 import aztec.battle.VillagerAction;
 import aztec.battle.VillagerCommand;
 
@@ -10,19 +11,22 @@ import flashbang.util.DisplayUtil;
 
 import org.osflash.signals.Signal;
 
-import starling.display.DisplayObject;
 import starling.display.Sprite;
 
-public class VillagerCommandMenu extends LocalSpriteObject
+public class VillagerCommandMenu extends LocalSpriteObject implements SelectableProvider
 {
     public const actionSelected :Signal = new Signal(VillagerAction);
     
-    public function get canceled () :Signal {
-        return _commandSelector.canceled;
-    }
-    
     public function VillagerCommandMenu (commands :Array) {
         _commands = commands;
+    }
+
+    public function get selectables():Array {
+        return _commands;
+    }
+
+    public function get isExclusive():Boolean {
+        return true;
     }
     
     override protected function addedToMode () :void {
@@ -32,7 +36,7 @@ public class VillagerCommandMenu extends LocalSpriteObject
         
         // make the VillagerCommands selectable
         _commands = _commands.map(function (cmd :VillagerCommand, ..._) :SelectableCommand {
-            return new SelectableCommand(cmd);
+            return new SelectableCommand(cmd, actionSelected.dispatch);
         });
         
         for each (var cmd :SelectableCommand in _commands) {
@@ -55,57 +59,40 @@ public class VillagerCommandMenu extends LocalSpriteObject
             bg.x = cmd.loc.x - (bg.width * 0.5);
             bg.y = cmd.loc.y - (bg.height * 0.5);
         }
-        
-        // register the selector
-        _commandSelector = new CommandSelector(_ctx, _commands);
-        _regs.add(_ctx.keyboardInput.registerListener(_commandSelector));
-        
-        var self :VillagerCommandMenu = this;
-        _regs.addSignalListener(_commandSelector.selected, function (cmd :VillagerCommand) :void {
-            self.actionSelected.dispatch(cmd.action);
-        });
+
+        _ctx.selector.addProvider(this);
+        _regs.addSignalListener(_ctx.selector.canceled, destroySelf);
     }
     
     protected var _commands :Array;
-    protected var _commandSelector :CommandSelector;
 }
 }
 
-import aztec.battle.BattleCtx;
 import aztec.battle.Selectable;
-import aztec.battle.TextSelector;
 import aztec.battle.VillagerCommand;
 import aztec.battle.view.SelectableTextSprite;
 
 class SelectableCommand extends VillagerCommand
     implements Selectable
 {
-    public function SelectableCommand (cmd :VillagerCommand) {
+    public function SelectableCommand (cmd :VillagerCommand, onSelected :Function) {
         super(cmd.action, cmd.text, cmd.loc);
         _textSprite = new SelectableTextSprite(cmd.text);
+        _onSelected = onSelected;
     }
     
     public function get textSprite () :SelectableTextSprite {
         return _textSprite;
     }
-    
-    protected var _textSprite :SelectableTextSprite;
-}
 
-class CommandSelector extends TextSelector
-{
-    public function CommandSelector (ctx :BattleCtx, commands :Array) {
-        super(ctx.localPlayer.desc.color);
-        _commands = commands;
-    }
-    
-    override protected function getSelectables () :Array {
-        return _commands;
-    }
-    
-    override protected function isValidSelectable (s :Selectable) :Boolean {
+    public function get isSelectable () :Boolean {
         return true;
     }
-    
-    protected var _commands :Array;
+
+    public function markSelected():void {
+        _onSelected(action);
+    }
+
+    protected var _onSelected :Function;
+    protected var _textSprite :SelectableTextSprite;
 }

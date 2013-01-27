@@ -73,8 +73,10 @@ public class BattleMode extends AppMode
         _ctx.players[0] = _player1;
         _ctx.players[1] = _player2;
 
-        // ActorSelector
-        addObject(new ActorSelector());
+        // Text Selection
+        _ctx.selector = new TextSelector(_ctx.localPlayer.desc.color);
+        addObject(_ctx.selector);
+        addObject(new VillagerSelectables());
 
         // Affinity
         _ctx.netObjects.addObject(new Affinity());

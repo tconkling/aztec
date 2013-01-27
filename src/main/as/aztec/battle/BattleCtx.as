@@ -32,6 +32,8 @@ public class BattleCtx extends GameObject
     public var viewObjects :BattleMode;
     
     public var messages :BattleMessages;
+
+    public var selector :TextSelector;
     
     public var board :BattleBoard;
     

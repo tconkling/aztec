@@ -4,29 +4,41 @@
 package aztec.battle {
 
 import aspire.ui.KeyboardCodes;
+import aspire.util.Arrays;
 
 import aztec.input.KeyboardListener;
+
+import flashbang.core.GameObject;
+
+import mx.logging.LogLogger;
 
 import org.osflash.signals.Signal;
 
 import starling.events.KeyboardEvent;
 
-public class TextSelector
+public class TextSelector extends LocalObject
     implements KeyboardListener
 {
     public const canceled :Signal = new Signal();
-    public const selected :Signal = new Signal(Selectable);
-    
+
     public function TextSelector (selectionColor :uint) {
         _selectionColor = selectionColor;
     }
-    
+
+    public function addProvider (provider :SelectableProvider) :void {
+        _providers.push(provider);
+    }
+
+    public function removeProvider(provider :SelectableProvider):void {
+        Arrays.removeAll(_providers, provider);
+    }
+
     public function onKeyboardEvent (e :KeyboardEvent) :Boolean {
         if (e.type != KeyboardEvent.KEY_DOWN) {
             return false;
         }
         
-        if (_curSelectable != null && !isValidSelectable(_curSelectable)) {
+        if (_curSelectable != null && !_curSelectable.isSelectable) {
             _curSelectable = null;
         }
         
@@ -48,7 +60,7 @@ public class TextSelector
             // return/enter sends the "select actor" message over the network
             var selectable :Selectable = _curSelectable;
             _curSelectable = null;
-            this.selected.dispatch(selectable);
+            selectable.markSelected();
             return true;
         }
         
@@ -57,14 +69,14 @@ public class TextSelector
         if (_curSelectable == null) {
             // try to select a new selectable
             for each (var potential :Selectable in getSelectables()) {
-                if (typedLetter == getLetter(potential, 0) && isValidSelectable(potential)) {
+                if (typedLetter == getLetter(potential, 0) && potential.isSelectable) {
                     // we found one!
                     beginSelection(potential);
                     break;
                 }
             }
         }
-        
+
         if (_curSelectable != null && _selectionLength < this.curText.length) {
             var nextLetter :String = this.getLetter(_curSelectable, _selectionLength);
             if (nextLetter == typedLetter) {
@@ -74,6 +86,11 @@ public class TextSelector
         }
         
         return true;
+    }
+
+    override protected function addedToMode() :void {
+        super.addedToMode();
+        _regs.add(_ctx.keyboardInput.registerListener(this));
     }
     
     protected function get curText () :String {
@@ -93,7 +110,7 @@ public class TextSelector
     
     protected function endCurSelection () :void {
         if (_curSelectable != null) {
-            if (isValidSelectable(_curSelectable)) {
+            if (_curSelectable.isSelectable) {
                 _curSelectable.textSprite.deselect();
             }
             var old :Selectable = _curSelectable;
@@ -103,11 +120,24 @@ public class TextSelector
     }
     
     protected function getSelectables () :Array {
-        throw new Error("abstract");
-    }
-    
-    protected function isValidSelectable (s :Selectable) :Boolean {
-        throw new Error("abstract");
+        var activeProviders :Array = [];
+        var exclusiveActive :Boolean = false;
+        for each (var provider :SelectableProvider in _providers) {
+            if (provider.isExclusive) {
+                if (exclusiveActive) {
+                    trace("More than one exclusive provider? Going with the latest one, "  + provider);
+                }
+                exclusiveActive = true;
+                activeProviders = [provider];
+            } else if (!exclusiveActive) {
+                activeProviders.push(provider);
+            }
+        }
+        var activeSelectables :Array = [];
+        for each (provider in activeProviders) {
+            activeSelectables = activeSelectables.concat(provider.selectables);
+        }
+        return activeSelectables;
     }
     
     protected function onSelectionBegan (s :Selectable) :void {
@@ -115,7 +145,8 @@ public class TextSelector
     
     protected function onSelectionCanceled (s :Selectable) :void {
     }
-    
+
+    protected var _providers :Array = [];
     protected var _curSelectable :Selectable;
     protected var _selectionLength :int;
     protected var _selectionColor :uint;
