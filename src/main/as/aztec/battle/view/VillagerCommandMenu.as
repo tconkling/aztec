@@ -63,6 +63,12 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
         _ctx.selector.addProvider(this);
         _regs.addSignalListener(_ctx.selector.canceled, destroySelf);
     }
+
+    override protected function removedFromMode () :void {
+        super.removedFromMode();
+
+        _ctx.selector.removeProvider(this);
+    }
     
     protected var _commands :Array;
 }
