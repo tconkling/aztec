@@ -183,7 +183,7 @@ public class Player extends NetObject
         _festivalView.display.y = _desc.festivalLoc.y;
         _ctx.viewObjects.addObject(_festivalView, _ctx.board.view.objectLayer);
 
-        _heartView = new HeartView();
+        _heartView = new HeartView(isLocalPlayer, !desc.displayedOnRight);
         _heartView.sprite.x = desc.heartLoc.x;
         _heartView.sprite.y = desc.heartLoc.y;
         _ctx.viewObjects.addObject(_heartView, _ctx.uiLayer);

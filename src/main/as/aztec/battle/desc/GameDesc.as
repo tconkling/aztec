@@ -79,6 +79,7 @@ public class GameDesc
         desc.festivalLoc.y = 10 * 64;
         desc.heartLoc.x = 990;
         desc.heartLoc.y = 170;
+        desc.displayedOnRight = true;
         // TODO
         desc.sacrificeCommandLoc.x = 100;
         desc.sacrificeCommandLoc.y = 100;

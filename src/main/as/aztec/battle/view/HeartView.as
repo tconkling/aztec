@@ -2,16 +2,16 @@ package aztec.battle.view {
 import aztec.battle.God;
 import aztec.battle.SelectableProvider;
 import aztec.battle.desc.GameDesc;
-import aztec.battle.desc.GameDesc;
 
-import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
 
 import flump.display.Movie;
 
 public class HeartView extends LocalSpriteObject implements SelectableProvider {
 
-    public function HeartView () {
+    public function HeartView (forLocalPlayer :Boolean, textToRight :Boolean) {
+        _forLocalPlayer = forLocalPlayer;
+        _textToRight = textToRight;
         for (var ii :int = 0; ii < GameDesc.MAX_HEARTS; ii++) {
             var heart :Movie = MovieResource.createMovie("aztec/heart");
             heart.y = _hearts.length * -35;
@@ -37,6 +37,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
 
     public function addHeart () :void {
         _hearts[_active++].alpha = 1;
+        if (!_forLocalPlayer) { return; }
         for each (var god :God in God.values()) {
             if (GameDesc.godHearts(god) == _active) {
                 var selectable :SelectableGod = new SelectableGod(god, function(god :God) :void {
@@ -44,17 +45,23 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                 });
                 _selectables.push(selectable);
                 sprite.addChild(selectable.textSprite);
-                selectable.textSprite.x = 30;
+                if (_textToRight) {
+                    selectable.textSprite.x = 30;
+                } else {
+                    selectable.textSprite.x = -_hearts[0].width - selectable.textSprite.width + 10;
+                }
                 selectable.textSprite.y = _hearts[_active - 1].y;
             }
         }
     }
 
     public function removeHeart () :void {
-        for each (var god :God in God.values()) {
-            if (GameDesc.godHearts(god) == _active) {
-                var selectable :SelectableGod = _selectables.pop();
-                sprite.removeChild(selectable.textSprite);
+        if (_forLocalPlayer) {
+            for each (var god :God in God.values()) {
+                if (GameDesc.godHearts(god) == _active) {
+                    var selectable :SelectableGod = _selectables.pop();
+                    sprite.removeChild(selectable.textSprite);
+                }
             }
         }
         _hearts[--_active].alpha = .3;
@@ -63,6 +70,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
     protected var _selectables :Array = [];
     protected var _active :int;
     protected var _hearts :Vector.<Movie> = new <Movie>[];
+    protected var _forLocalPlayer :Boolean,  _textToRight :Boolean;
 }
 }
 
