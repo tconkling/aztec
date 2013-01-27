@@ -1,13 +1,13 @@
 <root>
     <command action="SACRIFICE" affinity="0.7" text="Sweet {name}: altar, now!"/>
     <!--<command action="SACRIFICE" affinity="0.7" text="Sweet {name}, visit our fabulous altar near the temple's top!"/>-->
-    <command action="SACRIFICE" affinity="0.5" text="Sweet {name}, I implore you to take a tour of our wonderous temple! There's a prize waiting for you at the top!"/>
+    <command action="SACRIFICE" affinity="0.5" text="Sweet {name}, there's a prize waiting for you at the temple!"/>
     <command action="SACRIFICE" affinity="0.3" text="Sweet {name}, would you do me a solid and run to the top of our completely non-sacrificial temple? I left my shaman's staff up there and I'm screwed without it. You're the best."/>
     <command action="SACRIFICE" affinity="0" text="Sweet {name}, what a beautiful day it is! The sun is shining! The birds are chirping! Truly, we are blessed by our Gods. Please - join me for a stroll to the top of our temple, so that we can offer our thanks to these deities."/>
     <!--<command action="SACRIFICE" affinity="0" text="Sweet {name}. Listen, we need to talk. You've been acting totally stand-offish recently. I hear that you've been spreading rumors about my involvement in villager disappearances, and that is just totally not cool. It's worse than that - it's libel! Or perhaps it's slander. I guess it depends on whether you've been carving pictographic representations of these accusations in stone? Regardless, let's settle our differences. Let me buy you a scone and a latte at the cute cafe that's just opened atop our temple."/>-->
 
     <command action="WORSHIP" affinity="0.7" text="Wonderful {name}, let's worship together!"/>
-    <command action="WORSHIP" affinity="0.5" text="Wonderful {name}, I've noticed that it's been a while since you last worshipped at the base of the temple."/>
+    <command action="WORSHIP" affinity="0.5" text="Wonderful {name}, it's been a while since you last worshipped!"/>
     <command action="WORSHIP" affinity="0.3" text="Wonderful {name}. I know! It's a Sunday morning and you'd rather be watching the big game. But spend some time worshipping at the temple, yeah?"/>
     <command action="WORSHIP" affinity="0" text="Wonderful {name}, we mere mortals have but one duty in life. We must please our gods, that they continue to cause the sun to rise in the morning, the rain to water our crops, and the mosquitos to plague our foes, that they might have horrible diarrhea!"/>
 
