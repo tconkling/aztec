@@ -4,11 +4,14 @@
 package aztec.battle.controller {
 
 import aztec.battle.BattleCtx;
+import aztec.battle.Selectable;
+import aztec.battle.view.SelectableTextSprite;
 import aztec.battle.view.VillagerView;
 
 import org.osflash.signals.Signal;
 
 public class Villager extends NetObject
+    implements Selectable
 {
     public const selected :Signal = new Signal();
     
@@ -32,8 +35,8 @@ public class Villager extends NetObject
         return _name;
     }
     
-    public function get firstLetter () :String {
-        return _name.substr(0, 1);
+    public function get selectableTextSprite () :SelectableTextSprite {
+        return _view.textView;
     }
     
     public function get isSelected () :Boolean {

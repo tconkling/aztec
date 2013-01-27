@@ -3,106 +3,49 @@
 
 package aztec.battle {
 
-import aspire.ui.KeyboardCodes;
 import aspire.util.Registration;
 
 import aztec.battle.controller.Villager;
-import aztec.input.KeyboardListener;
-
-import flashbang.core.GameObjectRef;
-
-import starling.events.KeyboardEvent;
 
 public class ActorSelector extends LocalObject
-    implements KeyboardListener
 {
     override public function get objectNames () :Array {
-        return [ NAME ].concat(super.objectNames);
-    }
-    
-    public function onKeyboardEvent (e :KeyboardEvent) :Boolean {
-        if (e.type != KeyboardEvent.KEY_DOWN) {
-            return false;
-        }
-        
-        var curActor :Villager = this.curActor;
-        
-        if (e.keyCode == KeyboardCodes.ESCAPE && curActor != null) {
-            // escape deselects the actor
-            deselectCurActor();
-            return true;
-            
-        } else if (e.keyCode == KeyboardCodes.ENTER &&
-            // return/enter sends the "select actor" message over the network
-            curActor != null &&
-            _selectionLength >= curActor.name.length) {
-            _ctx.messages.selectVillager(curActor);
-            _actor = GameObjectRef.Null();
-            return true;
-        }
-        
-        var typedLetter :String = String.fromCharCode(e.charCode).toLowerCase();
-        
-        if (curActor == null) {
-            // try to select a villager
-            for each (var villager :Villager in Villager.getAll(_ctx)) {
-                if (villager.firstLetter == typedLetter && !villager.isSelected) {
-                    // we found one!
-                    selectActor(villager);
-                    curActor = villager;
-                    break;
-                }
-            }
-        }
-        
-        
-        if (curActor != null && _selectionLength < curActor.name.length) {
-            var nextLetter :String = curActor.name.substr(_selectionLength, 1);
-            if (nextLetter == typedLetter) {
-                _selectionLength++;
-                curActor.view.textView.select(_selectionLength, _ctx.localPlayer.desc.color);
-            }
-        }
-        
-        return true;
-    }
-    
-    protected function selectActor (villager :Villager) :void {
-        deselectCurActor();
-        _actorSelectedReg = _regs.addSignalListener(villager.selected,
-            function () :void {
-                if (_actor == villager.ref) {
-                    deselectCurActor();
-                }
-            });
-        _actor = villager.ref;
-        _selectionLength = 0;
-    }
-    
-    protected function deselectCurActor () :void {
-        var curActor :Villager = this.curActor;
-        if (curActor != null) {
-            if (!curActor.selected) {
-                curActor.view.textView.deselect();
-            }
-            _actor = GameObjectRef.Null();
-            _actorSelectedReg.cancel();
-        }
-    }
-    
-    protected function get curActor () :Villager {
-        return Villager(_actor.object);
+        return [ ActorSelector ].concat(super.objectNames);
     }
     
     override protected function addedToMode () :void {
         super.addedToMode();
-        _regs.add(_ctx.keyboardInput.registerListener(this));
+        _textSelector = new ActorTextSelector(_ctx);
+        _regs.add(_ctx.keyboardInput.registerListener(_textSelector));
+        _regs.addSignalListener(_textSelector.selected, function (v :Villager) :void {
+            _ctx.messages.selectVillager(v);
+        });
     }
     
-    protected var _actor :GameObjectRef = GameObjectRef.Null();
+    protected var _textSelector :TextSelector;
     protected var _actorSelectedReg :Registration;
-    protected var _selectionLength :int;
-    
-    protected static const NAME :String = "NounSelector";
 }
+}
+
+import aztec.battle.BattleCtx;
+import aztec.battle.Selectable;
+import aztec.battle.TextSelector;
+import aztec.battle.controller.Villager;
+
+class ActorTextSelector extends TextSelector {
+    public function ActorTextSelector (ctx :BattleCtx) {
+        super(ctx.localPlayer.desc.color);
+        _ctx = ctx;
+    }
+    
+    override protected function getSelectables () :Array {
+        return Villager.getAll(_ctx);
+    }
+    
+    override protected function isValidSelectable (s :Selectable) :Boolean {
+        var villager :Villager = Villager(s);
+        return (villager.isLiveObject && !villager.isSelected);
+    }
+    
+    protected var _ctx :BattleCtx;
 }
