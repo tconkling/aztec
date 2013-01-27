@@ -113,6 +113,7 @@ class CommandSprite extends Sprite
     public function set expanded (val :Boolean) :void {
         if (_expanded != val) {
             _expanded = val;
+            this.parent.setChildIndex(this, parent.numChildren - 1);
             redraw();
         }
     }
