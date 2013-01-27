@@ -37,15 +37,17 @@ public class AztecMatchManager implements MatchProvider {
     }
 
     public void addPlayer(AztecClientObject client) {
+        client.addListener(_clientDeathListener, true);
         _clients.add(client);
         if (_clients.size() == 1) {
             _mobj.setPlayer1(client.username);
         } else {
             _mobj.setPlayer2(client.username);
             _messageSender.schedule(MESSAGE_RATE, true);
+            for (AztecClientObject toSub : _clients) {
+                toSub.setMatchOid(_mobj.getOid());
+            }
         }
-        client.setMatchOid(_mobj.getOid());
-        client.addListener(_clientDeathListener, true);
     }
 
     @Override

@@ -25,7 +25,9 @@ import starling.events.KeyboardEvent;
 
 public class BattleMode extends AppMode
 {
-    public function BattleMode (randomSeed :int, messageMgr: MessageMgr) {
+    public function BattleMode (player1: Player,  player2: Player,  randomSeed :int, messageMgr: MessageMgr) {
+        _player1 = player1;
+        _player2 = player2;
         _msgMgr = messageMgr;
         _randomSeed = randomSeed;
     }
@@ -65,13 +67,11 @@ public class BattleMode extends AppMode
         _ctx.netObjects.addObject(new VillagerGenerator());
         
         // players
-        var player1 :Player = new Player(1, "Tim", GameDesc.player1);
-        var player2 :Player = new Player(2, "Charlie", GameDesc.player2);
-        _ctx.netObjects.addObject(player1);
-        _ctx.netObjects.addObject(player2);
-        _ctx.localPlayer = player1;
-        _ctx.players[0] = player1;
-        _ctx.players[1] = player2;
+        _ctx.netObjects.addObject(_player1);
+        _ctx.netObjects.addObject(_player2);
+        _ctx.localPlayer = _player1.isLocalPlayer ? _player1 : _player2;
+        _ctx.players[0] = _player1;
+        _ctx.players[1] = _player2;
 
         // ActorSelector
         addObject(new ActorSelector());
@@ -106,6 +106,8 @@ public class BattleMode extends AppMode
         return super.addObject(obj, displayParent, displayIdx);
     }
 
+    private var _player1: Player;
+    private var _player2: Player;
     private var _randomSeed:int;
     protected var _ctx :BattleCtx;
     protected var _msgMgr: MessageMgr;

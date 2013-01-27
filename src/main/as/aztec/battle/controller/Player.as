@@ -37,10 +37,11 @@ public class Player extends NetObject
         return ctx.netObjects.getObjectsInGroup(Player);
     }
     
-    public function Player (oid :int, name :String, desc :PlayerDesc) {
+    public function Player(oid:int, name:String, desc:PlayerDesc, localPlayer:Boolean) {
         _oid = oid;
         _name = name;
         _desc = desc;
+        _localPlayer = localPlayer;
     }
     
     public function get name () :String { return _name; }
@@ -60,7 +61,7 @@ public class Player extends NetObject
     }
     
     public function get isLocalPlayer () :Boolean {
-        return _ctx.localPlayer == this;
+        return _localPlayer;
     }
     
     public function selectVillager (villager :Villager) :void {
@@ -173,6 +174,7 @@ public class Player extends NetObject
     protected var _oid :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
+    protected var _localPlayer :Boolean;
     
     protected var _templeHealth :Number = 1;
     protected var _templeDefense :Number = 0;
