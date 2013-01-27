@@ -10,9 +10,7 @@ import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.SacrificeMessage;
-import aztec.data.SacrificeMessage;
 import aztec.data.SelectVillagerMessage;
-import aztec.data.SummonMessage;
 import aztec.data.SummonMessage;
 import aztec.net.MessageMgr;
 
@@ -23,23 +21,21 @@ public class BattleMessages
         _mgr = mgr;
     }
 
-    public function sacrifice (villager :Villager) :void {
+    public function sacrifice (senderOid :int, villager :Villager) :void {
         var msg :SacrificeMessage = new SacrificeMessage(villager.name);
-        msg.senderOid = 1;
-        _mgr.sendMessage(msg);
+        _mgr.sendMessage(senderOid,  msg);
     }
 
-    public function summon () :void {
+    public function summon (senderOid :int) :void {
         var msg :SummonMessage = new SummonMessage();
         msg.attackStrength = .2;
-        msg.senderOid = 1;
-        _mgr.sendMessage(msg);
+        _mgr.sendMessage(senderOid,  msg);
     }
     
-    public function selectVillager (villager :Villager) :void {
+    public function selectVillager (villager :Villager, senderOid :int = -1) :void {
         var msg :SelectVillagerMessage = new SelectVillagerMessage();
         msg.villagerName = villager.name;
-        _mgr.sendMessage(msg);
+        _mgr.sendMessage(senderOid,  msg);
     }
     
     public function processTicks (dt :Number) :void {

@@ -11,6 +11,6 @@ public interface MessageMgr
     
     function get ticks () :Vector.<Vector.<AztecMessage>>;
 
-    function sendMessage (msg :AztecMessage) :void;
+    function sendMessage (senderOid :int, msg :AztecMessage) :void;
 }
 }

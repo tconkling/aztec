@@ -26,9 +26,14 @@ public class Player extends NetObject
         return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
     }
 
-    public static function withOtherOid(_ctx:BattleCtx, senderOid:int) :Player {
-        const players :Array = _ctx.netObjects.getObjectsInGroup(Player);
+    public static function withOtherOid(ctx:BattleCtx, senderOid:int) :Player {
+        const players :Array = ctx.netObjects.getObjectsInGroup(Player);
         return players[0].oid == senderOid ? players[1] : players[0];
+    }
+
+    public static function getAll(ctx:BattleCtx) :Array {
+
+        return ctx.netObjects.getObjectsInGroup(Player);
     }
     
     public function Player (oid :int, name :String, desc :PlayerDesc) {
@@ -67,7 +72,7 @@ public class Player extends NetObject
         }
     }
 
-    public function suffer (msg :SummonMessage) {
+    public function suffer (msg :SummonMessage) :void {
         templeHealth -= msg.attackStrength;
         _templeView.updateHealth(templeHealth);
     }

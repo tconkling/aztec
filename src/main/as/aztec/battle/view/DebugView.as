@@ -2,22 +2,28 @@ package aztec.battle.view {
 
 import aztec.battle.controller.BattleDebug;
 
+import flash.display.SimpleButton;
+
 import flashbang.objects.SimpleTextButton;
 
 public class DebugView extends LocalSpriteObject {
-    public function DebugView(debug :BattleDebug) {
+    public function DebugView(debug :BattleDebug, senderOid:int) {
         _debug = debug;
         // Move out of the way of the framerate
         _sprite.y = 60;
-        var sacrificeButton :SimpleTextButton = new SimpleTextButton("Sacrifice");
-        addDependentObject(sacrificeButton, _sprite);
-        sacrificeButton.clicked.add(function () :void { _debug.sacrifice(); });
-        var summonButton :SimpleTextButton = new SimpleTextButton("Summon");
-        summonButton.sprite.y += sacrificeButton.sprite.height + 10;
-        addDependentObject(summonButton, _sprite);
-        summonButton.clicked.add(function () :void { _debug.summon(); });
+        createButton("Sacrifice").clicked.add(function () :void { _debug.sacrifice(senderOid); });
+        createButton("Summon").clicked.add(function () :void { _debug.summon(senderOid); });
+    }
+
+    protected function createButton (title :String) :SimpleTextButton {
+        var button :SimpleTextButton = new SimpleTextButton(title);
+        button.sprite.y = _buttonCount++ * 40;
+        addDependentObject(button, _sprite);
+        return button;
     }
 
     private var _debug :BattleDebug;
+    private var _senderOid :int;
+    private var _buttonCount :int;
 }
 }

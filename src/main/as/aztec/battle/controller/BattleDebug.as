@@ -10,18 +10,22 @@ public class BattleDebug extends LocalObject {
     override protected function addedToMode () :void {
         super.addedToMode();
 
-        _view = new DebugView(this);
-        _ctx.viewObjects.addObject(_view, _ctx.uiLayer);
+        for each (var player :Player in Player.getAll(_ctx)) {
+            var view :DebugView = new DebugView(this, player.oid);
+            if (!player.desc.player1) {
+                view.sprite.x = 960;
+            }
+            _ctx.viewObjects.addObject(view, _ctx.uiLayer);
+        }
     }
 
-    public function sacrifice():void {
-        _ctx.messages.sacrifice(Villager.getAll(_ctx)[0]);
+    public function sacrifice(senderOid :int):void {
+        _ctx.messages.sacrifice(senderOid, Villager.getAll(_ctx)[0]);
     }
 
-    public function summon():void {
-        _ctx.messages.summon();
+    public function summon(senderOid :int):void {
+        _ctx.messages.summon(senderOid);
     }
 
-    protected var _view :DebugView;
 }
 }
