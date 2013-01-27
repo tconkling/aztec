@@ -14,6 +14,7 @@ import aztec.battle.desc.GameDesc;
 import flash.geom.Rectangle;
 
 import flashbang.resource.MovieResource;
+import flashbang.tasks.AlphaTask;
 import flashbang.tasks.FunctionTask;
 import flashbang.tasks.LocationTask;
 import flashbang.tasks.SerialTask;
@@ -53,7 +54,10 @@ public class VillagerView extends LocalSpriteObject
         _sprite.x = loc.x;
         _sprite.y = loc.y;
         
+        _sprite.alpha = 0;
+        
         addTask(new SerialTask(
+            new AlphaTask(1, 0.5),
             new TimedTask(rands.getNumberInRange(0, 2)),
             new FunctionTask(walk)));
     }

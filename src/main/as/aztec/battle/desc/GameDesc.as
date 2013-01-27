@@ -13,7 +13,7 @@ public class GameDesc
 {
     public static const BOARD_SIZE :Vector2 = new Vector2(1024, 768);
     
-    public static const numVillagers :int = 6;
+    public static const numVillagers :int = 8;
     public static const villagerWalkBounds :Rectangle = new Rectangle(250, 129, 433, 345);
     public static const villagerSpread :Number = 4 * 64;
 
