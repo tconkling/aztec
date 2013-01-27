@@ -14,6 +14,7 @@ import flashbang.util.DisplayUtil;
 
 import org.osflash.signals.Signal;
 
+import starling.display.Quad;
 import starling.display.Sprite;
 import starling.text.TextFieldAutoSize;
 
@@ -23,6 +24,10 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
     
     public function VillagerCommandMenu (commands :Array) {
         _commands = commands;
+        
+        var bg :Quad = DisplayUtil.fillRect(1024, 768, 0);
+        bg.alpha = 0.6;
+        _sprite.addChild(bg);
     }
 
     public function get selectables():Array {
@@ -131,7 +136,7 @@ class CommandSprite extends Sprite
         bg.addChild(_textSprite);
         
         var title :CustomTextField =
-            new CustomTextField(1, 1, cmd.action.description, Aztec.UI_FONT, 24, 0xF2CC00);
+            new CustomTextField(1, 1, cmd.action.description, Aztec.UI_FONT, 24, 0xE7C879);
         title.autoSize = TextFieldAutoSize.SINGLE_LINE;
         title.y = -title.height;
         bg.addChild(title);

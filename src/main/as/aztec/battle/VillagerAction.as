@@ -8,7 +8,7 @@ import aspire.util.Enum;
 public final class VillagerAction extends Enum
 {
     public static const SACRIFICE :VillagerAction = new VillagerAction("SACRIFICE",
-        "Sacrifice: +HEART, --Villager Affinity");
+        "Sacrifice: +Heart, --Villager Affinity");
     public static const FESTIVAL :VillagerAction = new VillagerAction("FESTIVAL",
         "Festival: +Villager Affinity");
     public static const WORSHIP :VillagerAction = new VillagerAction("WORSHIP",
