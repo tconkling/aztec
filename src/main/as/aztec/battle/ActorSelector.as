@@ -4,6 +4,7 @@
 package aztec.battle {
 
 import aspire.ui.KeyboardCodes;
+import aspire.util.Registration;
 
 import aztec.battle.controller.Villager;
 import aztec.input.KeyboardListener;
@@ -45,7 +46,7 @@ public class ActorSelector extends LocalObject
         if (curActor == null) {
             // try to select a villager
             for each (var villager :Villager in Villager.getAll(_ctx)) {
-                if (villager.firstLetter == typedLetter) {
+                if (villager.firstLetter == typedLetter && !villager.isSelected) {
                     // we found one!
                     selectActor(villager);
                     curActor = villager;
@@ -68,6 +69,12 @@ public class ActorSelector extends LocalObject
     
     protected function selectActor (villager :Villager) :void {
         deselectCurActor();
+        _actorSelectedReg = _regs.addSignalListener(villager.selected,
+            function () :void {
+                if (_actor == villager.ref) {
+                    deselectCurActor();
+                }
+            });
         _actor = villager.ref;
         _selectionLength = 0;
     }
@@ -75,8 +82,11 @@ public class ActorSelector extends LocalObject
     protected function deselectCurActor () :void {
         var curActor :Villager = this.curActor;
         if (curActor != null) {
-            curActor.view.textView.deselect();
+            if (!curActor.selected) {
+                curActor.view.textView.deselect();
+            }
             _actor = GameObjectRef.Null();
+            _actorSelectedReg.cancel();
         }
     }
     
@@ -90,6 +100,7 @@ public class ActorSelector extends LocalObject
     }
     
     protected var _actor :GameObjectRef = GameObjectRef.Null();
+    protected var _actorSelectedReg :Registration;
     protected var _selectionLength :int;
     
     protected static const NAME :String = "NounSelector";

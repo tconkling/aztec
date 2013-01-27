@@ -53,17 +53,25 @@ public class BattleMessages
         }
         
         if (msg is SelectVillagerMessage) {
-            var villagerName :String = SelectVillagerMessage(msg).villagerName;
-            var villager :Villager = Villager.withName(_ctx, villagerName);
-            if (villager == null) {
-                log.warning("SelectVillager: no such villager", "name", villagerName);
-            } else {
-                sender.selectVillager(villager);
-            }
+            handleSelectVillager(sender, SelectVillagerMessage(msg));
+            
         } else if (msg is SacrificeMessage) {
             handleSacrifice(SacrificeMessage(msg));
+            
         } else {
             log.error("Unhandled message!", "msg", msg);
+        }
+    }
+    
+    protected function handleSelectVillager (sender :Player, msg :SelectVillagerMessage) :void {
+        var villagerName :String = SelectVillagerMessage(msg).villagerName;
+        var villager :Villager = Villager.withName(_ctx, villagerName);
+        if (villager == null) {
+            log.warning("SelectVillager: no such villager", "name", villagerName);
+        } else if (villager.isSelected) {
+            log.warning("SelectVillager: villager is already selected!", "msg", msg);
+        } else {
+            sender.selectVillager(villager);
         }
     }
 

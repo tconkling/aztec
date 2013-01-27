@@ -48,6 +48,7 @@ public class Player extends NetObject
     public function selectVillager (villager :Villager) :void {
         deselectVillager();
         _selectedVillager = villager.ref;
+        villager.selected.dispatch();
         villager.view.textView.select(villager.name.length, _desc.color);
     }
     

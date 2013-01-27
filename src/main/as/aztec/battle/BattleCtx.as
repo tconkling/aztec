@@ -20,6 +20,8 @@ public class BattleCtx extends GameObject
 {
     public var localPlayer :Player;
     
+    public var players :Vector.<Player> = new Vector.<Player>(2, true);
+    
     public var netObjects :NetObjectDB;
     public var viewObjects :BattleMode;
     

@@ -67,6 +67,8 @@ public class BattleMode extends AppMode
         _ctx.netObjects.addObject(player1);
         _ctx.netObjects.addObject(player2);
         _ctx.localPlayer = player1;
+        _ctx.players[0] = player1;
+        _ctx.players[1] = player2;
 
         // ActorSelector
         addObject(new ActorSelector());

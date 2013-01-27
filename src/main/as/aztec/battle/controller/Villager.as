@@ -6,8 +6,12 @@ package aztec.battle.controller {
 import aztec.battle.BattleCtx;
 import aztec.battle.view.VillagerView;
 
+import org.osflash.signals.Signal;
+
 public class Villager extends NetObject
 {
+    public const selected :Signal = new Signal();
+    
     public static function getCount (ctx :BattleCtx) :int {
         return ctx.netObjects.getObjectRefsInGroup(Villager).length;
     }
@@ -30,6 +34,15 @@ public class Villager extends NetObject
     
     public function get firstLetter () :String {
         return _name.substr(0, 1);
+    }
+    
+    public function get isSelected () :Boolean {
+        for each (var player :Player in _ctx.players) {
+            if (player.selectedVillager == this) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function sacrifice () :void {
