@@ -6,6 +6,7 @@ import aspire.geom.Vector2;
 import aspire.util.Log;
 
 import aztec.battle.BattleCtx;
+import aztec.battle.desc.GameDesc;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.ActorVerbMenu;
 import aztec.battle.view.FestivalView;
@@ -19,7 +20,7 @@ import flashbang.core.GameObjectRef;
 public class Player extends NetObject
 {
     public var templeHealth :Number = 1;
-    public var templeDefense :Number = 0;
+    public var templeDefense :Number = 1;
     public var summonPower :int = 0;
     public var affinitySign :int;
 
@@ -102,8 +103,14 @@ public class Player extends NetObject
                 _heartView.removeHeart();
             }
         } else {
-            templeHealth -= msg.power * .2;
+            var attack :Number = msg.power * .2;
+            var defensePossible :Number = templeDefense * GameDesc.DEFENSE_STRENGTH;
+            var defenseUsed :Number = Math.min(defensePossible, attack);
+            templeDefense = Math.max(0, templeDefense - defenseUsed / GameDesc.DEFENSE_STRENGTH);
+            attack -= defenseUsed;
+            templeHealth -= attack;
             _templeView.updateHealth(templeHealth);
+            _templeView.updateDefense(templeDefense);
         }
     }
 
@@ -119,7 +126,7 @@ public class Player extends NetObject
 
         affinitySign = _ctx.players[0] == this ? -1 : 1;
         
-        _templeView = new TempleView();
+        _templeView = new TempleView(_desc.color);
         var loc :Vector2 = _ctx.board.view.boardToLocal(_desc.templeLoc);
         _templeView.display.x = loc.x;
         _templeView.display.y = loc.y;
