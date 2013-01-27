@@ -39,14 +39,10 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
         // build command views
         
         _commandSprites = _commands.map(function (cmd :VillagerCommand, ..._) :CommandSprite {
-            return new CommandSprite(cmd, actionSelected.dispatch);
-        });
-        
-        for each (var cmdSprite :CommandSprite in _commandSprites) {
+            var cmdSprite :CommandSprite = new CommandSprite(cmd, actionSelected.dispatch);
             _sprite.addChild(cmdSprite);
-            cmdSprite.x = cmdSprite.cmd.loc.x;
-            cmdSprite.y = cmdSprite.cmd.loc.y;
-        }
+            return cmdSprite;
+        });
 
         _regs.add(_ctx.selector.registerProvider(this));
         _regs.addSignalListener(_ctx.selector.selectionBegan, function (s :Selectable) :void {
@@ -141,6 +137,9 @@ class CommandSprite extends Sprite
         bg.addChild(title);
         
         addChild(bg);
+        
+        this.x = cmd.loc.x - (bg.width * 0.5);
+        this.y = cmd.loc.y;
     }
     
     protected var _onSelected :Function;
