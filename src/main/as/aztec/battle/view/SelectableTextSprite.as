@@ -5,14 +5,17 @@ package aztec.battle.view {
 
 import aspire.util.Preconditions;
 
+import aztec.Aztec;
 import aztec.text.CustomTextField;
 
 import starling.display.Sprite;
 
 public class SelectableTextSprite extends Sprite
 {
-    public function SelectableTextSprite (text :String, font = "futura", size :Number = 24,
+    public function SelectableTextSprite (text :String, font :String = null, size :Number = 24,
         autoSize :String = "singleLine", maxWidth :Number = 0) {
+        
+        font = (font || Aztec.UI_FONT);
         
         _tf = new CustomTextField(1, 1, text, font, size);
         _tf.color = 0xffffff;

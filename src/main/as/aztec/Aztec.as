@@ -3,7 +3,6 @@
 
 package aztec {
 
-import aspire.geom.Vector2;
 import aspire.util.Randoms;
 
 public class Aztec
