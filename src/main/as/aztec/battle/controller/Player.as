@@ -2,6 +2,7 @@
 // aztec
 
 package aztec.battle.controller {
+
 import aspire.geom.Vector2;
 import aspire.util.Log;
 
@@ -84,7 +85,10 @@ public class Player extends NetObject
             _regs.addSignalListener(verbMenu.verbSelected, function (verbName :String) :void {
                 verbMenu.destroySelf();
                 if (_selectedVillager == villager.ref) {
-                    _ctx.messages
+                    var action :VillagerAction = VillagerAction.valueOf(verbName);
+                    _ctx.messages.doVillagerAction(villager, action);
+                    // hide the selected text
+                    villager.textSprite.deselect();
                 }
             });
             
@@ -123,13 +127,12 @@ public class Player extends NetObject
             _templeView.updateDefense(templeDefense);
         }
     }
-
-    /*public function sacrifice (msg :SacrificeMessage) :void {
-        if (msg.senderOid == _oid) {
-            summonPower++;
-            _heartView.addHeart();
-        }
-    }*/
+    
+    public function sacrifice (villager :Villager) :void {
+        summonPower++;
+        _heartView.addHeart();
+        villager.sacrificed();
+    }
     
     override protected function addedToMode () :void {
         super.addedToMode();

@@ -77,6 +77,9 @@ public class BattleMessages
         } else if (msg is DeselectVillagerMessage) {
             handleDeselectVillager(sender, DeselectVillagerMessage(msg));
             
+        } else if (msg is VillagerActionMessage) {
+            handleVillagerAction(sender, VillagerActionMessage(msg));
+            
         } else if (msg is SummonMessage ) {
             handleSummon(SummonMessage(msg));
         } else {
@@ -103,6 +106,37 @@ public class BattleMessages
             log.warning("DeselectVillager: villager not selected by this player", "msg", msg);
         } else {
             sender.deselectVillager();
+        }
+    }
+    
+    protected function handleVillagerAction (sender :Player, msg :VillagerActionMessage) :void {
+        var action :VillagerAction;
+        try {
+            action = VillagerAction.valueOf(msg.action);
+        } catch (e :Error) {
+            log.warning("handleVillagerAction: unrecognized action", "actionName", msg.action);
+            return;
+        }
+        
+        var villager :Villager = Villager.withName(_ctx, msg.villagerName);
+        if (villager == null) {
+            log.warning("handleVillagerAction: no such villager", "name", msg.villagerName);
+        } else if (sender.selectedVillager != villager) {
+            log.warning("handleVillagerAction: villager not selected by this player", "msg", msg);
+        } else {
+            // performing an action deselects the villager
+            sender.deselectVillager();
+            
+            switch (action) {
+            case VillagerAction.SACRIFICE:
+                sender.sacrifice(villager);
+                _ctx.affinity.handleSacrifice(sender, villager);
+                break;
+            
+            default:
+                log.warning("handleVillagerAction: unhandled action", "action", action);
+                break;
+            }
         }
     }
 

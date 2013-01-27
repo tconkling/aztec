@@ -3,6 +3,8 @@
 
 package aztec.battle.controller {
 
+import aspire.util.Log;
+
 import aztec.battle.BattleCtx;
 import aztec.battle.Selectable;
 import aztec.battle.view.SelectableTextSprite;
@@ -39,6 +41,14 @@ public class Villager extends NetObject
         return _view.textView;
     }
     
+    public function select (player :Player) :void {
+        _view.textView.select(_name.length, player.desc.color);
+    }
+    
+    public function deselect () :void {
+        _view.textView.deselect();
+    }
+    
     public function get isSelected () :Boolean {
         for each (var player :Player in _ctx.players) {
             if (player.selectedVillager == this) {
@@ -48,7 +58,8 @@ public class Villager extends NetObject
         return false;
     }
 
-    public function sacrifice () :void {
+    public function sacrificed () :void {
+        log.warning("TODO: Villager.showSacrificeAnimation");
         destroySelf();
     }
     
@@ -77,5 +88,7 @@ public class Villager extends NetObject
     
     protected var _name :String;
     protected var _view :VillagerView;
+    
+    protected static const log :Log = Log.getLog(Villager);
 }
 }
