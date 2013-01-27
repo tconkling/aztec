@@ -7,6 +7,7 @@ import aspire.util.Log;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.Selectable;
+import aztec.battle.VillagerAction;
 import aztec.battle.view.SelectableTextSprite;
 import aztec.battle.view.VillagerView;
 
@@ -57,9 +58,9 @@ public class Villager extends NetObject
         }
         return false;
     }
-
-    public function sacrificed () :void {
-        log.warning("TODO: Villager.showSacrificeAnimation");
+    
+    public function performAction (action :VillagerAction, forPlayer :Player) :void {
+        log.warning("TODO: villager animation");
         destroySelf();
     }
     

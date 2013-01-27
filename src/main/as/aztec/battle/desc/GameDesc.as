@@ -13,7 +13,9 @@ public class GameDesc
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
     
-    public static const sacrificeAffinityAdjust :Number = 0.2;
+    public static const sacrificeAffinityOffset :Number = -0.2;
+    public static const festivalAffinityOffset :Number = 0.1;
+    public static const worshipDefenseOffset :Number = 0.1;
     
     public static const player1 :PlayerDesc = get_player1();
     public static const player2 :PlayerDesc = get_player2();

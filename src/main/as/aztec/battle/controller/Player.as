@@ -5,10 +5,11 @@ package aztec.battle.controller {
 
 import aspire.geom.Vector2;
 import aspire.util.Log;
+import aspire.util.MathUtil;
 
 import aztec.battle.BattleCtx;
-import aztec.battle.desc.GameDesc;
 import aztec.battle.VillagerAction;
+import aztec.battle.desc.GameDesc;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.ActorVerbMenu;
 import aztec.battle.view.FestivalView;
@@ -20,9 +21,6 @@ import flashbang.core.GameObjectRef;
 
 public class Player extends NetObject
 {
-    public var templeHealth :Number = 1;
-    public var templeDefense :Number = 0;
-    public var summonPower :int = 0;
     public var affinitySign :int;
 
     public static function withOid (ctx :BattleCtx, oid :int) :Player {
@@ -110,28 +108,39 @@ public class Player extends NetObject
 
     public function summon (msg :SummonMessage) :void {
         if (msg.senderOid == _oid) {
-            if (msg.power > summonPower) { log.warning("Asked to summon with more power than present!", "summonPower", summonPower, "requestedPower", msg.power)}
-            var powerUsed :int = Math.min(msg.power, summonPower);
-            summonPower -= powerUsed;
+            if (msg.power > _summonPower) { log.warning("Asked to summon with more power than present!", "summonPower", _summonPower, "requestedPower", msg.power)}
+            var powerUsed :int = Math.min(msg.power, _summonPower);
+            _summonPower -= powerUsed;
             for (; powerUsed > 0; powerUsed--) {
                 _heartView.removeHeart();
             }
         } else {
             var attack :Number = msg.power * .2;
-            var defensePossible :Number = templeDefense * GameDesc.DEFENSE_STRENGTH;
+            var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
             var defenseUsed :Number = Math.min(defensePossible, attack);
-            templeDefense = Math.max(0, templeDefense - defenseUsed / GameDesc.DEFENSE_STRENGTH);
+            offsetDefense(defenseUsed);
             attack -= defenseUsed;
-            templeHealth -= attack;
-            _templeView.updateHealth(templeHealth);
-            _templeView.updateDefense(templeDefense);
+            offsetHealth(-attack);
         }
     }
     
     public function sacrifice (villager :Villager) :void {
-        summonPower++;
+        _summonPower++;
         _heartView.addHeart();
-        villager.sacrificed();
+    }
+    
+    public function worship (villager :Villager) :void {
+        offsetDefense(GameDesc.worshipDefenseOffset);
+    }
+    
+    protected function offsetDefense (offset :Number) :void {
+        _templeDefense = MathUtil.clamp(_templeDefense + offset, 0, 1);
+        _templeView.updateDefense(_templeDefense);
+    }
+    
+    protected function offsetHealth (offset :Number) :void {
+        _templeHealth = MathUtil.clamp(_templeHealth + offset, 0, 1);
+        _templeView.updateHealth(_templeHealth);
     }
     
     override protected function addedToMode () :void {
@@ -164,6 +173,10 @@ public class Player extends NetObject
     protected var _oid :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
+    
+    protected var _templeHealth :Number = 1;
+    protected var _templeDefense :Number = 0;
+    protected var _summonPower :int = 0;
 
     protected var _selectedVillager :GameObjectRef = GameObjectRef.Null();
     

@@ -12,7 +12,11 @@ public class Affinity extends NetObject {
     }
 
     public function handleSacrifice (player :Player, villager :Villager) :void {
-        adjustAffinity(player.affinitySign * GameDesc.sacrificeAffinityAdjust);
+        adjustAffinity(player.affinitySign * GameDesc.sacrificeAffinityOffset);
+    }
+    
+    public function handleFestival (player :Player, villager :Villager) :void {
+        adjustAffinity(player.affinitySign * GameDesc.festivalAffinityOffset);
     }
     
     override public function get objectNames () :Array {

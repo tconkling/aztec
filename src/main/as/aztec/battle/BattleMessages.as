@@ -133,10 +133,21 @@ public class BattleMessages
                 _ctx.affinity.handleSacrifice(sender, villager);
                 break;
             
+            case VillagerAction.FESTIVAL:
+                _ctx.affinity.handleFestival(sender, villager);
+                break;
+            
+            case VillagerAction.WORSHIP:
+                sender.worship(villager);
+                break;
+            
             default:
                 log.warning("handleVillagerAction: unhandled action", "action", action);
                 break;
             }
+            
+            // show an animation and remove self
+            villager.performAction(action, sender);
         }
     }
 
