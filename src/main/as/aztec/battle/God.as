@@ -7,9 +7,9 @@ import aspire.util.Enum;
 
 public final class God extends Enum
 {
-    public static const QUETZ :God  = new God("QUETZ", "Quetzalcoatl", 1);
-    public static const HUITZ :God  = new God("HUITZ", "Huitzilopochtli", 2);
-    public static const TLAH :God  = new God("TLAH", "Tlahuizcalpantecuhtli", 3);
+    public static const QUETZ :God  = new God("QUETZ", "Quetzalcoatl");
+    public static const HUITZ :God  = new God("HUITZ", "Huitzilopochtli");
+    public static const TLAH :God  = new God("TLAH", "Tlahuizcalpantecuhtli");
     finishedEnumerating(God);
     
     /**
@@ -30,20 +30,14 @@ public final class God extends Enum
     public function get displayName () :String {
         return _displayName;
     }
-    
-    public function get level () :int {
-        return _level;
-    }
-    
+
     /** @private */
-    public function God (name :String, displayName :String, level :int) {
+    public function God (name :String, displayName :String) {
         super(name);
         _displayName = displayName;
-        _level = level;
     }
     
     protected var _displayName :String;
-    protected var _level :int;
 }
 }
 

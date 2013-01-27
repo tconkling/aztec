@@ -52,7 +52,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
 
     public function removeHeart () :void {
         for each (var god :God in God.values()) {
-            if (god.level == _active) {
+            if (GameDesc.godHearts(god) == _active) {
                 var selectable :SelectableGod = _selectables.pop();
                 sprite.removeChild(selectable.textSprite);
             }
