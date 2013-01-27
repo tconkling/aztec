@@ -32,7 +32,7 @@ public class BattleMessages
         _mgr.sendMessage(senderOid,  msg);
     }
     
-    public function selectVillager (villager :Villager, senderOid :int = -1) :void {
+    public function selectVillager (villager :Villager, senderOid :int) :void {
         var msg :SelectVillagerMessage = new SelectVillagerMessage();
         msg.villagerName = villager.name;
         _mgr.sendMessage(senderOid,  msg);

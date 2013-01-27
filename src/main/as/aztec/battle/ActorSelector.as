@@ -5,6 +5,8 @@ package aztec.battle {
 
 import aspire.util.Registration;
 
+import aztec.battle.controller.Player;
+
 import aztec.battle.controller.Villager;
 
 public class ActorSelector extends LocalObject
@@ -18,7 +20,7 @@ public class ActorSelector extends LocalObject
         _textSelector = new ActorTextSelector(_ctx);
         _regs.add(_ctx.keyboardInput.registerListener(_textSelector));
         _regs.addSignalListener(_textSelector.selected, function (v :Villager) :void {
-            _ctx.messages.selectVillager(v);
+            _ctx.messages.selectVillager(v, _ctx.localPlayer.oid);
         });
     }
     

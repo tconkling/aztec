@@ -48,7 +48,7 @@ public class Player extends NetObject
     public function get name () :String { return _name; }
     public function get oid () :int { return _oid; }
     public function get desc () :PlayerDesc { return _desc; }
-    
+
     override public function get objectNames () :Array {
         return [ nameForOid(oid) ].concat(super.objectNames);
     }
@@ -127,7 +127,7 @@ public class Player extends NetObject
     protected var _oid :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
-    
+
     protected var _selectedVillager :GameObjectRef = GameObjectRef.Null();
     
     protected var _templeView :TempleView;
