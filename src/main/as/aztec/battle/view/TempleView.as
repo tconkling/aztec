@@ -64,7 +64,7 @@ public class TempleView extends SpriteObject
 
     public function summonGod(god :God) :void {
         var godMovie :MovieObject = MovieObject.create("aztec/" + god.name());
-        godMovie.display.y = -140;
+        godMovie.display.y = -150;
         addDependentObject(godMovie);
         sprite.addChildAt(godMovie.display, 0);
         godMovie.display.scaleY = 0;
