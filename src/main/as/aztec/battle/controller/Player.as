@@ -7,6 +7,7 @@ import aspire.geom.Vector2;
 import aztec.battle.BattleCtx;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.FestivalView;
+import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
 import aztec.battle.BattleCtx;
 import aztec.data.SacrificeMessage;
@@ -74,11 +75,19 @@ public class Player extends NetObject
         _festivalView.display.x = loc.x;
         _festivalView.display.y = loc.y;
         _ctx.viewObjects.addObject(_festivalView, _ctx.board.view.objectLayer);
+
+        _heartView = new HeartView();
+        _heartView.sprite.x = desc.player1 ? 35 : 990;
+        _heartView.sprite.y = 700;
+        _ctx.viewObjects.addObject(_heartView, _ctx.uiLayer);
+
+
     }
     public function sacrifice(msg:SacrificeMessage):void {
         if (msg.senderOid == _oid) {
             villagerAffinity -= .2;
             summonPower++;
+            _heartView.addHeart();
         } else {
             villagerAffinity += .2;
         }
@@ -96,6 +105,7 @@ public class Player extends NetObject
     
     protected var _templeView :TempleView;
     protected var _festivalView :FestivalView;
+    protected var _heartView :HeartView;
 
 }
 }
