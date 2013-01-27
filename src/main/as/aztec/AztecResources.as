@@ -9,6 +9,7 @@ public class AztecResources extends ResourceSet
 {
     public function AztecResources () {
         add(futuraFont());
+        add(herculanumFont());
         add(aztecFlump());
         add(villagerNames());
         add(villagerCommands());
@@ -28,6 +29,16 @@ public class AztecResources extends ResourceSet
             name: "futura",
             xmlData: UIFONT_XML,
             textureData: UIFONT_TEXTURE,
+            scale: 1
+        }
+    }
+    
+    protected function herculanumFont () :Object {
+        return {
+            type: "customFont",
+            name: "herculanum",
+            xmlData: HERCULANUM_XML,
+            textureData: HERCULANUM_TEX,
             scale: 1
         }
     }
@@ -56,6 +67,12 @@ public class AztecResources extends ResourceSet
     
     [Embed(source="../../../../rsrc/fonts/FuturaCondensedExtraBold.png", mimeType="application/octet-stream")]
     protected static const UIFONT_TEXTURE :Class;
+    
+    [Embed(source="../../../../rsrc/fonts/herculanum18.fnt", mimeType="application/octet-stream")]
+    protected static const HERCULANUM_XML :Class;
+    
+    [Embed(source="../../../../rsrc/fonts/herculanum18.png", mimeType="application/octet-stream")]
+    protected static const HERCULANUM_TEX :Class;
     
     [Embed(source="../../../../rsrc/villager_names.xml", mimeType="application/octet-stream")]
     protected static const VILLAGER_NAMES_XML :Class;

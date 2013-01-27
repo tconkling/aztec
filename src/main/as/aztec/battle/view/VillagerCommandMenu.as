@@ -48,7 +48,7 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
             var bg :Sprite = DisplayUtil.outlineFillRect(
                 textSprite.width + (HMARGIN * 2),
                 textSprite.height + (VMARGIN * 2),
-                0xDEDC00,   // fill color
+                0x707070,   // fill color
                 2,
                 0x000000);  // outline color
             textSprite.x = HMARGIN;
@@ -72,12 +72,14 @@ import aztec.battle.Selectable;
 import aztec.battle.VillagerCommand;
 import aztec.battle.view.SelectableTextSprite;
 
+import starling.text.TextFieldAutoSize;
+
 class SelectableCommand extends VillagerCommand
     implements Selectable
 {
     public function SelectableCommand (cmd :VillagerCommand, onSelected :Function) {
         super(cmd.action, cmd.text, cmd.loc);
-        _textSprite = new SelectableTextSprite(cmd.text);
+        _textSprite = new SelectableTextSprite(cmd.text, "herculanum", 18, TextFieldAutoSize.MULTI_LINE, 400);
         _onSelected = onSelected;
     }
     

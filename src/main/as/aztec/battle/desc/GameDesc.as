@@ -6,7 +6,6 @@ package aztec.battle.desc {
 import aspire.geom.Vector2;
 
 import aztec.battle.God;
-import aztec.battle.VillagerAction;
 
 public class GameDesc
 {
@@ -56,8 +55,8 @@ public class GameDesc
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
         // TODO
-        desc.sacrificeCommandLoc.x = 100;
-        desc.sacrificeCommandLoc.y = 100;
+        desc.sacrificeCommandLoc.x = 40;
+        desc.sacrificeCommandLoc.y = 152;
         desc.festivalCommandLoc.x = 500;
         desc.festivalCommandLoc.y = 100;
         desc.worshipCommandLoc.x = 900;

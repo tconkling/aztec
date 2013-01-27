@@ -19,7 +19,7 @@ public class VillagerCommandGenerator extends LocalObject
         var commandList :Array = _texts.get(action);
         
         commandList = commandList.filter(function (cmd :CommandText, ..._) :Boolean {
-            return (normalizedAffinity > cmd.minAffinity);
+            return (normalizedAffinity >= cmd.minAffinity);
         });
         
         var highestAffinity :Number = CommandText(commandList[0]).minAffinity;
