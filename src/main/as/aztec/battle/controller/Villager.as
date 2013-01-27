@@ -11,6 +11,14 @@ import aztec.battle.VillagerAction;
 import aztec.battle.view.SelectableTextSprite;
 import aztec.battle.view.VillagerView;
 
+import flashbang.objects.MovieObject;
+import flashbang.tasks.FunctionTask;
+import flashbang.tasks.SelfDestructTask;
+import flashbang.tasks.SerialTask;
+import flashbang.tasks.TimedTask;
+
+import flump.display.Movie;
+
 import org.osflash.signals.Signal;
 
 public class Villager extends NetObject
@@ -68,7 +76,18 @@ public class Villager extends NetObject
     }
     
     public function performAction (action :VillagerAction, forPlayer :Player) :void {
-        log.warning("TODO: villager animation");
+        if (action == VillagerAction.SACRIFICE) {
+            var movie :MovieObject = MovieObject.create("aztec/sacrifice");
+            Movie(movie.display).playOnce();
+            movie.display.x = forPlayer.desc.sacrificeLoc.x;
+            movie.display.y = forPlayer.desc.sacrificeLoc.y;
+            _ctx.viewObjects.addObject(movie, _ctx.effectLayer);
+            movie.addTask(new SerialTask(
+                new FunctionTask(function () :Boolean {
+                    return !(Movie(movie.display).isPlaying);
+                }),
+                new SelfDestructTask()));
+        }
         destroySelf();
     }
     

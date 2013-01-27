@@ -63,6 +63,9 @@ public class GameDesc
         desc.festivalCommandLoc.y = 498;
         desc.worshipCommandLoc.x = 348;
         desc.worshipCommandLoc.y = 332;
+        
+        desc.sacrificeLoc.x = 114;
+        desc.sacrificeLoc.y = 239;
         return desc;
     }
     
@@ -83,6 +86,9 @@ public class GameDesc
         desc.festivalCommandLoc.y = 498;
         desc.worshipCommandLoc.x = 348;
         desc.worshipCommandLoc.y = 332;
+        
+        desc.sacrificeLoc.x = 820;
+        desc.sacrificeLoc.y = 221;
         return desc;
     }
 }

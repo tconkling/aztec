@@ -41,6 +41,7 @@ public class BattleCtx extends GameObject
     
     public var boardLayer :Sprite = new Sprite();
     public var uiLayer :Sprite = new Sprite();
+    public var effectLayer :Sprite = new Sprite();
     
     public var keyboardInput :KeyboardInput = new KeyboardInput();
     
