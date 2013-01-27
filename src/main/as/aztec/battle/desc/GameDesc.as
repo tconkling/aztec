@@ -18,6 +18,8 @@ public class GameDesc
         desc.color = 0xFF2109;
         desc.templeLoc.x = 2;
         desc.templeLoc.y = 6;
+        desc.festivalLoc.x = 4;
+        desc.festivalLoc.y = 10;
         return desc;
     }
     
@@ -26,6 +28,8 @@ public class GameDesc
         desc.color = 0x1BDE23;
         desc.templeLoc.x = 14;
         desc.templeLoc.y = 6;
+        desc.festivalLoc.x = 12;
+        desc.festivalLoc.y = 10;
         return desc;
     }
 }

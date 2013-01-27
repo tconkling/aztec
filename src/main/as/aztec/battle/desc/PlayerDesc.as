@@ -9,5 +9,6 @@ public class PlayerDesc
 {
     public var color :uint;
     public const templeLoc :Vector2 = new Vector2();
+    public const festivalLoc :Vector2 = new Vector2();
 }
 }

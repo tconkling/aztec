@@ -6,6 +6,7 @@ import aspire.geom.Vector2;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.desc.PlayerDesc;
+import aztec.battle.view.FestivalView;
 import aztec.battle.view.TempleView;
 import aztec.battle.BattleCtx;
 import aztec.data.SacrificeMessage;
@@ -67,6 +68,12 @@ public class Player extends NetObject
         _templeView.display.x = loc.x;
         _templeView.display.y = loc.y;
         _ctx.viewObjects.addObject(_templeView, _ctx.board.view.objectLayer);
+
+        _festivalView = new FestivalView();
+        loc = _ctx.board.view.boardToLocal(_desc.festivalLoc);
+        _festivalView.display.x = loc.x;
+        _festivalView.display.y = loc.y;
+        _ctx.viewObjects.addObject(_festivalView, _ctx.board.view.objectLayer);
     }
     public function sacrifice(msg:SacrificeMessage):void {
         if (msg.senderOid == _oid) {
@@ -88,6 +95,7 @@ public class Player extends NetObject
     protected var _selectedVillager :GameObjectRef = GameObjectRef.Null();
     
     protected var _templeView :TempleView;
+    protected var _festivalView :FestivalView;
 
 }
 }
