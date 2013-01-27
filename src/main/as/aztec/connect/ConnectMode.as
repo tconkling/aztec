@@ -25,6 +25,17 @@ public class ConnectMode extends AppMode
         addObject(nameEntry, modeSprite);
     }
 
+    override protected function enter () :void {
+        if (_client == null) {
+            return;
+        }
+        var startMatch :StartMatchView = new StartMatchView();
+        _regs.addOneShotSignalListener(startMatch.startEntered, function () :void {
+            _client.findMatch();
+        });
+        addObject(startMatch, modeSprite);
+    }
+
     override public function onKeyDown (keyEvent :KeyboardEvent) :void {
         if (!keyboardInput.handleKeyboardEvent(keyEvent)) {
             super.onKeyDown(keyEvent);

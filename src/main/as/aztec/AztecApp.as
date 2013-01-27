@@ -30,7 +30,7 @@ public class AztecApp extends FlashbangApp
         var rsrcs :AztecResources = new AztecResources();
         rsrcs.load(
             function () :void {
-                createViewport("debug").pushMode(new DebugOverlayMode());
+//                createViewport("debug").pushMode(new DebugOverlayMode());
                 if (Aztec.MULTIPLAYER) {
                     defaultViewport.pushMode(new ConnectMode());
                 } else {

@@ -2,10 +2,10 @@ package aztec.connect {
 import aspire.ui.KeyboardCodes;
 
 import aztec.Aztec;
-
 import aztec.input.KeyboardListener;
 
 import flashbang.objects.SpriteObject;
+import flashbang.resource.ImageResource;
 
 import org.osflash.signals.Signal;
 
@@ -17,10 +17,10 @@ public class NameEntryView extends SpriteObject implements KeyboardListener {
     public const nameEntered :Signal = new Signal(String);
 
     public function NameEntryView () {
-        var label :TextField = new TextField(200, 30,"Enter your name:", Aztec.UI_FONT, 24);
-        sprite.addChild(label);
+        _sprite.addChild(ImageResource.createImage("aztec/img_intro"));
         _textField = new TextField(200, 30, "", Aztec.UI_FONT, 24);
-        _textField.y = 30;
+        _textField.y = 627;
+        _textField.x = 184;
         _sprite.addChild(_textField);
     }
 
@@ -31,12 +31,11 @@ public class NameEntryView extends SpriteObject implements KeyboardListener {
 
         if (e.keyCode == KeyboardCodes.ENTER) {
             if (_textField.text.length > 0) {
-                trace("ENTER " + _textField.text.length + " dispatching "+ nameEntered);
                 nameEntered.dispatch(_textField.text);
             }
         } else if (e.keyCode == KeyboardCodes.BACKSPACE) {
             _textField.text = _textField.text.substring(0, _textField.text.length - 1);
-        } else {
+        } else if (_textField.text.length < 20) {
             _textField.text += String.fromCharCode(e.charCode);
         }
 

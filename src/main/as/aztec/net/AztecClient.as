@@ -29,20 +29,23 @@ public class AztecClient extends Client {
         addServiceGroup("aztec");
         setServer(Aztec.SERVER, [47624]);
     }
+    public function findMatch() :void {
+        log.info("Looking for match");
+        requireService(MatchmakerService).findMatch();
+    }
 
     override public function gotClientObject (clobj :ClientObject) :void {
         super.gotClientObject(clobj);
         AztecClientObject(clobj).matchOidChanged.add(function (newMatchOid :int, oldMatchOid: int) :void {
             if (newMatchOid == -1) {
-                log.info("Left match, looking for new one");
-                requireService(MatchmakerService).findMatch();
+                log.info("Left match");
             } else {
                 log.info("Got match, subscribing", "matchOid", newMatchOid);
                 _omgr.subscribeToObject(newMatchOid, new SubscriberAdapter(onMatchSubscribe, onMatchSubscribeFail));
             }
         });
-        requireService(MatchmakerService).findMatch();
     }
+
 
     private function onMatchSubscribe (dobj :DObject) :void {
         log.info("Subscribed", "MatchObj", MatchObject(dobj));
