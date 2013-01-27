@@ -28,19 +28,19 @@ public class GameDesc
         desc.festivalLoc.x = 4;
         desc.festivalLoc.y = 10;
         desc.heartLoc.x = 35;
-        desc.heartLoc.y = 700;
+        desc.heartLoc.y = 200;
         return desc;
     }
     
     protected static function get_player2 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0x1B23DE;
-        desc.templeLoc.x = 14;
+        desc.templeLoc.x = 13;
         desc.templeLoc.y = 6;
         desc.festivalLoc.x = 12;
         desc.festivalLoc.y = 10;
         desc.heartLoc.x = 990;
-        desc.heartLoc.y = 700;
+        desc.heartLoc.y = 200;
         return desc;
     }
 }
