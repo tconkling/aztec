@@ -3,17 +3,18 @@
 
 package aztec.battle {
 
-import starling.display.Sprite;
-
 import aspire.util.Random;
 import aspire.util.Randoms;
 
-import flashbang.core.GameObject;
-
-import aztec.net.MessageMgr;
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
+import aztec.input.KeyboardInput;
+import aztec.net.MessageMgr;
+
+import flashbang.core.GameObject;
+
+import starling.display.Sprite;
 
 public class BattleCtx extends GameObject
 {
@@ -26,6 +27,8 @@ public class BattleCtx extends GameObject
     
     public var boardLayer :Sprite = new Sprite();
     public var uiLayer :Sprite = new Sprite();
+    
+    public var keyboardInput :KeyboardInput = new KeyboardInput();
     
     public function randomsFor (obj :GameObject) :Randoms {
         return (obj is NetObject ? _netRandoms : _viewRandoms);

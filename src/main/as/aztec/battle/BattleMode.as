@@ -3,13 +3,7 @@
 
 package aztec.battle {
 
-import starling.display.DisplayObjectContainer;
-
 import aspire.util.Preconditions;
-
-import flashbang.core.AppMode;
-import flashbang.core.GameObject;
-import flashbang.core.GameObjectRef;
 
 import aztec.Aztec;
 import aztec.battle.controller.BattleBoard;
@@ -23,10 +17,29 @@ import aztec.data.AztecMessage;
 import aztec.data.MoveMessage;
 import aztec.net.MessageMgr;
 
+import flashbang.core.AppMode;
+import flashbang.core.GameObject;
+import flashbang.core.GameObjectRef;
+
+import starling.display.DisplayObjectContainer;
+import starling.events.KeyboardEvent;
+
 public class BattleMode extends AppMode
 {
     public function BattleMode (messageMgr: MessageMgr) {
         _msgMgr = messageMgr;
+    }
+    
+    override public function onKeyDown (keyEvent :KeyboardEvent) :void {
+        if (!_ctx.keyboardInput.handleKeyboardEvent(keyEvent)) {
+            super.onKeyDown(keyEvent);
+        }
+    }
+    
+    override public function onKeyUp (keyEvent :KeyboardEvent) :void {
+        if (!_ctx.keyboardInput.handleKeyboardEvent(keyEvent)) {
+            super.onKeyUp(keyEvent);
+        }
     }
     
     override protected function setup () :void {
