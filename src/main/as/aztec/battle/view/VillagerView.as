@@ -14,6 +14,10 @@ import aztec.battle.desc.GameDesc;
 import flash.geom.Rectangle;
 
 import flashbang.resource.MovieResource;
+import flashbang.tasks.FunctionTask;
+import flashbang.tasks.LocationTask;
+import flashbang.tasks.SerialTask;
+import flashbang.tasks.TimedTask;
 
 import flump.display.Movie;
 
@@ -45,13 +49,42 @@ public class VillagerView extends LocalSpriteObject
         _movie.loop();
         
         // generate our loc
-        _loc = pickRandomLoc();
+        var loc :Vector2 = pickRandomLoc();
+        _sprite.x = loc.x;
+        _sprite.y = loc.y;
+        
+        addTask(new SerialTask(
+            new TimedTask(rands.getNumberInRange(0, 2)),
+            new FunctionTask(walk)));
     }
     
     override protected function update (dt :Number) :void {
-        _sprite.x = _loc.x;
-        _sprite.y = _loc.y;
+        super.update(dt);
         _movie.advanceTime(dt);
+    }
+    
+    protected function walk () :void {
+        var curLoc :Vector2 = new Vector2(_sprite.x, _sprite.y);
+        var nextLoc :Vector2 = pickRandomLoc();
+        while (nextLoc.epsilonEquals(curLoc)) {
+            nextLoc = pickRandomLoc();
+        }
+        
+        var rands :Randoms = _ctx.randomsFor(this);
+        
+        var speed :Number = rands.getNumberInRange(10, 30);
+        var dist :Number = nextLoc.subtract(curLoc).length;
+        var time :Number = dist / speed;
+        var pause :Number = rands.getNumberInRange(0.5, 5);
+        if (nextLoc.x < curLoc.x) {
+            _movie.scaleX = -1;
+        } else if (nextLoc.x > curLoc.x) {
+            _movie.scaleX = 1;
+        }
+        addTask(new SerialTask(
+            new LocationTask(nextLoc.x, nextLoc.y, time),
+            new TimedTask(pause),
+            new FunctionTask(walk)));
     }
     
     protected function pickRandomLoc () :Vector2 {
@@ -66,8 +99,6 @@ public class VillagerView extends LocalSpriteObject
     
     protected var _movie :Movie;
     protected var _textView :SelectableTextSprite;
-    
-    protected var _loc :Vector2;
     
     protected static const SCRATCH :Vector2 = new Vector2();
 }
