@@ -1,6 +1,7 @@
 package aztec.battle.controller {
 
 import aztec.battle.LocalObject;
+import aztec.battle.VillagerAction;
 import aztec.battle.view.DebugView;
 
 public class BattleDebug extends LocalObject {
@@ -20,7 +21,7 @@ public class BattleDebug extends LocalObject {
     }
 
     public function sacrifice(senderOid :int):void {
-        _ctx.messages.sacrifice(Villager.getAll(_ctx)[0], senderOid);
+        _ctx.messages.doVillagerAction(Villager.getAll(_ctx)[0], VillagerAction.SACRIFICE, senderOid);
     }
 
     public function summon(senderOid :int):void {

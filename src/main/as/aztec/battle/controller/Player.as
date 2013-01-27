@@ -7,12 +7,12 @@ import aspire.util.Log;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.desc.GameDesc;
+import aztec.battle.VillagerAction;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.ActorVerbMenu;
 import aztec.battle.view.FestivalView;
 import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
-import aztec.data.SacrificeMessage;
 import aztec.data.SummonMessage;
 
 import flashbang.core.GameObjectRef;
@@ -72,11 +72,21 @@ public class Player extends NetObject
         
         if (this.isLocalPlayer) {
             // throw up a verb menu
-            const VERBS :Vector.<String> = new <String>[ "Worship", "Festival", "Temple" ];
-            var verbMenu :ActorVerbMenu = new ActorVerbMenu(VERBS);
+            var verbs :Array = VillagerAction.values().map(
+                function (o :VillagerAction, ..._) :String {
+                    return o.name();
+                });
+            var verbMenu :ActorVerbMenu = new ActorVerbMenu(verbs);
             verbMenu.display.x = 400;
             verbMenu.display.y = 200
             _ctx.viewObjects.addObject(verbMenu, _ctx.uiLayer);
+            
+            _regs.addSignalListener(verbMenu.verbSelected, function (verbName :String) :void {
+                verbMenu.destroySelf();
+                if (_selectedVillager == villager.ref) {
+                    _ctx.messages
+                }
+            });
             
             _regs.addSignalListener(verbMenu.canceled, function () :void {
                 verbMenu.destroySelf();
@@ -114,12 +124,12 @@ public class Player extends NetObject
         }
     }
 
-    public function sacrifice(msg:SacrificeMessage):void {
+    /*public function sacrifice (msg :SacrificeMessage) :void {
         if (msg.senderOid == _oid) {
             summonPower++;
             _heartView.addHeart();
         }
-    }
+    }*/
     
     override protected function addedToMode () :void {
         super.addedToMode();

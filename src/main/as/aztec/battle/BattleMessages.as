@@ -10,9 +10,9 @@ import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.DeselectVillagerMessage;
-import aztec.data.SacrificeMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.data.SummonMessage;
+import aztec.data.VillagerActionMessage;
 import aztec.net.MessageMgr;
 
 public class BattleMessages
@@ -20,11 +20,6 @@ public class BattleMessages
     public function BattleMessages (ctx :BattleCtx, mgr :MessageMgr) {
         _ctx = ctx;
         _mgr = mgr;
-    }
-
-    public function sacrifice (villager :Villager, senderOid :int = 0) :void {
-        var msg :SacrificeMessage = new SacrificeMessage(villager.name);
-        _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
 
     public function summon (senderOid :int = 0) :void {
@@ -42,6 +37,14 @@ public class BattleMessages
     public function deselectVillager (villager :Villager, senderOid :int = 0) :void {
         var msg :DeselectVillagerMessage = new DeselectVillagerMessage();
         msg.villagerName = villager.name;
+        _mgr.sendMessage(defaultToLocal(senderOid), msg);
+    }
+    
+    public function doVillagerAction (villager :Villager, action :VillagerAction,
+        senderOid :int = 0) :void {
+        var msg :VillagerActionMessage = new VillagerActionMessage();
+        msg.villagerName = villager.name;
+        msg.action = action.name();
         _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
     
@@ -74,9 +77,6 @@ public class BattleMessages
         } else if (msg is DeselectVillagerMessage) {
             handleDeselectVillager(sender, DeselectVillagerMessage(msg));
             
-        } else if (msg is SacrificeMessage) {
-            handleSacrifice(SacrificeMessage(msg));
-            
         } else if (msg is SummonMessage ) {
             handleSummon(SummonMessage(msg));
         } else {
@@ -104,13 +104,6 @@ public class BattleMessages
         } else {
             sender.deselectVillager();
         }
-    }
-
-    protected function handleSacrifice (msg :SacrificeMessage) :void  {
-        for each (var player :Player in _ctx.netObjects.getObjectsInGroup(Player)) {
-            player.sacrifice(msg);
-        }
-        Villager.withName(_ctx, msg.villager).sacrifice();
     }
 
     protected function handleSummon (msg :SummonMessage) :void {

@@ -20,7 +20,7 @@ public class ActorVerbMenu extends LocalSpriteObject
         return _verbSelector.canceled;
     }
     
-    public function ActorVerbMenu (verbNames :Vector.<String>) {
+    public function ActorVerbMenu (verbNames :Array) {
         _verbNames = verbNames;
     }
     
@@ -65,7 +65,7 @@ public class ActorVerbMenu extends LocalSpriteObject
         });
     }
     
-    protected var _verbNames :Vector.<String>;
+    protected var _verbNames :Array;
     protected var _verbSelector :VerbSelector;
 }
 }
