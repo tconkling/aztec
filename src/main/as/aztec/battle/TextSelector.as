@@ -18,10 +18,7 @@ public class TextSelector extends LocalObject
     implements KeyboardListener
 {
     public const canceled :Signal = new Signal();
-
-    public function TextSelector (selectionColor :uint) {
-        _selectionColor = selectionColor;
-    }
+    public var selectionColor :uint;
 
     public function registerProvider (provider :SelectableProvider) :Registration {
         _providers.push(provider);
@@ -86,7 +83,7 @@ public class TextSelector extends LocalObject
                 while (_selectionLength < this.curText.length && getLetter(_curSelectable, _selectionLength) == " ") {
                     _selectionLength++;
                 }
-                _curSelectable.textSprite.select(_selectionLength, _selectionColor);
+                _curSelectable.textSprite.select(_selectionLength, selectionColor);
             }
         }
         
@@ -154,6 +151,5 @@ public class TextSelector extends LocalObject
     protected var _providers :Array = [];
     protected var _curSelectable :Selectable;
     protected var _selectionLength :int;
-    protected var _selectionColor :uint;
 }
 }

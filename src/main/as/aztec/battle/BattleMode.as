@@ -56,6 +56,10 @@ public class BattleMode extends AppMode
         _ctx.netObjects = new NetObjectDB(_ctx);
         
         _ctx.messages = new BattleMessages(_ctx, _msgMgr);
+
+        // Text Selection
+        _ctx.selector = new TextSelector();
+        addObject(_ctx.selector);
         
         // board
         var board :BattleBoard = new BattleBoard();
@@ -68,12 +72,10 @@ public class BattleMode extends AppMode
         _ctx.netObjects.addObject(_player1);
         _ctx.netObjects.addObject(_player2);
         _ctx.localPlayer = _player1.isLocalPlayer ? _player1 : _player2;
+        _ctx.selector.selectionColor = _ctx.localPlayer.desc.color;
         _ctx.players[0] = _player1;
         _ctx.players[1] = _player2;
 
-        // Text Selection
-        _ctx.selector = new TextSelector(_ctx.localPlayer.desc.color);
-        addObject(_ctx.selector);
         addObject(new VillagerSelectables());
 
         // Affinity
