@@ -27,7 +27,7 @@ public class VillagerView extends LocalSpriteObject
         _textView = new SelectableTextSprite(StringUtil.capitalize(villager.name));
         var bounds :Rectangle = _sprite.getBounds(_sprite);
         _textView.x = ((bounds.width - _textView.width) * 0.5) + bounds.x;
-        _textView.y = -_textView.height + bounds.y;
+        _textView.y = -_textView.height + bounds.y - 4;
         _sprite.addChild(_textView);
         
         _regs.addSignalListener(villager.destroyed, destroySelf);
@@ -40,6 +40,9 @@ public class VillagerView extends LocalSpriteObject
     override protected function addedToMode () :void {
         super.addedToMode();
         
+        _movie.goTo(_ctx.randomsFor(this).getInRange(0, _movie.frames));
+        _movie.loop();
+        
         // generate our loc
         var dist :Number = rands().getNumberInRange(0, GameDesc.villagerSpread);
         var angle :Number = rands().getNumberInRange(0, Math.PI * 2);
@@ -50,6 +53,7 @@ public class VillagerView extends LocalSpriteObject
     override protected function update (dt :Number) :void {
         _sprite.x = _loc.x;
         _sprite.y = _loc.y;
+        _movie.advanceTime(dt);
     }
     
     protected var _actor :Villager;
