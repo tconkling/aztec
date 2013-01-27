@@ -23,7 +23,7 @@ public class AztecResources extends ResourceSet
     
     protected function futuraFont () :Object {
         return {
-            type: "font",
+            type: "customFont",
             name: "futura",
             xmlData: UIFONT_XML,
             textureData: UIFONT_TEXTURE,

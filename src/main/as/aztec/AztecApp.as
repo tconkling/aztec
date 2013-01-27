@@ -6,17 +6,17 @@ package aztec {
 import aspire.util.Cloneable;
 import aspire.util.Log;
 
-import aztec.battle.controller.Player;
-
-import aztec.battle.desc.GameDesc;
-
-import flashbang.core.Config;
-import flashbang.core.FlashbangApp;
-
 import aztec.battle.BattleMode;
+import aztec.battle.controller.Player;
+import aztec.battle.desc.GameDesc;
 import aztec.connect.ConnectMode;
 import aztec.debug.DebugOverlayMode;
 import aztec.net.LoopbackMessageMgr;
+import aztec.text.CustomFontLoader;
+
+import flashbang.core.Config;
+import flashbang.core.Flashbang;
+import flashbang.core.FlashbangApp;
 
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
@@ -25,6 +25,8 @@ public class AztecApp extends FlashbangApp
     Cloneable;
     
     override protected function run () :void {
+        Flashbang.rsrcs.registerResourceLoader("customFont", CustomFontLoader);
+        
         var rsrcs :AztecResources = new AztecResources();
         rsrcs.load(
             function () :void {
