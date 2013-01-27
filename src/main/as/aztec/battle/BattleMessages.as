@@ -3,9 +3,12 @@
 
 package aztec.battle {
 
+import aspire.util.Log;
+
 import aztec.Aztec;
+import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
-import aztec.data.MoveMessage;
+import aztec.data.SelectVillagerMessage;
 import aztec.net.MessageMgr;
 
 public class BattleMessages
@@ -13,6 +16,12 @@ public class BattleMessages
     public function BattleMessages (ctx :BattleCtx, mgr :MessageMgr) {
         _ctx = ctx;
         _mgr = mgr;
+    }
+    
+    public function selectVillager (villager :Villager) :void {
+        var msg :SelectVillagerMessage = new SelectVillagerMessage();
+        msg.villagerName = villager.name;
+        _mgr.sendMessage(msg);
     }
     
     public function processTicks (dt :Number) :void {
@@ -28,13 +37,23 @@ public class BattleMessages
     }
     
     protected function handleMessage (msg :AztecMessage) :void {
-        if (msg is MoveMessage) {
+        if (msg is SelectVillagerMessage) {
+            var villagerName :String = SelectVillagerMessage(msg).villagerName;
+            var villager :Villager = Villager.withName(_ctx, villagerName);
+            if (villager == null) {
+                log.warning("SelectVillager: no such villager", "name", villagerName);
+            } else {
+                villager.select(msg.senderOid);
+            }
+            
         } else {
-            trace("Unhandled message! " + msg);
+            log.error("Unhandled message!", "msg", msg);
         }
     }
     
     protected var _ctx :BattleCtx;
     protected var _mgr :MessageMgr;
+    
+    protected static const log :Log = Log.getLog(BattleMessages);
 }
 }

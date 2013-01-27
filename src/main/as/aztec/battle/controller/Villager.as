@@ -24,6 +24,16 @@ public class Villager extends NetObject
         _name = name;
     }
     
+    public function select (playerOid :int) :void {
+        _selectedByPlayerOid = playerOid;
+        _view.textView.select(_name.length);
+    }
+    
+    public function deselect () :void {
+        _selectedByPlayerOid = 0;
+        _view.textView.deselect();
+    }
+    
     public function get name () :String {
         return _name;
     }
@@ -57,6 +67,7 @@ public class Villager extends NetObject
     
     protected var _name :String;
     protected var _view :VillagerView;
+    protected var _selectedByPlayerOid :int;
     
     protected static const GROUP :String = "Villager";
 }

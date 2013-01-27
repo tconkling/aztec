@@ -3,30 +3,31 @@
 // GENERATED PREAMBLE START
 package aztec.data {
 
+import aztec.data.AztecMessage;
+
 import com.threerings.io.ObjectInputStream;
 import com.threerings.io.ObjectOutputStream;
-import com.threerings.io.SimpleStreamableObject;
 
 // GENERATED PREAMBLE END
 
 // GENERATED CLASSDECL START
-public class AztecMessage extends SimpleStreamableObject
+public class SelectVillagerMessage extends AztecMessage
 {
 // GENERATED CLASSDECL END
 
 // GENERATED STREAMING START
-    public var senderOid :int;
+    public var villagerName :String;
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
-        senderOid = ins.readInt();
+        villagerName = ins.readField(String);
     }
 
     override public function writeObject (out :ObjectOutputStream) :void
     {
         super.writeObject(out);
-        out.writeInt(senderOid);
+        out.writeField(villagerName);
     }
 
 // GENERATED STREAMING END

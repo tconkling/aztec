@@ -26,15 +26,17 @@ public class ActorSelector extends LocalObject
         
         var curActor :Villager = this.curActor;
         
-        // escape deselects the actor
         if (e.keyCode == KeyboardCodes.ESCAPE && curActor != null) {
+            // escape deselects the actor
             deselectCurActor();
             return true;
             
         } else if (e.keyCode == KeyboardCodes.ENTER &&
+            // return/enter sends the "select actor" message over the network
             curActor != null &&
             _selectionLength >= curActor.name.length) {
-            // TODO: send a selection message over the network
+            _ctx.messages.selectVillager(curActor);
+            _actor = GameObjectRef.Null();
             return true;
         }
         
