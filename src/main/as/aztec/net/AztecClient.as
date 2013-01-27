@@ -24,8 +24,8 @@ public class AztecClient extends Client {
 
     public const onMatchObject :Signal = new Signal(MatchObject);
 
-    public function AztecClient() {
-        super(new UsernamePasswordCreds(new Name("test" + Aztec.rands.getInt(100000)), "test"));
+    public function AztecClient(name :String) {
+        super(new UsernamePasswordCreds(new Name(name), "test"));
         addServiceGroup("aztec");
         setServer(Aztec.SERVER, [47624]);
     }
