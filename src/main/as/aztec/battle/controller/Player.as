@@ -4,9 +4,9 @@
 package aztec.battle.controller {
 import aspire.geom.Vector2;
 
+import aztec.battle.BattleCtx;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.TempleView;
-import aztec.battle.BattleCtx;
 
 public class Player extends NetObject
 {
@@ -14,21 +14,22 @@ public class Player extends NetObject
     public var templeDefense :Number = 0;
     public var summonPower :int = 0;
     
-    public static function withId (ctx :BattleCtx, id :int) :Player {
-        return Player(ctx.netObjects.getObjectNamed(nameForId(id)));
+    public static function withOid (ctx :BattleCtx, oid :int) :Player {
+        return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
     }
     
-    public function get name () :String { return _name; }
-    public function get id () :int { return _id; }
-    
-    public function Player (id :int, name :String, desc :PlayerDesc) {
-        _id = id;
+    public function Player (oid :int, name :String, desc :PlayerDesc) {
+        _oid = oid;
         _name = name;
         _desc = desc;
     }
     
+    public function get name () :String { return _name; }
+    public function get oid () :int { return _oid; }
+    public function get desc () :PlayerDesc { return _desc; }
+    
     override public function get objectNames () :Array {
-        return [ nameForId(id) ].concat(super.objectNames);
+        return [ nameForOid(oid) ].concat(super.objectNames);
     }
     
     override protected function addedToMode () :void {
@@ -41,11 +42,11 @@ public class Player extends NetObject
         _ctx.viewObjects.addObject(_templeView, _ctx.board.view.objectLayer);
     }
     
-    protected static function nameForId (id :int) :String {
-        return "Player_" + id;
+    protected static function nameForOid (oid :int) :String {
+        return "Player_" + oid;
     }
     
-    protected var _id :int;
+    protected var _oid :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
     

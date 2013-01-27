@@ -32,11 +32,13 @@ public class SelectableTextSprite extends Sprite
     }
     
     public function deselect () :void {
-        select(0);
+        select(0, 0);
     }
     
-    public function select (numCharacters :uint) :void {
+    public function select (numCharacters :uint, color :uint) :void {
         Preconditions.checkArgument(numCharacters <= _text.length);
+        
+        _tfSelected.color = color;
         
         _tfSelected.removeFromParent();
         _tfUnselected.removeFromParent();

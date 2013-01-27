@@ -9,6 +9,7 @@ import aspire.util.Randoms;
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
+import aztec.battle.controller.Player;
 import aztec.input.KeyboardInput;
 
 import flashbang.core.GameObject;
@@ -17,6 +18,8 @@ import starling.display.Sprite;
 
 public class BattleCtx extends GameObject
 {
+    public var localPlayer :Player;
+    
     public var netObjects :NetObjectDB;
     public var viewObjects :BattleMode;
     

@@ -6,6 +6,7 @@ package aztec.battle {
 import aspire.util.Log;
 
 import aztec.Aztec;
+import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.SelectVillagerMessage;
@@ -37,13 +38,19 @@ public class BattleMessages
     }
     
     protected function handleMessage (msg :AztecMessage) :void {
+        var sender :Player = Player.withOid(_ctx, msg.senderOid);
+        if (sender == null) {
+            log.warning("Message with unrecognized sender oid", "msg", msg);
+            return;
+        }
+        
         if (msg is SelectVillagerMessage) {
             var villagerName :String = SelectVillagerMessage(msg).villagerName;
             var villager :Villager = Villager.withName(_ctx, villagerName);
             if (villager == null) {
                 log.warning("SelectVillager: no such villager", "name", villagerName);
             } else {
-                villager.select(msg.senderOid);
+                villager.select(sender);
             }
             
         } else {

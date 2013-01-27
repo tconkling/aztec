@@ -59,7 +59,7 @@ public class ActorSelector extends LocalObject
             var nextLetter :String = curActor.name.substr(_selectionLength, 1);
             if (nextLetter == typedLetter) {
                 _selectionLength++;
-                curActor.view.textView.select(_selectionLength);
+                curActor.view.textView.select(_selectionLength, _ctx.localPlayer.desc.color);
             }
         }
         
