@@ -30,6 +30,12 @@ public class ActorSelector extends LocalObject
         if (e.keyCode == KeyboardCodes.ESCAPE && curActor != null) {
             deselectCurActor();
             return true;
+            
+        } else if (e.keyCode == KeyboardCodes.ENTER &&
+            curActor != null &&
+            _selectionLength >= curActor.name.length) {
+            // TODO: send a selection message over the network
+            return true;
         }
         
         var typedLetter :String = String.fromCharCode(e.charCode).toLowerCase();
