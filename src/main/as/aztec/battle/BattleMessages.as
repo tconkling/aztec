@@ -28,7 +28,7 @@ public class BattleMessages
 
     public function summon (senderOid :int) :void {
         var msg :SummonMessage = new SummonMessage();
-        msg.attackStrength = .2;
+        msg.power = 2;
         _mgr.sendMessage(senderOid,  msg);
     }
     
@@ -90,7 +90,9 @@ public class BattleMessages
     }
 
     protected function handleSummon (msg :SummonMessage) :void {
-        Player.withOtherOid(_ctx, msg.senderOid).suffer(msg);
+        for each (var player :Player in _ctx.netObjects.getObjectsInGroup(Player)) {
+            player.summon(msg);
+        }
     }
 
     protected var _ctx :BattleCtx;

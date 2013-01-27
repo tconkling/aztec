@@ -16,18 +16,18 @@ public class SummonMessage extends AztecMessage
 // GENERATED CLASSDECL END
 
 // GENERATED STREAMING START
-    public var attackStrength :Number;
+    public var power :int;
 
     override public function readObject (ins :ObjectInputStream) :void
     {
         super.readObject(ins);
-        attackStrength = ins.readFloat();
+        power = ins.readInt();
     }
 
     override public function writeObject (out :ObjectOutputStream) :void
     {
         super.writeObject(out);
-        out.writeFloat(attackStrength);
+        out.writeInt(power);
     }
 
 // GENERATED STREAMING END

@@ -3,6 +3,7 @@
 
 package aztec.battle.controller {
 import aspire.geom.Vector2;
+import aspire.util.Log;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.desc.PlayerDesc;
@@ -14,6 +15,8 @@ import aztec.data.SacrificeMessage;
 import aztec.data.SummonMessage;
 
 import flashbang.core.GameObjectRef;
+
+import mx.logging.LogLogger;
 
 public class Player extends NetObject
 {
@@ -72,9 +75,18 @@ public class Player extends NetObject
         }
     }
 
-    public function suffer (msg :SummonMessage) :void {
-        templeHealth -= msg.attackStrength;
-        _templeView.updateHealth(templeHealth);
+    public function summon (msg :SummonMessage) :void {
+        if (msg.senderOid == _oid) {
+            if (msg.power > summonPower) { log.warning("Asked to summon with more power than present!", "summonPower", summonPower, "requestedPower", msg.power)}
+            var powerUsed :int = Math.min(msg.power, summonPower);
+            summonPower -= powerUsed;
+            for (; powerUsed > 0; powerUsed--) {
+                _heartView.removeHeart();
+            }
+        } else {
+            templeHealth -= msg.power * .2;
+            _templeView.updateHealth(templeHealth);
+        }
     }
 
     public function sacrifice(msg:SacrificeMessage):void {
@@ -121,5 +133,7 @@ public class Player extends NetObject
     protected var _templeView :TempleView;
     protected var _festivalView :FestivalView;
     protected var _heartView :HeartView;
+
+    private static const log :Log = Log.getLog(Player);
 }
 }
