@@ -33,7 +33,6 @@ public class ConnectMode extends AppMode
         }
     }
 
-
     override protected function exit():void {
         super.exit();
         _startMatch.destroySelf();

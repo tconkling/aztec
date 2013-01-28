@@ -10,7 +10,6 @@ import aztec.battle.BattleMode;
 import aztec.battle.controller.Player;
 import aztec.battle.desc.GameDesc;
 import aztec.connect.ConnectMode;
-import aztec.debug.DebugOverlayMode;
 import aztec.net.LoopbackMessageMgr;
 import aztec.text.CustomFontLoader;
 

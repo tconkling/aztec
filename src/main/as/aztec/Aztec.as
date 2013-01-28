@@ -5,9 +5,7 @@ package aztec {
 
 import aspire.util.Randoms;
 
-public class Aztec
-{
-
+public class Aztec {
     public static const START_INITIAL :String = "initial";
     public static const START_WIN :String = "win";
     public static const START_LOST :String = "lost";
@@ -18,10 +16,16 @@ public class Aztec
         
     /** Constants */
     public static const UI_FONT :String = "futura";
+    public static const COMMAND_FONT :String = "herculanum";
+    
+    public static const TITLE_FONT :String = "herculanumLarge";
+    public static const TITLE_FONT2 :String = "arial";
+    
+    public static const TITLE_COLOR :uint = 0x192E20;
     
     public static const rands :Randoms = new Randoms();
 
-    public static const MULTIPLAYER :Boolean = false;
+    public static const MULTIPLAYER :Boolean = true;
     public static const SERVER :String = "localhost";
 //    public static const SERVER :String = "aztec.bungleton.com";
 }
