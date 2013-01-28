@@ -1,3 +1,6 @@
+//
+// aztec
+
 package aztec.connect {
 
 import aspire.ui.KeyboardCodes;
@@ -6,34 +9,48 @@ import aztec.Aztec;
 import aztec.input.KeyboardListener;
 
 import flashbang.objects.SpriteObject;
-import flashbang.resource.ImageResource;
+import flashbang.resource.MovieResource;
 
 import org.osflash.signals.Signal;
 
 import starling.events.KeyboardEvent;
-
 import starling.text.TextField;
+import starling.text.TextFieldAutoSize;
+import starling.utils.HAlign;
 
 public class StartMatchView extends SpriteObject implements KeyboardListener {
     public const startEntered :Signal = new Signal();
 
     public function StartMatchView() {
         _textField = new TextField(200, 30, "", Aztec.UI_FONT, 24);
-        var imageName :String;
         if (Aztec.startCondition == Aztec.START_INITIAL) {
-            imageName =  "aztec/img_start_match";
-            _textField.y = 303;
+            _sprite.addChild(MovieResource.createMovie("aztec/start_match_screen"));
+            _sprite.addChild(drawTextAt(160, 349, "Type \"START\" to begin a new match", 14,
+                Aztec.TITLE_FONT2));
             _textField.x = 184;
+            _textField.y = 305;
+            
         } else {
             if (Aztec.startCondition == Aztec.START_WIN) {
-                imageName = "aztec/img_start_win";
+                _sprite.addChild(MovieResource.createMovie("aztec/win_screen"));
+                _sprite.addChild(drawTextAt(160, 228, "QuetzalCoatl\nSmiles!", 70));
+                _sprite.addChild(drawTextAt(160, 385,
+                    "Your sacrifices and typing\nskills have impressed the\ngods", 18,
+                    Aztec.TITLE_FONT2));
             } else {
-                imageName = "aztec/img_start_lose";
+                _sprite.addChild(MovieResource.createMovie("aztec/lose_screen"));
+                _sprite.addChild(drawTextAt(160, 228, "Huitzilopochtli\nRages!", 70));
+                _sprite.addChild(drawTextAt(160, 385,
+                    "More sacrifices must be offered\nto atone for your typing skills", 24,
+                    Aztec.TITLE_FONT2));
             }
-            _textField.y = 627;
+            
+            _sprite.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 14,
+                Aztec.TITLE_FONT2));
+            
             _textField.x = 184;
+            _textField.y = 627;
         }
-        _sprite.addChild(ImageResource.createImage(imageName));
         _sprite.addChild(_textField);
     }
 
@@ -70,6 +87,20 @@ public class StartMatchView extends SpriteObject implements KeyboardListener {
     override protected function addedToMode() :void {
         super.addedToMode();
         _regs.add(ConnectMode(mode).keyboardInput.registerListener(this));
+    }
+    
+    protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
+        font :String = "herculanumLarge") :TextField {
+        
+        var tf :TextField = new TextField(1, 1, text);
+        tf.color = Aztec.TITLE_COLOR;
+        tf.hAlign = HAlign.LEFT;
+        tf.fontName = font
+        tf.fontSize = size;
+        tf.autoSize = TextFieldAutoSize.MULTI_LINE;
+        tf.x = x;
+        tf.y = y;
+        return tf;
     }
 
     protected var _textField :TextField;
