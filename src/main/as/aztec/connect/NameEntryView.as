@@ -36,7 +36,10 @@ public class NameEntryView extends SpriteObject implements KeyboardListener {
         } else if (e.keyCode == KeyboardCodes.BACKSPACE) {
             _textField.text = _textField.text.substring(0, _textField.text.length - 1);
         } else if (_textField.text.length < 20) {
-            _textField.text += String.fromCharCode(e.charCode);
+            var entered :String = String.fromCharCode(e.charCode);
+            if (entered.match(/\w/)) {
+                _textField.text += entered;
+            }
         }
 
         return true;
