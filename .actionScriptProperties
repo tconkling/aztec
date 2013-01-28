@@ -37,6 +37,7 @@
     </sourceAttachmentPath>
   </compiler>
   <applications>
+    <application path="aztec/AztecPreloader.as"/>
     <application path="aztec/AztecApp.as"/>
   </applications>
   <modules/>
