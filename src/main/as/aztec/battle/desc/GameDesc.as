@@ -15,7 +15,6 @@ public class GameDesc
     
     public static const numVillagers :int = 8;
     public static const villagerWalkBounds :Rectangle = new Rectangle(250, 129, 433, 345);
-    public static const villagerSpread :Number = 4 * 64;
 
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;

@@ -9,7 +9,6 @@ public class AztecResources extends ResourceSet
 {
     public function AztecResources () {
         add(futuraFont());
-        add(arialFont());
         add(herculanumFont());
         add(aztecFlump());
         add(villagerNames());
@@ -44,16 +43,6 @@ public class AztecResources extends ResourceSet
         }
     }
     
-    protected function arialFont () :Object {
-        return {
-            type: "customFont",
-            name: "arial",
-            xmlData: ARIAL_XML,
-            textureData: ARIAL_TEX,
-            scale: 1
-        }
-    }
-    
     protected function villagerNames () :Object {
         return {
             type: "xml",
@@ -84,12 +73,6 @@ public class AztecResources extends ResourceSet
     
     [Embed(source="../../../../rsrc/fonts/herculanum18.png", mimeType="application/octet-stream")]
     protected static const HERCULANUM_TEX :Class;
-    
-    [Embed(source="../../../../rsrc/fonts/arial48.fnt", mimeType="application/octet-stream")]
-    protected static const ARIAL_XML :Class;
-    
-    [Embed(source="../../../../rsrc/fonts/arial48.png", mimeType="application/octet-stream")]
-    protected static const ARIAL_TEX :Class;
     
     [Embed(source="../../../../rsrc/villager_names.xml", mimeType="application/octet-stream")]
     protected static const VILLAGER_NAMES_XML :Class;
