@@ -10,6 +10,7 @@ import aztec.battle.BattleMode;
 import aztec.battle.controller.Player;
 import aztec.battle.desc.GameDesc;
 import aztec.connect.ConnectMode;
+import aztec.debug.DebugOverlayMode;
 import aztec.net.LoopbackMessageMgr;
 import aztec.text.CustomFontLoader;
 
@@ -26,10 +27,14 @@ public class AztecApp extends FlashbangApp
     override protected function run () :void {
         Flashbang.rsrcs.registerResourceLoader("customFont", CustomFontLoader);
         
+        Aztec.newGameCondition = NewGameCondition.INITIAL;
+        
         var rsrcs :AztecResources = new AztecResources();
         rsrcs.load(
             function () :void {
-//                createViewport("debug").pushMode(new DebugOverlayMode());
+                if (Aztec.DEBUG) {
+                    createViewport("debug").pushMode(new DebugOverlayMode());
+                }
                 defaultViewport.pushMode(new ConnectMode());
                 if (!Aztec.MULTIPLAYER) {
                     var player1 :Player = new Player(1, "Tim", GameDesc.player1, true);

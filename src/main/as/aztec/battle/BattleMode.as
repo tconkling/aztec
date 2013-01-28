@@ -5,6 +5,7 @@ package aztec.battle {
 
 import aspire.util.Preconditions;
 
+import aztec.Aztec;
 import aztec.battle.controller.Affinity;
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleDebug;
@@ -83,8 +84,9 @@ public class BattleMode extends AppMode
         // Affinity
         _ctx.netObjects.addObject(new Affinity());
 
-        // debug
-//        addObject(new BattleDebug());
+        if (Aztec.DEBUG) {
+            addObject(new BattleDebug());
+        }
     }
     
     override protected function beginUpdate (dt :Number) :void {

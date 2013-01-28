@@ -6,11 +6,11 @@ package aztec.battle {
 import aspire.util.Log;
 
 import aztec.Aztec;
+import aztec.NewGameCondition;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.DeselectVillagerMessage;
-import aztec.data.IWonMessage;
 import aztec.data.IWonMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.data.SummonMessage;
@@ -93,9 +93,9 @@ public class BattleMessages
             handleSummon(sender, SummonMessage(msg));
         } else if (msg is IWonMessage) {
             if (sender == _ctx.localPlayer) {
-                Aztec.startCondition = Aztec.START_WIN;
+                Aztec.newGameCondition = NewGameCondition.WON;
             } else {
-                Aztec.startCondition = Aztec.START_LOST;
+                Aztec.newGameCondition = NewGameCondition.LOST;
             }
             Flashbang.app.defaultViewport.popMode();
         } else {
