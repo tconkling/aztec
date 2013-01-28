@@ -126,7 +126,7 @@ public class Player extends NetObject
             var damage :Number = GameDesc.godDamage(god);
             var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
             var defenseUsed :Number = Math.min(defensePossible, damage);
-            offsetDefense(defenseUsed);
+            offsetDefense(-defenseUsed);
             damage -= defenseUsed;
             offsetHealth(-damage);
         }
