@@ -202,8 +202,8 @@ public class CustomBitmapFont
             throw new ArgumentError("Bitmap Font text is limited to 8192 characters.");
         
         var charIdx :int = 0;
-        for (var ii :int = 0; ii < text.length; ++ii) {
-            if (text.charAt(ii) == " ") {
+        for (var ii :int = 0; ii < text.length && charIdx < numChars; ++ii) {
+            if (isWhitespace(text.charAt(ii))) {
                 continue;
             }
             
@@ -223,6 +223,20 @@ public class CustomBitmapFont
             mHelperImage.y = charLocation.y;
             mHelperImage.scaleX = mHelperImage.scaleY = charLocation.scale;
             quadBatch.addImage(mHelperImage);
+        }
+    }
+    
+    protected static function isWhitespace (char :String) :Boolean {
+        switch (char) {
+        case " ":
+        case "\t":
+        case "\r":
+        case "\n":
+        case "\f":
+            return true;
+            
+        default:
+            return false;
         }
     }
     
