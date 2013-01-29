@@ -8,16 +8,13 @@ import aspire.util.Log;
 import aztec.battle.BattleCtx;
 import aztec.battle.Selectable;
 import aztec.battle.VillagerAction;
+import aztec.battle.desc.GameDesc;
 import aztec.battle.view.SelectableTextSprite;
 import aztec.battle.view.VillagerView;
 
-import flashbang.objects.MovieObject;
 import flashbang.tasks.FunctionTask;
-import flashbang.tasks.SelfDestructTask;
 import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
-
-import flump.display.Movie;
 
 import org.osflash.signals.Signal;
 
@@ -76,19 +73,29 @@ public class Villager extends NetObject
     }
     
     public function performAction (action :VillagerAction, forPlayer :Player) :void {
+        endCurAction();
+        
+        _curAction = action;
+        _owningPlayer = forPlayer;
+        _view.showActionAnim(action, forPlayer);
+        
         if (action == VillagerAction.SACRIFICE) {
-            var movie :MovieObject = MovieObject.create("aztec/sacrifice");
-            Movie(movie.display).playOnce();
-            movie.display.x = forPlayer.desc.sacrificeLoc.x;
-            movie.display.y = forPlayer.desc.sacrificeLoc.y;
-            _ctx.viewObjects.addObject(movie, _ctx.effectLayer);
-            movie.addTask(new SerialTask(
-                new FunctionTask(function () :Boolean {
-                    return !(Movie(movie.display).isPlaying);
-                }),
-                new SelfDestructTask()));
+            destroySelf();
+        } else {
+            addNamedTask(PERFORM_ACTION_TASK, new SerialTask(
+                new TimedTask(_curAction.duration),
+                new FunctionTask(endCurAction)));
         }
-        destroySelf();
+    }
+    
+    protected function endCurAction () :void {
+        if (_curAction != null) {
+            _curAction = null;
+            _owningPlayer = null;
+            removeNamedTasks(PERFORM_ACTION_TASK);
+            
+            _view.showActionAnim(VillagerAction.DEFAULT, null);
+        }
     }
     
     public function get view () :VillagerView {
@@ -101,6 +108,15 @@ public class Villager extends NetObject
     
     override public function get objectGroups () :Array {
         return [ Villager ].concat(super.objectGroups);
+    }
+    
+    override protected function update (dt :Number) :void {
+        super.update(dt);
+        if (_curAction == VillagerAction.FESTIVAL) {
+            _owningPlayer.offsetAffinity(GameDesc.festivalAffinityPerSecond * dt);
+        } else if (_curAction == VillagerAction.WORSHIP) {
+            _owningPlayer.offsetDefense(GameDesc.worshipDefensePerSecond * dt);
+        }
     }
     
     override protected function addedToMode () :void {
@@ -117,6 +133,11 @@ public class Villager extends NetObject
     protected var _name :String;
     protected var _view :VillagerView;
     
+    protected var _curAction :VillagerAction;
+    protected var _owningPlayer :Player;
+    
     protected static const log :Log = Log.getLog(Villager);
+    
+    protected static const PERFORM_ACTION_TASK :String = "PerformAction";
 }
 }

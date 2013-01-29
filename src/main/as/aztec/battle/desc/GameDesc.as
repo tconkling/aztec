@@ -13,15 +13,20 @@ public class GameDesc
 {
     public static const BOARD_SIZE :Vector2 = new Vector2(1024, 768);
     
-    public static const numVillagers :int = 8;
+    public static const numVillagers :int = 6;
     public static const villagerWalkBounds :Rectangle = new Rectangle(250, 129, 433, 345);
 
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
     
+    public static const initialAffinity :Number = 0.7;
+    
     public static const sacrificeAffinityOffset :Number = -0.2;
-    public static const festivalAffinityOffset :Number = 0.1;
-    public static const worshipDefenseOffset :Number = 0.1;
+    
+    public static const festivalTime :Number = 5;
+    public static const worshipTime :Number = 5;
+    public static const festivalAffinityPerSecond :Number = 0.05;
+    public static const worshipDefensePerSecond :Number = 0.05;
 
     public static const MAX_HEARTS :int = 5;
     
@@ -49,10 +54,10 @@ public class GameDesc
     protected static function get_player1 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0xFF2109;
-        desc.templeLoc.x = 2 * 64;
-        desc.templeLoc.y = 7 * 64;
-        desc.festivalLoc.x = 4 * 64;
-        desc.festivalLoc.y = 11 * 64;
+        desc.templeLoc.x = 128;
+        desc.templeLoc.y = 448;
+        desc.festivalLoc.x = 256;
+        desc.festivalLoc.y = 627;
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
         
@@ -71,10 +76,10 @@ public class GameDesc
     protected static function get_player2 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0x1B23DE;
-        desc.templeLoc.x = 13 * 64;
-        desc.templeLoc.y = 7 * 64;
-        desc.festivalLoc.x = 12 * 64;
-        desc.festivalLoc.y = 11 * 64;
+        desc.templeLoc.x = 832;
+        desc.templeLoc.y = 448;
+        desc.festivalLoc.x = 768;
+        desc.festivalLoc.y = 627;
         desc.heartLoc.x = 990;
         desc.heartLoc.y = 170;
         desc.displayedOnRight = true;

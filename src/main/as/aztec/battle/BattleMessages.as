@@ -142,26 +142,7 @@ public class BattleMessages
         } else {
             // performing an action deselects the villager
             sender.deselectVillager();
-            
-            switch (action) {
-            case VillagerAction.SACRIFICE:
-                sender.handleSacrifice(villager);
-                break;
-            
-            case VillagerAction.FESTIVAL:
-                sender.handleFestival(villager);
-                break;
-            
-            case VillagerAction.WORSHIP:
-                sender.worship(villager);
-                break;
-            
-            default:
-                log.warning("handleVillagerAction: unhandled action", "action", action);
-                break;
-            }
-            
-            // show an animation and remove self
+            sender.handleVillagerAction(villager, action);
             villager.performAction(action, sender);
         }
     }

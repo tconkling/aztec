@@ -36,11 +36,13 @@ public class Player extends NetObject
         return ctx.netObjects.getObjectsInGroup(Player);
     }
     
-    public function Player(oid:int, name:String, desc:PlayerDesc, localPlayer:Boolean) {
+    public function Player (oid :int, name :String, desc :PlayerDesc, localPlayer :Boolean) {
         _oid = oid;
         _name = name;
         _desc = desc;
         _localPlayer = localPlayer;
+        
+        _villagerAffinity = GameDesc.initialAffinity;
     }
     
     public function get name () :String { return _name; }
@@ -79,7 +81,10 @@ public class Player extends NetObject
         
         if (this.isLocalPlayer) {
             // show the command menu
-            var commands :Array = VillagerAction.values().map(
+            var commands :Array = VillagerAction.values().filter(
+                function (action :VillagerAction, ..._) :Boolean {
+                    return action != VillagerAction.DEFAULT;
+                }).map(
                 function (action :VillagerAction, ..._) :VillagerCommand {
                     return new VillagerCommand(
                         action,
@@ -131,24 +136,25 @@ public class Player extends NetObject
         }
     }
     
-    public function handleSacrifice (villager :Villager) :void {
-        if (_hearts < GameDesc.MAX_HEARTS) {
-            _hearts++;
-            _heartView.addHeart();
-        }
-        offsetAffinity(GameDesc.sacrificeAffinityOffset);
-    }
-    
-    public function handleFestival (villager :Villager) :void {
-        offsetAffinity(GameDesc.festivalAffinityOffset);
-    }
-    
     public function canSummon (god :God) :Boolean {
         return (_hearts >= GameDesc.godHearts(god));
     }
     
-    public function worship (villager :Villager) :void {
-        offsetDefense(GameDesc.worshipDefenseOffset);
+    public function handleVillagerAction (villager :Villager, action :VillagerAction) :void {
+        switch (action) {
+        case VillagerAction.SACRIFICE:
+            if (_hearts < GameDesc.MAX_HEARTS) {
+                _hearts++;
+                _heartView.addHeart();
+            }
+            offsetAffinity(GameDesc.sacrificeAffinityOffset);
+            break;
+        }
+    }
+    
+    public function offsetDefense (offset :Number) :void {
+        _templeDefense = MathUtil.clamp(_templeDefense + offset, 0, 1);
+        _templeView.updateDefense(_templeDefense);
     }
     
     protected function getCommandText (villager :Villager, action :VillagerAction) :String {
@@ -162,11 +168,6 @@ public class Player extends NetObject
         case VillagerAction.WORSHIP: return _desc.worshipCommandLoc;
         }
         return new Vector2();
-    }
-    
-    protected function offsetDefense (offset :Number) :void {
-        _templeDefense = MathUtil.clamp(_templeDefense + offset, 0, 1);
-        _templeView.updateDefense(_templeDefense);
     }
     
     protected function offsetHealth (offset :Number) :void {
