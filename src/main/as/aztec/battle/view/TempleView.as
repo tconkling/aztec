@@ -28,14 +28,14 @@ public class TempleView extends SpriteObject
         _movie = MovieResource.createMovie("aztec/temple");
         _sprite.addChild(_movie);
         addDependentObject(_healthMeter, _sprite);
-        _healthMeter.sprite.x = -73;
+        _healthMeter.sprite.x = -60;
         _healthMeter.sprite.y = -200;
         _healthMeter.maxValue = 1.0;
         _healthMeter.value = 1.0;
         _healthMeter.foregroundColor = healthColor;
 
         addDependentObject(_defenseMeter, _sprite);
-        _defenseMeter.sprite.x = -73;
+        _defenseMeter.sprite.x = -60;
         _defenseMeter.sprite.y = -230;
         _defenseMeter.maxValue = 1.0;
         _defenseMeter.value = 0.0;
