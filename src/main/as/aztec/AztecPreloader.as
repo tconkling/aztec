@@ -42,8 +42,7 @@ public class AztecPreloader extends MovieClip
         loaderInfo.addEventListener(Event.COMPLETE, onComplete);
     }
     
-    protected function onComplete (event:Event):void {
-        return;
+    protected function onComplete (event:Event) :void {
         // go to frame two because that's where the classes we need are located
         gotoAndStop(2);
         
