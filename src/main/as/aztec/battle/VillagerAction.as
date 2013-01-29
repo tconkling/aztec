@@ -8,11 +8,11 @@ import aspire.util.Enum;
 public final class VillagerAction extends Enum
 {
     public static const SACRIFICE :VillagerAction = new VillagerAction("SACRIFICE",
-        "Sacrifice: +Heart, --Villager Affinity");
+        "aztec/sacrifice_header");
     public static const FESTIVAL :VillagerAction = new VillagerAction("FESTIVAL",
-        "Festival: +Villager Affinity");
+        "aztec/festival_header");
     public static const WORSHIP :VillagerAction = new VillagerAction("WORSHIP",
-        "Worship: +Temple Defense");
+        "aztec/worship_header");
     finishedEnumerating(VillagerAction);
     
     /**
@@ -32,17 +32,17 @@ public final class VillagerAction extends Enum
         return Enum.valueOf(VillagerAction, name) as VillagerAction;
     }
     
-    public function get description () :String {
-        return _description;
+    public function get promptName () :String {
+        return _promptName;
     }
     
     /** @private */
-    public function VillagerAction (name :String, description :String) {
+    public function VillagerAction (name :String, promptName :String) {
         super(name);
-        _description = description;
+        _promptName = promptName;
     }
     
-    protected var _description :String;
+    protected var _promptName :String;
 }
 }
 

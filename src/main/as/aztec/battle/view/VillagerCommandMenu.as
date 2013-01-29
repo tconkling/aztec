@@ -74,7 +74,10 @@ import aztec.battle.VillagerCommand;
 import aztec.battle.view.SelectableTextSprite;
 import aztec.text.CustomTextField;
 
+import flashbang.resource.MovieResource;
 import flashbang.util.DisplayUtil;
+
+import flump.display.Movie;
 
 import starling.display.Sprite;
 import starling.text.TextFieldAutoSize;
@@ -136,11 +139,8 @@ class CommandSprite extends Sprite
         textSprite.y = VMARGIN;
         bg.addChild(_textSprite);
         
-        var title :CustomTextField =
-            new CustomTextField(1, 1, cmd.action.description, Aztec.UI_FONT, 24, 0xE7C879);
-        title.autoSize = TextFieldAutoSize.SINGLE_LINE;
-        title.y = -title.height;
-        bg.addChild(title);
+        var header :Movie = MovieResource.createMovie(cmd.action.promptName);
+        bg.addChild(header);
         
         addChild(bg);
         
