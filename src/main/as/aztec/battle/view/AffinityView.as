@@ -3,28 +3,32 @@
 
 package aztec.battle.view {
 
-import flashbang.resource.ImageResource;
+import flashbang.core.Flashbang;
+import flashbang.resource.MovieResource;
 
-import starling.display.Image;
+import flump.display.Movie;
+
+import starling.display.DisplayObject;
 
 public class AffinityView extends LocalSpriteObject
 {
     public function AffinityView () {
-        var bar :Image = ImageResource.createImage("aztec/img_alignment_background");
-        _sprite.x = 512;
-        _sprite.y = 680;
-        bar.y = 10;
-        _sprite.addChild(bar);
-        _range = bar.width/2;
-        _head = ImageResource.createImage("aztec/img_alignment_head");
-        _sprite.addChild(_head);
+        var movie :Movie = MovieResource.createMovie("aztec/affinity");
+        _sprite.addChild(movie);
+        
+        _head = movie.getChildByName("head");
+        
+        _sprite.x = (Flashbang.stageWidth - _sprite.width) * 0.5;
+        _sprite.y = 720;
     }
     
     override protected function update (dt :Number) :void {
-        _head.x = _ctx.localPlayer.affinity * _range;
+        _head.x = MIN_X + (_ctx.localPlayer.affinity * (MAX_X - MIN_X));
     }
 
-    protected var _range :Number;
-    protected var _head :Image;
+    protected var _head :DisplayObject;
+    
+    protected static const MIN_X :Number = 100;
+    protected static const MAX_X :Number = 618;
 }
 }
