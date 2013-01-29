@@ -145,12 +145,11 @@ public class BattleMessages
             
             switch (action) {
             case VillagerAction.SACRIFICE:
-                sender.sacrifice(villager);
-                _ctx.affinity.handleSacrifice(sender, villager);
+                sender.handleSacrifice(villager);
                 break;
             
             case VillagerAction.FESTIVAL:
-                _ctx.affinity.handleFestival(sender, villager);
+                sender.handleFestival(villager);
                 break;
             
             case VillagerAction.WORSHIP:

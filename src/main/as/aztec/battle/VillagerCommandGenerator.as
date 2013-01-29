@@ -14,12 +14,12 @@ import flashbang.resource.XmlResource;
 
 public class VillagerCommandGenerator extends LocalObject
 {
-    public function getCommandText (action :VillagerAction, villager :Villager, normalizedAffinity :Number) :String {
+    public function getCommandText (action :VillagerAction, villager :Villager, affinity :Number) :String {
         init();
         var commandList :Array = _texts.get(action);
         
         commandList = commandList.filter(function (cmd :CommandText, ..._) :Boolean {
-            return (normalizedAffinity >= cmd.minAffinity);
+            return (affinity >= cmd.minAffinity);
         });
         
         var highestAffinity :Number = CommandText(commandList[0]).minAffinity;

@@ -3,7 +3,6 @@
 
 package aztec {
 
-import flash.display.DisplayObject;
 import flash.display.Graphics;
 import flash.display.MovieClip;
 import flash.display.Shape;

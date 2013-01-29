@@ -47,13 +47,12 @@ public class Player extends NetObject
     public function get oid () :int { return _oid; }
     public function get desc () :PlayerDesc { return _desc; }
     
-    /** Map [-1, 1] to [0, 1] */
-    public function get normalizedAffinity () :Number {
-        return (1.0 + (_ctx.affinity.affinity * affinitySign)) * 0.5;
+    public function get affinity () :Number {
+        return _villagerAffinity;
     }
     
-    public function get affinitySign () :Number {
-        return (_ctx.players[0] == this ? -1 : 1);
+    public function offsetAffinity (offset :Number) :void {
+        _villagerAffinity = MathUtil.clamp(_villagerAffinity + offset, 0, 1);
     }
 
     override public function get objectNames () :Array {
@@ -132,15 +131,20 @@ public class Player extends NetObject
         }
     }
     
-    public function canSummon (god :God) :Boolean {
-        return (_hearts >= GameDesc.godHearts(god));
-    }
-    
-    public function sacrifice (villager :Villager) :void {
+    public function handleSacrifice (villager :Villager) :void {
         if (_hearts < GameDesc.MAX_HEARTS) {
             _hearts++;
             _heartView.addHeart();
         }
+        offsetAffinity(GameDesc.sacrificeAffinityOffset);
+    }
+    
+    public function handleFestival (villager :Villager) :void {
+        offsetAffinity(GameDesc.festivalAffinityOffset);
+    }
+    
+    public function canSummon (god :God) :Boolean {
+        return (_hearts >= GameDesc.godHearts(god));
     }
     
     public function worship (villager :Villager) :void {
@@ -148,7 +152,7 @@ public class Player extends NetObject
     }
     
     protected function getCommandText (villager :Villager, action :VillagerAction) :String {
-        return _ctx.commandGenerator.getCommandText(action, villager, this.normalizedAffinity);
+        return _ctx.commandGenerator.getCommandText(action, villager, _villagerAffinity);
     }
     
     protected function getCommandLoc (action :VillagerAction) :Vector2 {
@@ -204,6 +208,7 @@ public class Player extends NetObject
     protected var _templeHealth :Number = 1;
     protected var _templeDefense :Number = 0;
     protected var _hearts :int = 0;
+    protected var _villagerAffinity :Number = 1;
 
     protected var _selectedVillager :GameObjectRef = GameObjectRef.Null();
     

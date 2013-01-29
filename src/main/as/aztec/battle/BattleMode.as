@@ -6,13 +6,13 @@ package aztec.battle {
 import aspire.util.Preconditions;
 
 import aztec.Aztec;
-import aztec.battle.controller.Affinity;
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.BattleDebug;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.VillagerGenerator;
+import aztec.battle.view.AffinityView;
 import aztec.net.MessageMgr;
 
 import flashbang.core.AppMode;
@@ -24,7 +24,7 @@ import starling.events.KeyboardEvent;
 
 public class BattleMode extends AppMode
 {
-    public function BattleMode (player1: Player,  player2: Player,  randomSeed :int, messageMgr: MessageMgr) {
+    public function BattleMode (player1: Player, player2: Player, randomSeed :int, messageMgr: MessageMgr) {
         _player1 = player1;
         _player2 = player2;
         _msgMgr = messageMgr;
@@ -79,10 +79,8 @@ public class BattleMode extends AppMode
         _ctx.players[0] = _player1;
         _ctx.players[1] = _player2;
 
+        addObject(new AffinityView(), _ctx.uiLayer);
         addObject(new VillagerSelectables());
-
-        // Affinity
-        _ctx.netObjects.addObject(new Affinity());
 
         if (Aztec.DEBUG) {
             addObject(new BattleDebug());

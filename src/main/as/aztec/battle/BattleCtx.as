@@ -6,7 +6,6 @@ package aztec.battle {
 import aspire.util.Random;
 import aspire.util.Randoms;
 
-import aztec.battle.controller.Affinity;
 import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
@@ -26,7 +25,6 @@ public class BattleCtx extends GameObject
     public var localPlayer :Player;
     
     public var players :Vector.<Player> = new Vector.<Player>(2, true);
-    public var affinity :Affinity;
     
     public var netObjects :NetObjectDB;
     public var viewObjects :BattleMode;
