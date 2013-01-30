@@ -19,6 +19,7 @@ import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.FestivalView;
 import aztec.battle.view.HeartView;
 import aztec.battle.view.TempleView;
+import aztec.battle.view.VillagerAlert;
 import aztec.battle.view.VillagerCommandMenu;
 
 import flashbang.core.GameObjectRef;
@@ -157,9 +158,16 @@ public class Player extends NetObject
                     offsetHealth(-damage);
                     
                     if (GameDesc.summonDestroysOpponentVillagers) {
-                        for each (var villager :Villager in Villager.getAll(_ctx)) {
-                            if (villager.performingActionFor == self) {
-                                // TODO: animation
+                        var deadVillagers :Array = Villager.getAll(_ctx).filter(
+                            function (v :Villager, ..._) :Boolean {
+                                return v.performingActionFor == self;
+                            });
+                        
+                        if (deadVillagers.length > 0) {
+                            VillagerAlert.show(_ctx, VillagerAlert.KILLED_BY_SUMMON, self,
+                                deadVillagers);
+                            
+                            for each (var villager :Villager in deadVillagers) {
                                 villager.destroySelf();
                             }
                         }

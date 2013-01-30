@@ -11,10 +11,12 @@ import flash.geom.Rectangle;
 
 public class GameDesc
 {
+    public static const VILLAGER_ALERT_LOC :Vector2 = new Vector2(512, 100);
+    
     public static const BOARD_SIZE :Vector2 = new Vector2(1024, 768);
     
     public static const numVillagers :int = 6;
-    public static const villagerWalkBounds :Rectangle = new Rectangle(336, 170, 353, 339);
+    public static const villagerWalkBounds :Rectangle = new Rectangle(336, 190, 353, 319);
 
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;

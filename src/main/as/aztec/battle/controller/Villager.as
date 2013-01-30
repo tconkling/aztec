@@ -10,6 +10,7 @@ import aztec.battle.Selectable;
 import aztec.battle.VillagerAction;
 import aztec.battle.desc.GameDesc;
 import aztec.battle.view.SelectableTextSprite;
+import aztec.battle.view.VillagerAlert;
 import aztec.battle.view.VillagerView;
 
 import flashbang.tasks.FunctionTask;
@@ -77,11 +78,22 @@ public class Villager extends NetObject
     }
     
     public function performAction (action :VillagerAction, forPlayer :Player) :void {
+        var wasPerformingFor :Player = _performingActionFor;
+        
         endCurAction();
         
         _curAction = action;
         _performingActionFor = forPlayer;
         _view.showActionAnim(action, forPlayer);
+        
+        // If the villager was stolen away from the local player, show an alert
+        if (action != VillagerAction.DEFAULT &&
+            wasPerformingFor != null &&
+            wasPerformingFor != forPlayer &&
+            wasPerformingFor.isLocalPlayer) {
+            
+            VillagerAlert.show(_ctx, VillagerAlert.typeForAction(action), forPlayer, [ this ]);
+        }
         
         if (action == VillagerAction.SACRIFICE) {
             destroySelf();
