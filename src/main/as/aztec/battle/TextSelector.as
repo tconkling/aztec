@@ -50,16 +50,6 @@ public class TextSelector extends LocalObject
             
             return true;
             
-        } else if (e.keyCode == KeyboardCodes.ENTER &&
-            _curSelectable != null &&
-            _selectionLength >= this.curText.length) {
-            
-            // return/enter sends the "select actor" message over the network
-            var selectable :Selectable = _curSelectable;
-            _curSelectable = null;
-            selectable.markSelected();
-            return true;
-            
         } else if (e.keyCode == KeyboardCodes.SPACE) {
             // ignore spaces
             return true;
@@ -87,6 +77,14 @@ public class TextSelector extends LocalObject
                     _selectionLength++;
                 }
                 _curSelectable.textSprite.select(_selectionLength, selectionColor);
+
+                if (_selectionLength >= this.curText.length) {
+
+                    // return/enter sends the "select actor" message over the network
+                    var selectable :Selectable = _curSelectable;
+                    _curSelectable = null;
+                    selectable.markSelected();
+                }
             }
         }
         
