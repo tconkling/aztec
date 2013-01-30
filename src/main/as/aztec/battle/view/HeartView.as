@@ -68,6 +68,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
             for each (var god :God in God.values()) {
                 if (GameDesc.godHearts(god) == _active) {
                     var selectable :SelectableGod = _selectables.pop();
+                    selectable.textSprite.deselect();
                     selectable.textSprite.alpha = DISABLED_ALPHA;
                 }
             }
