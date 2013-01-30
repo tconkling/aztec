@@ -30,7 +30,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                 textSprite.y = _hearts[GameDesc.godHearts(god) - 1].y;
                 textSprite.alpha = DISABLED_ALPHA;
                 _sprite.addChild(textSprite);
-                _godNameTextFields.push(textSprite, 0);
+                _godNameTextFields.push(textSprite);
             }
         }
     }
