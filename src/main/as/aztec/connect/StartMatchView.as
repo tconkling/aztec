@@ -3,34 +3,30 @@
 
 package aztec.connect {
 
-import aspire.ui.KeyboardCodes;
-
 import aztec.Aztec;
 import aztec.NewGameCondition;
-import aztec.input.KeyboardListener;
 
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
 
 import org.osflash.signals.Signal;
 
-import starling.events.KeyboardEvent;
 import starling.text.TextField;
 import starling.text.TextFieldAutoSize;
 import starling.utils.HAlign;
 
-public class StartMatchView extends SpriteObject implements KeyboardListener {
+public class StartMatchView extends SpriteObject {
     public const startEntered :Signal = new Signal();
 
     public function StartMatchView (condition :NewGameCondition) {
         _condition = condition;
-        _textField = new TextField(200, 30, "", Aztec.UI_FONT, 24);
+        _textField = new TextEntryField(200, 30, "", Aztec.UI_FONT, 24);
         if (condition == NewGameCondition.INITIAL) {
             _sprite.addChild(MovieResource.createMovie("aztec/start_match_screen"));
             _sprite.addChild(drawTextAt(160, 349, "Type \"START\" to begin a new match", 14,
                 Aztec.TITLE_FONT2));
-            _textField.x = 184;
-            _textField.y = 305;
+            _textField.display.x = 184;
+            _textField.display.y = 305;
             
         } else {
             if (condition == NewGameCondition.WON) {
@@ -50,45 +46,28 @@ public class StartMatchView extends SpriteObject implements KeyboardListener {
             _sprite.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 14,
                 Aztec.TITLE_FONT2));
             
-            _textField.x = 184;
-            _textField.y = 627;
+            _textField.display.x = 184;
+            _textField.display.y = 627;
         }
-        _sprite.addChild(_textField);
-    }
-
-    public function onKeyboardEvent (e :KeyboardEvent) :Boolean {
-        if (e.type != KeyboardEvent.KEY_DOWN) {
-            return false;
-        }
-
-        if (e.keyCode == KeyboardCodes.ENTER) {
-            if (_textField.text.toLowerCase() == "start") {
-                var searching :TextField = new TextField(400, 300, "Searching for opponent", Aztec.UI_FONT, 36);
-                if (_condition == NewGameCondition.INITIAL) {
-                    searching.x = 300;
-                    searching.y = 100;
-                } else {
-                    searching.x = 95;
-                    searching.y = 340;
-                }
-                _sprite.addChild(searching);
-                startEntered.dispatch();
-            }
-        } else if (e.keyCode == KeyboardCodes.BACKSPACE) {
-            _textField.text = _textField.text.substring(0, _textField.text.length - 1);
-        } else if (_textField.text.length < 20) {
-            var entered :String = String.fromCharCode(e.charCode);
-            if (entered.match(/\w/)) {
-                _textField.text += entered;
-            }
-        }
-
-        return true;
+        addDependentObject(_textField, _sprite);
     }
 
     override protected function addedToMode() :void {
         super.addedToMode();
-        _regs.add(ConnectMode(mode).keyboardInput.registerListener(this));
+        _regs.addSignalListener(_textField.enterPressed, function () :void {
+            if (_startEntered || _textField.text.toLowerCase() != "start") return;
+            _startEntered = true;
+            var searching :TextField = new TextField(400, 300, "Searching for opponent", Aztec.UI_FONT, 36);
+            if (_condition == NewGameCondition.INITIAL) {
+                searching.x = 300;
+                searching.y = 100;
+            } else {
+                searching.x = 95;
+                searching.y = 340;
+            }
+            _sprite.addChild(searching);
+            startEntered.dispatch();
+        });
     }
     
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
@@ -105,7 +84,8 @@ public class StartMatchView extends SpriteObject implements KeyboardListener {
         return tf;
     }
 
+    protected var _startEntered :Boolean;
     protected var _condition :NewGameCondition;
-    protected var _textField :TextField;
+    protected var _textField :TextEntryField;
 }
 }
