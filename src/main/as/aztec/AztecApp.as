@@ -14,6 +14,8 @@ import aztec.debug.DebugOverlayMode;
 import aztec.net.LoopbackMessageMgr;
 import aztec.text.CustomFontLoader;
 
+import flash.events.Event;
+
 import flashbang.core.Config;
 import flashbang.core.Flashbang;
 import flashbang.core.FlashbangApp;
@@ -21,6 +23,10 @@ import flashbang.core.FlashbangApp;
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
 {
+    public function get active () :Boolean {
+        return _active;
+    }
+
     // classes needed by the network code
     Cloneable;
     
@@ -28,7 +34,16 @@ public class AztecApp extends FlashbangApp
         Flashbang.rsrcs.registerResourceLoader("customFont", CustomFontLoader);
         
         Aztec.newGameCondition = NewGameCondition.INITIAL;
-        
+
+        addEventListener(Event.ACTIVATE, function (event:Event) :void {
+            trace("activateHandler");
+            _active = true;
+        });
+        addEventListener(Event.DEACTIVATE, function (event: Event) :void {
+            trace("deactivateHandler");
+            _active = false;
+        });
+
         var rsrcs :AztecResources = new AztecResources();
         rsrcs.load(
             function () :void {
@@ -53,5 +68,7 @@ public class AztecApp extends FlashbangApp
         config.stageHeight = config.windowHeight = 768;
         return config;
     }
+
+    protected var _active :Boolean = true;
 }
 }
