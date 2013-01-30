@@ -28,6 +28,8 @@ public class GameDesc
     public static const worshipTime :Number = 30;
     public static const festivalAffinityPerSecond :Number = 0.15 / festivalTime;
     public static const worshipDefensePerSecond :Number = 0.25 / worshipTime;
+    
+    public static const summonDestroysOpponentVillagers :Boolean = true;
 
     public static const MAX_HEARTS :int = 5;
     

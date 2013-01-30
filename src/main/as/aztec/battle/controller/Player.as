@@ -6,6 +6,7 @@ package aztec.battle.controller {
 import aspire.geom.Vector2;
 import aspire.util.Log;
 import aspire.util.MathUtil;
+import aspire.util.Registration;
 import aspire.util.Set;
 import aspire.util.Sets;
 
@@ -111,10 +112,18 @@ public class Player extends NetObject
                 commandMenu.destroySelf();
             });
             
+            // close the menu if the villager is destroyed
+            var villagerDestroyedConn :Registration =
+                _regs.addSignalListener(villager.destroyed, commandMenu.destroySelf);
+            
             _regs.addOneShotSignalListener(_ctx.selector.canceled, function () :void {
                 if (_selectedVillager == villager.ref) {
                     _ctx.messages.deselectVillager(villager);
                 }
+            });
+            
+            _regs.addOneShotSignalListener(commandMenu.destroyed, function () :void {
+                villagerDestroyedConn.cancel();
             });
         }
     }
@@ -134,7 +143,9 @@ public class Player extends NetObject
                 _heartView.removeHeart();
             }
             _templeView.summonGod(god);
+            
         } else {
+            var self :Player = this;
             addTask(new SerialTask(
                 new TimedTask(2),
                 new FunctionTask(function () :void {
@@ -144,6 +155,15 @@ public class Player extends NetObject
                     damage -= defenseUsed;
                     offsetDefense(-defenseUsed);
                     offsetHealth(-damage);
+                    
+                    if (GameDesc.summonDestroysOpponentVillagers) {
+                        for each (var villager :Villager in Villager.getAll(_ctx)) {
+                            if (villager.performingActionFor == self) {
+                                // TODO: animation
+                                villager.destroySelf();
+                            }
+                        }
+                    }
                 })));
         }
     }

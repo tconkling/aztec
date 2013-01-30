@@ -72,11 +72,15 @@ public class Villager extends NetObject
         return false;
     }
     
+    public function get performingActionFor () :Player {
+        return _performingActionFor;
+    }
+    
     public function performAction (action :VillagerAction, forPlayer :Player) :void {
         endCurAction();
         
         _curAction = action;
-        _owningPlayer = forPlayer;
+        _performingActionFor = forPlayer;
         _view.showActionAnim(action, forPlayer);
         
         if (action == VillagerAction.SACRIFICE) {
@@ -91,7 +95,7 @@ public class Villager extends NetObject
     protected function endCurAction () :void {
         if (_curAction != null) {
             _curAction = null;
-            _owningPlayer = null;
+            _performingActionFor = null;
             removeNamedTasks(PERFORM_ACTION_TASK);
             
             _view.showActionAnim(VillagerAction.DEFAULT, null);
@@ -113,9 +117,9 @@ public class Villager extends NetObject
     override protected function update (dt :Number) :void {
         super.update(dt);
         if (_curAction == VillagerAction.FESTIVAL) {
-            _owningPlayer.offsetAffinity(GameDesc.festivalAffinityPerSecond * dt);
+            _performingActionFor.offsetAffinity(GameDesc.festivalAffinityPerSecond * dt);
         } else if (_curAction == VillagerAction.WORSHIP) {
-            _owningPlayer.offsetDefense(GameDesc.worshipDefensePerSecond * dt);
+            _performingActionFor.offsetDefense(GameDesc.worshipDefensePerSecond * dt);
         }
     }
     
@@ -134,7 +138,7 @@ public class Villager extends NetObject
     protected var _view :VillagerView;
     
     protected var _curAction :VillagerAction;
-    protected var _owningPlayer :Player;
+    protected var _performingActionFor :Player;
     
     protected static const log :Log = Log.getLog(Villager);
     
