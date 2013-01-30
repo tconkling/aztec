@@ -4,6 +4,7 @@
 package aztec.battle.view {
 
 import aspire.geom.Vector2;
+import aspire.util.MathUtil;
 import aspire.util.Randoms;
 import aspire.util.StringUtil;
 
@@ -64,12 +65,17 @@ public class VillagerView extends LocalSpriteObject
         var loc :Vector2;
         switch (action) {
         case VillagerAction.DEFAULT:
-        case VillagerAction.WORSHIP:
             walk();
             break;
         
         case VillagerAction.FESTIVAL:
             loc = randomFestivalLoc(forPlayer);
+            _sprite.x = loc.x;
+            _sprite.y = loc.y;
+            break;
+        
+        case VillagerAction.WORSHIP:
+            loc = randomWorshipLoc(forPlayer);
             _sprite.x = loc.x;
             _sprite.y = loc.y;
             break;
@@ -103,15 +109,25 @@ public class VillagerView extends LocalSpriteObject
     }
     
     protected function walk () :void {
+        var rands :Randoms = _ctx.randomsFor(this);
+        const r :Rectangle = GameDesc.villagerWalkBounds;
+        
         var curLoc :Vector2 = new Vector2(_sprite.x, _sprite.y);
-        var nextLoc :Vector2 = randomWalkLoc();
-        while (nextLoc.epsilonEquals(curLoc)) {
+        var nextLoc :Vector2;
+        var speed :Number = 0;
+        if (r.contains(curLoc.x, curLoc.y)) {
+            speed = rands.getNumberInRange(10, 30);
             nextLoc = randomWalkLoc();
+            while (nextLoc.epsilonEquals(curLoc)) {
+                nextLoc = randomWalkLoc();
+            }
+        } else {
+            speed = 100;
+            nextLoc = new Vector2(
+                MathUtil.clamp(curLoc.x, r.left, r.right),
+                MathUtil.clamp(curLoc.y, r.top, r.bottom));
         }
         
-        var rands :Randoms = _ctx.randomsFor(this);
-        
-        var speed :Number = rands.getNumberInRange(10, 30);
         var dist :Number = nextLoc.subtract(curLoc).length;
         var time :Number = dist / speed;
         var pause :Number = rands.getNumberInRange(0.5, 5);
@@ -143,6 +159,14 @@ public class VillagerView extends LocalSpriteObject
         var dist :Number = rands.getNumberInRange(5, 36);
         
         loc.addLocal(Vector2.fromAngle(angle, dist));
+        return loc;
+    }
+    
+    protected function randomWorshipLoc (forPlayer :Player) :Vector2 {
+        var rands :Randoms = _ctx.randomsFor(this);
+        var loc :Vector2 = forPlayer.desc.templeLoc.clone(new Vector2());
+        loc.x += rands.getNumberInRange(-96, 96);
+        loc.y += rands.getNumberInRange(5, 58);
         return loc;
     }
     

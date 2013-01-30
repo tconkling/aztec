@@ -5,12 +5,12 @@ package aztec.battle.view {
 
 import aztec.Aztec;
 import aztec.battle.God;
+import aztec.text.CustomTextField;
 
 import flash.geom.Point;
 
 import flashbang.objects.MovieObject;
 import flashbang.resource.MovieResource;
-import flashbang.tasks.FunctionTask;
 import flashbang.tasks.PlayMovieTask;
 import flashbang.tasks.ScaleTask;
 import flashbang.tasks.SelfDestructTask;
@@ -21,8 +21,7 @@ import flashbang.util.RectMeter;
 
 import flump.display.Movie;
 
-import starling.text.TextField;
-import starling.utils.HAlign;
+import starling.text.TextFieldAutoSize;
 
 public class TempleView extends LocalSpriteObject
 {
@@ -36,35 +35,34 @@ public class TempleView extends LocalSpriteObject
         _healthMeter.maxValue = 1.0;
         _healthMeter.value = 1.0;
         _healthMeter.foregroundColor = healthColor;
+        _healthMeter.backgroundColor = 0xffffff;
+        _healthMeter.outlineSize = 2;
+        _healthMeter.outlineColor = 0;
 
         addDependentObject(_defenseMeter, _sprite);
         _defenseMeter.sprite.x = -60;
         _defenseMeter.sprite.y = -230;
         _defenseMeter.maxValue = 1.0;
         _defenseMeter.value = 0.0;
-        _defenseMeter.foregroundColor = 0x00FF00;
+        _defenseMeter.foregroundColor = 0x7D8A57;
+        _defenseMeter.backgroundColor = 0xffffff;
+        _defenseMeter.outlineSize = 2;
+        _defenseMeter.outlineColor = 0;
 
-        var nameField :TextField = new TextField(200, 50, name, Aztec.UI_FONT, 24);
-        nameField.hAlign = HAlign.CENTER;
-        nameField.y = 20;
-        nameField.x = -100;
+        var nameField :CustomTextField = new CustomTextField(1, 1, name, Aztec.UI_FONT, 24);
+        nameField.autoSize = TextFieldAutoSize.SINGLE_LINE;
+        nameField.color = healthColor;
+        nameField.x = -nameField.width * 0.5;
+        nameField.y = -78;
         sprite.addChild(nameField);
     }
 
     public function updateHealth (templeHealth :Number) :void {
-        addTask(new SerialTask(
-            new TimedTask(2.5),
-            new FunctionTask(function () :void {
-                _healthMeter.value = templeHealth;
-            })));
+        _healthMeter.value = templeHealth;
     }
 
     public function updateDefense (templeDefense :Number):void {
-        addTask(new SerialTask(
-            new TimedTask(2.5),
-            new FunctionTask(function () :void {
-                _defenseMeter.value = templeDefense;
-            })));
+        _defenseMeter.value = templeDefense;
     }
 
     public function summonGod (god :God) :void {

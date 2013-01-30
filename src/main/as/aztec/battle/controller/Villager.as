@@ -56,7 +56,7 @@ public class Villager extends NetObject
     }
     
     public function select (player :Player) :void {
-        _view.textView.select(_name.length, player.desc.color);
+        _view.textView.select(_name.length, player.desc.darkColor);
     }
     
     public function deselect () :void {

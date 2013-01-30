@@ -75,7 +75,7 @@ public class BattleMode extends AppMode
         _ctx.netObjects.addObject(_player1);
         _ctx.netObjects.addObject(_player2);
         _ctx.localPlayer = _player1.isLocalPlayer ? _player1 : _player2;
-        _ctx.selector.selectionColor = _ctx.localPlayer.desc.color;
+        _ctx.selector.selectionColor = _ctx.localPlayer.desc.darkColor;
         _ctx.players[0] = _player1;
         _ctx.players[1] = _player2;
 

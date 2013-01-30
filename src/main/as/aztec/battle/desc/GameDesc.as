@@ -14,19 +14,20 @@ public class GameDesc
     public static const BOARD_SIZE :Vector2 = new Vector2(1024, 768);
     
     public static const numVillagers :int = 6;
-    public static const villagerWalkBounds :Rectangle = new Rectangle(250, 129, 433, 345);
+    public static const villagerWalkBounds :Rectangle = new Rectangle(336, 170, 353, 339);
 
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
     
     public static const initialAffinity :Number = 0.7;
+    public static const initialDefense :Number = 0.25;
     
     public static const sacrificeAffinityOffset :Number = -0.2;
     
-    public static const festivalTime :Number = 5;
-    public static const worshipTime :Number = 5;
-    public static const festivalAffinityPerSecond :Number = 0.05;
-    public static const worshipDefensePerSecond :Number = 0.05;
+    public static const festivalTime :Number = 15;
+    public static const worshipTime :Number = 15;
+    public static const festivalAffinityPerSecond :Number = 0.1 / festivalTime;
+    public static const worshipDefensePerSecond :Number = 0.2 / worshipTime;
 
     public static const MAX_HEARTS :int = 5;
     
@@ -53,8 +54,8 @@ public class GameDesc
     
     protected static function get_player1 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
-        desc.color = 0xFF2109;
-        desc.templeLoc.x = 128;
+        desc.color = 0xE15656;
+        desc.templeLoc.x = 188;
         desc.templeLoc.y = 448;
         desc.festivalLoc.x = 256;
         desc.festivalLoc.y = 627;
@@ -75,7 +76,7 @@ public class GameDesc
     
     protected static function get_player2 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
-        desc.color = 0x1B23DE;
+        desc.color = 0x6191C5;
         desc.templeLoc.x = 832;
         desc.templeLoc.y = 448;
         desc.festivalLoc.x = 768;

@@ -43,6 +43,7 @@ public class Player extends NetObject
         _localPlayer = localPlayer;
         
         _villagerAffinity = GameDesc.initialAffinity;
+        _templeDefense = GameDesc.initialDefense;
     }
     
     public function get name () :String { return _name; }
@@ -77,7 +78,7 @@ public class Player extends NetObject
         deselectVillager();
         _selectedVillager = villager.ref;
         villager.selected.dispatch();
-        villager.view.textView.select(villager.name.length, _desc.color);
+        villager.view.textView.select(villager.name.length, _desc.darkColor);
         
         if (this.isLocalPlayer) {
             // show the command menu
@@ -185,6 +186,9 @@ public class Player extends NetObject
         _templeView.display.x = _desc.templeLoc.x;
         _templeView.display.y = _desc.templeLoc.y;
         _ctx.viewObjects.addObject(_templeView, _ctx.board.view.objectLayer);
+        
+        _templeView.updateDefense(_templeDefense);
+        _templeView.updateHealth(_templeHealth);
 
         _festivalView = new FestivalView();
         _festivalView.display.x = _desc.festivalLoc.x;
