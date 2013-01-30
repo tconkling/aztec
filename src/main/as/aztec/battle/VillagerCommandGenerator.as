@@ -36,6 +36,8 @@ public class VillagerCommandGenerator extends LocalObject
         text = text.replace(RE_NAME, StringUtil.capitalize(villager.name));
         
         while (true) {
+            // reset the regex before exec'ing it
+            RE_SUB.lastIndex = 0;
             var result :Object = RE_SUB.exec(text);
             if (result == null) {
                 break;
