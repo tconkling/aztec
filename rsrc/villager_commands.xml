@@ -1,29 +1,29 @@
 <root>
   <subs>
-    <altar_short text="Follow me to the Altar!"/>
-    <altar_short text="Get to the temple!"/>
-    <altar_short text="Check out this knife!"/>
-    <altar_short text="I need your heart."/>
-    <altar_short text="This won't hurt a bit."/>
-    <altar_short text="Time to die!"/>
+    <sacrifice_short text="Follow me to the Altar!"/>
+    <sacrifice_short text="Get to the temple!"/>
+    <sacrifice_short text="Check out this knife!"/>
+    <sacrifice_short text="I need your heart."/>
+    <sacrifice_short text="This won't hurt a bit."/>
+    <sacrifice_short text="Time to die!"/>
 
 
-    <altar_medium text="There's a prize waiting for you at the temple!"/>
-    <altar_medium text="Don't worry, you're in good hands! I'm a surgeon!"/>
-    <altar_medium text="It's cool, I promise! I'm a doctor!"/>
-    <altar_medium text="You're not attached to that heart, are you?"/>
-    <altar_medium text="Is it cool if I cut you open and take your heart?"/>
+    <sacrifice_medium text="There's a prize waiting for you at the temple!"/>
+    <sacrifice_medium text="Don't worry, you're in good hands! I'm a surgeon!"/>
+    <sacrifice_medium text="It's cool, I promise! I'm a doctor!"/>
+    <sacrifice_medium text="You're not attached to that heart, are you?"/>
+    <sacrifice_medium text="Is it cool if I cut you open and take your heart?"/>
   </subs>
 
   <command action="SACRIFICE" affinity="1.0" text="{greeting}! *Stab*"/>
-  <command action="SACRIFICE" affinity="0.8" text="{greeting}! {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.7" text="{greeting}! {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0.6" text="{greeting}, {name}! {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.5" text="{greeting}, {name}! {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0.4" text="{greeting}, {name}! {babble_short} {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.3" text="{greeting}, {name}! {babble_short} {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0.2" text="{greeting}, {name}! {babble_medium} {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.0" text="{greeting}, {name}! {babble_medium} {altar_medium}"/>
+  <command action="SACRIFICE" affinity="0.8" text="{greeting}! {sacrifice_short}"/>
+  <command action="SACRIFICE" affinity="0.7" text="{greeting}! {sacrifice_medium}"/>
+  <command action="SACRIFICE" affinity="0.6" text="{greeting}! {babble_short} {sacrifice_short}"/>
+  <command action="SACRIFICE" affinity="0.5" text="{greeting}! {babble_short} {sacrifice_medium}"/>
+  <command action="SACRIFICE" affinity="0.4" text="{greeting}! {babble_medium} {sacrifice_short}"/>
+  <command action="SACRIFICE" affinity="0.3" text="{greeting}! {babble_medium} {sacrifice_medium}"/>
+  <command action="SACRIFICE" affinity="0.2" text="{greeting}, {name}! {babble_medium} {sacrifice_short}"/>
+  <command action="SACRIFICE" affinity="0.0" text="{greeting}, {name}! {babble_medium} {sacrifice_medium}"/>
 
   <subs>
     <worship_short text="Let's go worship!"/>
@@ -40,10 +40,10 @@
   <command action="WORSHIP" affinity="1.0" text="{greeting}! Worship!"/>
   <command action="WORSHIP" affinity="0.8" text="{greeting}! {worship_short}"/>
   <command action="WORSHIP" affinity="0.7" text="{greeting}! {worship_medium}"/>
-  <command action="WORSHIP" affinity="0.6" text="{greeting}, {name}! {worship_short}"/>
-  <command action="WORSHIP" affinity="0.5" text="{greeting}, {name}! {worship_medium}"/>
-  <command action="WORSHIP" affinity="0.4" text="{greeting}, {name}! {babble_short} {worship_short}"/>
-  <command action="WORSHIP" affinity="0.3" text="{greeting}, {name}! {babble_short} {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.6" text="{greeting}! {babble_short} {worship_short}"/>
+  <command action="WORSHIP" affinity="0.5" text="{greeting}! {babble_short} {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.4" text="{greeting}! {babble_medium} {worship_short}"/>
+  <command action="WORSHIP" affinity="0.3" text="{greeting}! {babble_medium} {worship_medium}"/>
   <command action="WORSHIP" affinity="0.2" text="{greeting}, {name}! {babble_medium} {worship_short}"/>
   <command action="WORSHIP" affinity="0.0" text="{greeting}, {name}! {babble_medium} {worship_medium}"/>
 
@@ -62,10 +62,10 @@
   <command action="FESTIVAL" affinity="1.0" text="{greeting}! Party!"/>
   <command action="FESTIVAL" affinity="0.8" text="{greeting}! {festival_short}"/>
   <command action="FESTIVAL" affinity="0.7" text="{greeting}! {festival_medium}"/>
-  <command action="FESTIVAL" affinity="0.6" text="{greeting}, {name}! {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.5" text="{greeting}, {name}! {festival_medium}"/>
-  <command action="FESTIVAL" affinity="0.4" text="{greeting}, {name}! {babble_short} {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.3" text="{greeting}, {name}! {babble_short} {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.6" text="{greeting}! {babble_short} {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.5" text="{greeting}! {babble_short} {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.4" text="{greeting}! {babble_medium} {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.3" text="{greeting}! {babble_medium} {festival_medium}"/>
   <command action="FESTIVAL" affinity="0.2" text="{greeting}, {name}! {babble_medium} {festival_short}"/>
   <command action="FESTIVAL" affinity="0.0" text="{greeting}, {name}! {babble_medium} {festival_medium}"/>
 

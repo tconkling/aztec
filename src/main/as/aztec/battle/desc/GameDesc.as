@@ -24,7 +24,7 @@ public class GameDesc
     public static const initialAffinity :Number = 1.0;
     public static const initialDefense :Number = 0.15;
     
-    public static const sacrificeAffinityOffset :Number = -0.2;
+    public static const sacrificeAffinityOffset :Number = -0.25;
     
     public static const festivalTime :Number = 30;
     public static const worshipTime :Number = 30;
