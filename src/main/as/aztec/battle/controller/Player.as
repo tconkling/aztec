@@ -6,6 +6,8 @@ package aztec.battle.controller {
 import aspire.geom.Vector2;
 import aspire.util.Log;
 import aspire.util.MathUtil;
+import aspire.util.Set;
+import aspire.util.Sets;
 
 import aztec.battle.BattleCtx;
 import aztec.battle.God;
@@ -82,15 +84,17 @@ public class Player extends NetObject
         
         if (this.isLocalPlayer) {
             // show the command menu
+            var usedGreetingLetters :Set = Sets.newSetOf(String);
+            
             var commands :Array = VillagerAction.values().filter(
                 function (action :VillagerAction, ..._) :Boolean {
                     return action != VillagerAction.DEFAULT;
                 }).map(
                 function (action :VillagerAction, ..._) :VillagerCommand {
-                    return new VillagerCommand(
-                        action,
-                        getCommandText(villager, action),
-                        getCommandLoc(action));
+                    var text :String = _ctx.commandGenerator.getCommandText(
+                        action,  villager, affinity, usedGreetingLetters);
+                    usedGreetingLetters.add(text.substr(0, 1).toLowerCase());
+                    return new VillagerCommand(action, text, getCommandLoc(action));
                 });
             
             var commandMenu :VillagerCommandMenu = new VillagerCommandMenu(commands);
@@ -156,10 +160,6 @@ public class Player extends NetObject
     public function offsetDefense (offset :Number) :void {
         _templeDefense = MathUtil.clamp(_templeDefense + offset, 0, 1);
         _templeView.updateDefense(_templeDefense);
-    }
-    
-    protected function getCommandText (villager :Villager, action :VillagerAction) :String {
-        return _ctx.commandGenerator.getCommandText(action, villager, _villagerAffinity);
     }
     
     protected function getCommandLoc (action :VillagerAction) :Vector2 {

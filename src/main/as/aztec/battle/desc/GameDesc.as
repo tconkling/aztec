@@ -19,7 +19,7 @@ public class GameDesc
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
     
-    public static const initialAffinity :Number = 0.7;
+    public static const initialAffinity :Number = 0.5;
     public static const initialDefense :Number = 0.25;
     
     public static const sacrificeAffinityOffset :Number = -0.2;
