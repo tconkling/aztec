@@ -21,9 +21,9 @@ public class Aztec {
     
     public static const rands :Randoms = new Randoms();
 
-    public static const MULTIPLAYER :Boolean = false;
-    public static const SERVER :String = "localhost";
-//    public static const SERVER :String = "aztec.bungleton.com";
-    public static const DEBUG :Boolean = true;
+    public static const MULTIPLAYER :Boolean = true;
+    //public static const SERVER :String = "localhost";
+    public static const SERVER :String = "aztec.bungleton.com";
+    public static const DEBUG :Boolean = false;
 }
 }
