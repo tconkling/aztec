@@ -113,19 +113,17 @@ public class VillagerView extends LocalSpriteObject
         const r :Rectangle = GameDesc.villagerWalkBounds;
         
         var curLoc :Vector2 = new Vector2(_sprite.x, _sprite.y);
-        var nextLoc :Vector2;
+        var nextLoc :Vector2 = randomWalkLoc();
+        while (nextLoc.epsilonEquals(curLoc)) {
+            nextLoc = randomWalkLoc();
+        }
+        
         var speed :Number = 0;
         if (r.contains(curLoc.x, curLoc.y)) {
             speed = rands.getNumberInRange(10, 30);
-            nextLoc = randomWalkLoc();
-            while (nextLoc.epsilonEquals(curLoc)) {
-                nextLoc = randomWalkLoc();
-            }
         } else {
+            // if we were out dancing/worshipping, move back to the walk bounds quickly
             speed = 100;
-            nextLoc = new Vector2(
-                MathUtil.clamp(curLoc.x, r.left, r.right),
-                MathUtil.clamp(curLoc.y, r.top, r.bottom));
         }
         
         var dist :Number = nextLoc.subtract(curLoc).length;
