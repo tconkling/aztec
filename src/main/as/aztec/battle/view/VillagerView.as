@@ -4,7 +4,6 @@
 package aztec.battle.view {
 
 import aspire.geom.Vector2;
-import aspire.util.MathUtil;
 import aspire.util.Randoms;
 import aspire.util.StringUtil;
 
@@ -164,7 +163,7 @@ public class VillagerView extends LocalSpriteObject
         var rands :Randoms = _ctx.randomsFor(this);
         var loc :Vector2 = forPlayer.desc.templeLoc.clone(new Vector2());
         loc.x += rands.getNumberInRange(-96, 96);
-        loc.y += rands.getNumberInRange(5, 58);
+        loc.y += rands.getNumberInRange(20, 68);
         return loc;
     }
     

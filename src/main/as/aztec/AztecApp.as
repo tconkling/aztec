@@ -36,11 +36,9 @@ public class AztecApp extends FlashbangApp
         Aztec.newGameCondition = NewGameCondition.INITIAL;
 
         addEventListener(Event.ACTIVATE, function (event:Event) :void {
-            trace("activateHandler");
             _active = true;
         });
         addEventListener(Event.DEACTIVATE, function (event: Event) :void {
-            trace("deactivateHandler");
             _active = false;
         });
 
