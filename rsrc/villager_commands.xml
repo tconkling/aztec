@@ -17,11 +17,12 @@
 
   <command action="SACRIFICE" affinity="1.0" text="{greeting}! *Stab*"/>
   <command action="SACRIFICE" affinity="0.8" text="{greeting}! {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.6" text="{greeting}, {name}! {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.4" text="{greeting}, {name}! {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0.2" text="{greeting}, {name}! {babble_short} {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.1" text="{greeting}, {name}! {babble_short} {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0" text="{greeting}, {name}! {babble_medium} {altar_medium}"/>
+  <command action="SACRIFICE" affinity="0.7" text="{greeting}, {name}! {altar_short}"/>
+  <command action="SACRIFICE" affinity="0.6" text="{greeting}, {name}! {altar_medium}"/>
+  <command action="SACRIFICE" affinity="0.5" text="{greeting}, {name}! {babble_short} {altar_short}"/>
+  <command action="SACRIFICE" affinity="0.4" text="{greeting}, {name}! {babble_short} {altar_medium}"/>
+  <command action="SACRIFICE" affinity="0.2" text="{greeting}, {name}! {babble_medium} {altar_short}"/>
+  <command action="SACRIFICE" affinity="0.0" text="{greeting}, {name}! {babble_medium} {altar_medium}"/>
 
   <subs>
     <worship_short text="Let's go worship!"/>
@@ -37,10 +38,11 @@
 
   <command action="WORSHIP" affinity="1.0" text="{greeting}! Worship!"/>
   <command action="WORSHIP" affinity="0.8" text="{greeting}! {worship_short}"/>
-  <command action="WORSHIP" affinity="0.6" text="{greeting}, {name}! {worship_short}"/>
-  <command action="WORSHIP" affinity="0.4" text="{greeting}, {name}! {worship_medium}"/>
-  <command action="WORSHIP" affinity="0.2" text="{greeting}, {name}! {babble_short} {worship_short}"/>
-  <command action="WORSHIP" affinity="0.1" text="{greeting}, {name}! {babble_short} {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.7" text="{greeting}, {name}! {worship_short}"/>
+  <command action="WORSHIP" affinity="0.6" text="{greeting}, {name}! {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.5" text="{greeting}, {name}! {babble_short} {worship_short}"/>
+  <command action="WORSHIP" affinity="0.4" text="{greeting}, {name}! {babble_short} {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.2" text="{greeting}, {name}! {babble_medium} {worship_short}"/>
   <command action="WORSHIP" affinity="0.0" text="{greeting}, {name}! {babble_medium} {worship_medium}"/>
 
   <subs>
@@ -57,10 +59,11 @@
 
   <command action="FESTIVAL" affinity="1.0" text="{greeting}! Party!"/>
   <command action="FESTIVAL" affinity="0.8" text="{greeting}! {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.6" text="{greeting}, {name}! {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.4" text="{greeting}, {name}! {festival_medium}"/>
-  <command action="FESTIVAL" affinity="0.2" text="{greeting}, {name}! {babble_short} {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.1" text="{greeting}, {name}! {babble_short} {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.7" text="{greeting}, {name}! {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.6" text="{greeting}, {name}! {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.5" text="{greeting}, {name}! {babble_short} {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.4" text="{greeting}, {name}! {babble_short} {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.2" text="{greeting}, {name}! {babble_medium} {festival_short}"/>
   <command action="FESTIVAL" affinity="0.0" text="{greeting}, {name}! {babble_medium} {festival_medium}"/>
 
 
@@ -74,13 +77,21 @@
 
     <babble_short text="How's life? Also,"/>
     <babble_short text="How's the family? Also,"/>
-    <babble_short text="Can I rap at you? Also,"/>
-    <babble_short text="Listen up, yo. Also,"/>
+    <babble_short text="Can I rap at you?"/>
+    <babble_short text="Listen up, yo."/>
     <babble_short text="How bout this weather? Also,"/>
 
     <babble_medium text="Gods grant me the serenity to accept the things I cannot change, and the courage to sacrifice my friends. Also,"/>
     <babble_medium text="Beer is constant proof that the Gods love us and love to see us happy. Also,"/>
-    <babble_medium text="In the first place, the Gods made idiots. That was for practice. Then he made school boards. Also,"/>
+    <babble_medium text="In the first place, the Gods made idiots. That was for practice. Then they made school boards. Also,"/>
+    <babble_medium text="Only one thing is impossible for the Gods: To find any sense in any copyright law on the planet. Also,"/>
+    <babble_medium text="Man was made at the end of the week's work when the Gods were tired. Also,"/>
+    <babble_medium text="Under certain circumstances, profanity provides a relief denied even to prayer. Also,"/>
+    <babble_medium text="There are times when one would like to hang the whole human race, and finish the farce. Also,"/>
+    <babble_medium text="The rule is perfect: in all matters of opinion our adversaries are insane. Also,"/>
+    <babble_medium text="Only kings, gods, and people with tapeworms have the right to use the editorial 'we.' Also,"/>
+    <babble_medium text="There are several good protections against temptation, but the surest is cowardice. Also,"/>
+    <babble_medium text="I don't like to commit myself about heaven and hell - you see, I have friends in both places. Also,"/>
   </subs>
 
 </root>
