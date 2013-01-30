@@ -16,7 +16,7 @@ public class VillagerSelectables extends LocalObject implements SelectableProvid
     }
 
     override protected function addedToMode () :void {
-        super.removedFromMode();
+        super.addedToMode();
 
         _regs.add(_ctx.selector.registerProvider(this));
     }
