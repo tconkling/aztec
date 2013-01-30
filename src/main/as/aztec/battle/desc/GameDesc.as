@@ -44,9 +44,9 @@ public class GameDesc
     
     public static function godDamage (god :God) :Number {
         switch (god) {
-        case God.QUETZ: return 0.2;
-        case God.HUITZ: return 0.4;
-        case God.TLAH: return 0.8;
+        case God.QUETZ: return 0.15;
+        case God.HUITZ: return 0.3;
+        case God.TLAH: return 0.6;
         }
         throw new Error("Unrecognized god " + god);
     }
