@@ -5,19 +5,22 @@
     <altar_short text="Check out this knife!"/>
     <altar_short text="I need your heart."/>
     <altar_short text="This won't hurt a bit."/>
+    <altar_short text="Time to die!"/>
 
-    <altar_medium text="It's time to head to the temple, yo."/>
+
     <altar_medium text="There's a prize waiting for you at the temple!"/>
     <altar_medium text="Don't worry, you're in good hands! I'm a surgeon!"/>
+    <altar_medium text="It's cool, I promise! I'm a doctor!"/>
+    <altar_medium text="You're not attached to that heart, are you?"/>
+    <altar_medium text="Is it cool if I cut you open and take your heart?"/>
   </subs>
 
   <command action="SACRIFICE" affinity="1.0" text="{greeting}! *Stab*"/>
-  <command action="SACRIFICE" affinity="0.9" text="{greeting}! {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.8" text="{greeting}, {name}! {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.7" text="{greeting}, {name}! {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0.6" text="{greeting}, {name}! {babble_short} {altar_short}"/>
-  <command action="SACRIFICE" affinity="0.5" text="{greeting}, {name}! {babble_short} {altar_medium}"/>
-  <command action="SACRIFICE" affinity="0.4" text="{greeting}, {name}! {babble_medium} {altar_medium}"/>
+  <command action="SACRIFICE" affinity="0.8" text="{greeting}! {altar_short}"/>
+  <command action="SACRIFICE" affinity="0.6" text="{greeting}, {name}! {altar_short}"/>
+  <command action="SACRIFICE" affinity="0.4" text="{greeting}, {name}! {altar_medium}"/>
+  <command action="SACRIFICE" affinity="0.2" text="{greeting}, {name}! {babble_short} {altar_short}"/>
+  <command action="SACRIFICE" affinity="0.1" text="{greeting}, {name}! {babble_short} {altar_medium}"/>
   <command action="SACRIFICE" affinity="0" text="{greeting}, {name}! {babble_medium} {altar_medium}"/>
 
   <subs>
@@ -33,51 +36,49 @@
   </subs>
 
   <command action="WORSHIP" affinity="1.0" text="{greeting}! Worship!"/>
-  <command action="WORSHIP" affinity="0.9" text="{greeting}! {worship_short}"/>
-  <command action="WORSHIP" affinity="0.8" text="{greeting}, {name}! {worship_short}"/>
-  <command action="WORSHIP" affinity="0.7" text="{greeting}, {name}! {worship_medium}"/>
-  <command action="WORSHIP" affinity="0.6" text="{greeting}, {name}! {babble_short} {worship_short}"/>
-  <command action="WORSHIP" affinity="0.5" text="{greeting}, {name}! {babble_short} {worship_medium}"/>
-  <command action="WORSHIP" affinity="0.4" text="{greeting}, {name}! {babble_medium} {worship_medium}"/>
-  <command action="WORSHIP" affinity="0" text="{greeting}, {name}! {babble_medium} {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.8" text="{greeting}! {worship_short}"/>
+  <command action="WORSHIP" affinity="0.6" text="{greeting}, {name}! {worship_short}"/>
+  <command action="WORSHIP" affinity="0.4" text="{greeting}, {name}! {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.2" text="{greeting}, {name}! {babble_short} {worship_short}"/>
+  <command action="WORSHIP" affinity="0.1" text="{greeting}, {name}! {babble_short} {worship_medium}"/>
+  <command action="WORSHIP" affinity="0.0" text="{greeting}, {name}! {babble_medium} {worship_medium}"/>
 
   <subs>
     <festival_short text="It's party time!"/>
     <festival_short text="Dance like nobody's watching!"/>
-    <festival_short text="Praise to the gods!"/>
-    <festival_short text="The gods are great!"/>
-    <festival_short text="Hooray for the gods!"/>
+    <festival_short text="Do the twist!"/>
+    <festival_short text="Get down!"/>
+    <festival_short text="Do a little dance!"/>
 
-    <festival_medium text="It's our duty to festival the gods, so get to it."/>
-    <festival_medium text="The gods require constant festival, so get to it."/>
+    <festival_medium text="Dance, monkey! Dance! Ahahahahahaha. Ha."/>
+    <festival_medium text="I wanna see you shake that THANG, yo!"/>
     <festival_medium text="You know what'd be great? Some hardcore festival action."/>
   </subs>
 
   <command action="FESTIVAL" affinity="1.0" text="{greeting}! Party!"/>
-  <command action="FESTIVAL" affinity="0.9" text="{greeting}! {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.8" text="{greeting}, {name}! {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.7" text="{greeting}, {name}! {festival_medium}"/>
-  <command action="FESTIVAL" affinity="0.6" text="{greeting}, {name}! {babble_short} {festival_short}"/>
-  <command action="FESTIVAL" affinity="0.5" text="{greeting}, {name}! {babble_short} {festival_medium}"/>
-  <command action="FESTIVAL" affinity="0.4" text="{greeting}, {name}! {babble_medium} {festival_medium}"/>
-  <command action="FESTIVAL" affinity="0" text="{greeting}, {name}! {babble_medium} {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.8" text="{greeting}! {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.6" text="{greeting}, {name}! {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.4" text="{greeting}, {name}! {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.2" text="{greeting}, {name}! {babble_short} {festival_short}"/>
+  <command action="FESTIVAL" affinity="0.1" text="{greeting}, {name}! {babble_short} {festival_medium}"/>
+  <command action="FESTIVAL" affinity="0.0" text="{greeting}, {name}! {babble_medium} {festival_medium}"/>
 
 
   <subs>
     <greeting text="Yo"/>
+    <greeting text="You"/>
     <greeting text="Hey"/>
+    <greeting text="Hi"/>
     <greeting text="Psst"/>
     <greeting text="Howdy"/>
-    <greeting text="Bonjour"/>
-    <greeting text="Yoo-hoo"/>
 
-    <babble_short text="I know there's a lot of rumors flying around. But-"/>
-    <babble_short text="You have every right to be upset with me. But-"/>
-    <babble_short text="Come on, yo, don't ignore me like that! Look-"/>
+    <babble_short text="How's life? Also,"/>
+    <babble_short text="How's the family? Also,"/>
+    <babble_short text="Can I rap at you? Also,"/>
+    <babble_short text="Listen up, yo. Also,"/>
+    <babble_short text="How bout this weather? Also,"/>
 
-    <babble_medium text="I know! It's a Sunday morning and you'd rather be watching the big game. But -"/>
-    <babble_medium text="Look, you've had a hard day. Those tired eyes! Those calloused feet! I have just the thing for you!"/>
-    <babble_medium text="Gods grant me the serenity to accept the things I cannot change, and the courage to sacrifice my friends."/>
+    <babble_medium text="Gods grant me the serenity to accept the things I cannot change, and the courage to sacrifice my friends. Also,"/>
     <babble_medium text="Beer is constant proof that the Gods love us and love to see us happy. Also,"/>
     <babble_medium text="In the first place, the Gods made idiots. That was for practice. Then he made school boards. Also,"/>
   </subs>

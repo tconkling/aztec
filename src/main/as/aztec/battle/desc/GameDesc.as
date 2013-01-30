@@ -19,8 +19,8 @@ public class GameDesc
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
     
-    public static const initialAffinity :Number = 0.5;
-    public static const initialDefense :Number = 0.25;
+    public static const initialAffinity :Number = 0.7;
+    public static const initialDefense :Number = 0.15;
     
     public static const sacrificeAffinityOffset :Number = -0.2;
     
@@ -42,9 +42,9 @@ public class GameDesc
     
     public static function godDamage (god :God) :Number {
         switch (god) {
-        case God.QUETZ: return 0.05;
-        case God.HUITZ: return 0.2;
-        case God.TLAH: return 0.5;
+        case God.QUETZ: return 0.2;
+        case God.HUITZ: return 0.4;
+        case God.TLAH: return 0.8;
         }
         throw new Error("Unrecognized god " + god);
     }
