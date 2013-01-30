@@ -19,14 +19,14 @@ public class GameDesc
     /** Attack absorbed by defense as a percentage of attack absorbed by health. */
     public static const DEFENSE_STRENGTH :Number = .5;
     
-    public static const initialAffinity :Number = 0.7;
+    public static const initialAffinity :Number = 1.0;
     public static const initialDefense :Number = 0.15;
     
     public static const sacrificeAffinityOffset :Number = -0.2;
     
-    public static const festivalTime :Number = 15;
-    public static const worshipTime :Number = 15;
-    public static const festivalAffinityPerSecond :Number = 0.1 / festivalTime;
+    public static const festivalTime :Number = 30;
+    public static const worshipTime :Number = 30;
+    public static const festivalAffinityPerSecond :Number = 0.25 / festivalTime;
     public static const worshipDefensePerSecond :Number = 0.2 / worshipTime;
 
     public static const MAX_HEARTS :int = 5;
