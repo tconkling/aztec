@@ -17,7 +17,7 @@ public class BattleDebug extends LocalObject {
             if (!player.isLocalPlayer) {
                 view.sprite.x = 960;
             }
-            _ctx.viewObjects.addObject(view, _ctx.uiLayer);
+            _ctx.viewObjects.addObject(view, _ctx.debugLayer);
         }
     }
 

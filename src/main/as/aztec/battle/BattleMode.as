@@ -53,6 +53,7 @@ public class BattleMode extends AppMode
         _modeSprite.addChild(_ctx.boardLayer);
         _modeSprite.addChild(_ctx.uiLayer);
         _modeSprite.addChild(_ctx.effectLayer);
+        _modeSprite.addChild(_ctx.debugLayer);
         
         // all the network-synced objects live in here
         _ctx.netObjects = new NetObjectDB(_ctx);
