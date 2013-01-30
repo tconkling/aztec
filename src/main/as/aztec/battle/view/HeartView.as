@@ -11,13 +11,27 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
 
     public function HeartView (forLocalPlayer :Boolean, textToRight :Boolean) {
         _forLocalPlayer = forLocalPlayer;
-        _textToRight = textToRight;
         for (var ii :int = 0; ii < GameDesc.MAX_HEARTS; ii++) {
             var heart :Movie = MovieResource.createMovie("aztec/heart");
             heart.y = _hearts.length * -35;
-            heart.alpha = .3;
+            heart.alpha = DISABLED_ALPHA;
             _hearts.push(heart);
             _sprite.addChildAt(heart,  0);
+        }
+        
+        if (forLocalPlayer) {
+            for each (var god :God in God.values()) {
+                var textSprite :SelectableTextSprite = new SelectableTextSprite(god.displayName);
+                if (textToRight) {
+                    textSprite.x = 30;
+                } else {
+                    textSprite.x = -_hearts[0].width - textSprite.width + 10;
+                }
+                textSprite.y = _hearts[GameDesc.godHearts(god) - 1].y;
+                textSprite.alpha = DISABLED_ALPHA;
+                _sprite.addChild(textSprite);
+                _godNameTextFields.push(textSprite, 0);
+            }
         }
     }
 
@@ -40,17 +54,11 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
         if (!_forLocalPlayer) { return; }
         for each (var god :God in God.values()) {
             if (GameDesc.godHearts(god) == _active) {
-                var selectable :SelectableGod = new SelectableGod(god, function(god :God) :void {
-                    _ctx.messages.summon(god);
-                });
+                var textSprite :SelectableTextSprite = _godNameTextFields[god.ordinal()];
+                textSprite.alpha = 1.0;
+                var selectable :SelectableGod =
+                    new SelectableGod(god, textSprite, _ctx.messages.summon)
                 _selectables.push(selectable);
-                sprite.addChild(selectable.textSprite);
-                if (_textToRight) {
-                    selectable.textSprite.x = 30;
-                } else {
-                    selectable.textSprite.x = -_hearts[0].width - selectable.textSprite.width + 10;
-                }
-                selectable.textSprite.y = _hearts[_active - 1].y;
             }
         }
     }
@@ -60,17 +68,20 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
             for each (var god :God in God.values()) {
                 if (GameDesc.godHearts(god) == _active) {
                     var selectable :SelectableGod = _selectables.pop();
-                    sprite.removeChild(selectable.textSprite);
+                    selectable.textSprite.alpha = DISABLED_ALPHA;
                 }
             }
         }
-        _hearts[--_active].alpha = .3;
+        _hearts[--_active].alpha = DISABLED_ALPHA;
     }
 
     protected var _selectables :Array = [];
+    protected var _godNameTextFields :Array = [];
     protected var _active :int;
     protected var _hearts :Vector.<Movie> = new <Movie>[];
-    protected var _forLocalPlayer :Boolean,  _textToRight :Boolean;
+    protected var _forLocalPlayer :Boolean;
+    
+    protected static const DISABLED_ALPHA :Number = 0.3;
 }
 }
 
@@ -81,8 +92,8 @@ import aztec.battle.view.SelectableTextSprite;
 class SelectableGod
     implements Selectable
 {
-    public function SelectableGod (god :God, onSelected :Function) {
-        _textSprite = new SelectableTextSprite(god.displayName);
+    public function SelectableGod (god :God, textSprite :SelectableTextSprite, onSelected :Function) {
+        _textSprite = textSprite;
         _onSelected = onSelected;
         _god = god;
     }
