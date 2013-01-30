@@ -21,6 +21,9 @@ import aztec.battle.view.TempleView;
 import aztec.battle.view.VillagerCommandMenu;
 
 import flashbang.core.GameObjectRef;
+import flashbang.tasks.FunctionTask;
+import flashbang.tasks.SerialTask;
+import flashbang.tasks.TimedTask;
 
 public class Player extends NetObject
 {
@@ -132,12 +135,16 @@ public class Player extends NetObject
             }
             _templeView.summonGod(god);
         } else {
-            var damage :Number = GameDesc.godDamage(god);
-            var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
-            var defenseUsed :Number = Math.min(defensePossible, damage);
-            offsetDefense(-defenseUsed);
-            damage -= defenseUsed;
-            offsetHealth(-damage);
+            addTask(new SerialTask(
+                new TimedTask(2),
+                new FunctionTask(function () :void {
+                    var damage :Number = GameDesc.godDamage(god);
+                    var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
+                    var defenseUsed :Number = Math.min(defensePossible, damage);
+                    damage -= defenseUsed;
+                    offsetDefense(-defenseUsed);
+                    offsetHealth(-damage);
+                })));
         }
     }
     
