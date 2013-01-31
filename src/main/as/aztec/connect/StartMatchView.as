@@ -31,19 +31,24 @@ public class StartMatchView extends SpriteObject {
         } else {
             if (condition == NewGameCondition.WON) {
                 _sprite.addChild(MovieResource.createMovie("aztec/win_screen"));
-                _sprite.addChild(drawTextAt(160, 228, "QuetzalCoatl\nSmiles!", 70));
-                _sprite.addChild(drawTextAt(160, 385,
-                    "Your sacrifices and typing\nskills have impressed the\ngods", 18,
+                _sprite.addChild(drawTextAt(160, 168, "QuetzalCoatl\nSmiles!", 70));
+                _sprite.addChild(drawTextAt(160, 325,
+                    "Your sacrifices and typing skills\nhave impressed the gods", 18,
                     Aztec.TITLE_FONT2));
+                
+                _sprite.addChild(drawTextAt(160, 430, TIPS, 14, Aztec.TITLE_FONT2));
+                
             } else {
                 _sprite.addChild(MovieResource.createMovie("aztec/lose_screen"));
-                _sprite.addChild(drawTextAt(160, 228, "Huitzilopochtli\nRages!", 70));
-                _sprite.addChild(drawTextAt(160, 385,
+                _sprite.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
+                _sprite.addChild(drawTextAt(160, 325,
                     "More sacrifices must be offered\nto atone for your typing skills", 24,
                     Aztec.TITLE_FONT2));
+                
+                _sprite.addChild(drawTextAt(160, 430, TIPS, 14, Aztec.TITLE_FONT2));
             }
             
-            _sprite.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 14,
+            _sprite.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 12,
                 Aztec.TITLE_FONT2));
             
             _textField.display.x = 184;
@@ -87,5 +92,11 @@ public class StartMatchView extends SpriteObject {
     protected var _startEntered :Boolean;
     protected var _condition :NewGameCondition;
     protected var _textField :TextEntryField;
+    
+    protected static const TIPS :String = "TIPS:\n" +
+        "Press 'Escape' to cancel your current typing\nselection.\n\n" +
+        "Steal villagers! Sacrifice them while\nthey're dancing or worshipping for your opponent.\n\n" +
+        "Summoned Gods will destroy your\nopponent's dancing and worshipping villagers.";
+        
 }
 }
