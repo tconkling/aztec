@@ -54,6 +54,7 @@
     <festival_short text="Do a little dance!"/>
     <festival_short text="Shake it, baby!"/>
     <festival_short text="Party down!"/>
+    <festival_short text="Bust a move!"/>
 
     <festival_medium text="I want you to dance like nobody's watching!"/>
     <festival_medium text="Dance, monkey! Dance! Ahahahahahaha. Ha."/>
@@ -100,7 +101,7 @@
     <babble_medium text="Under certain circumstances, profanity provides a relief denied even to prayer. Also,"/>
     <babble_medium text="There are times when one would like to hang the whole human race, and finish the farce. Also,"/>
     <babble_medium text="The rule is perfect: in all matters of opinion our adversaries are insane. Also,"/>
-    <babble_medium text="Only kings, gods, and people with tapeworms have the right to use the editorial 'we.' Also,"/>
+    <babble_medium text='Only kings, gods, and people with tapeworms have the right to use the editorial "we." Also,'/>
     <babble_medium text="There are several good protections against temptation, but the surest is cowardice. Also,"/>
     <babble_medium text="I don't like to commit myself about heaven and hell - you see, I have friends in both places. Also,"/>
     <babble_medium text="Between two evils, I always pick the one I never tried before. Also,"/>
