@@ -119,7 +119,8 @@ class CommandSprite extends Sprite
     protected function redraw () :void {
         removeChildren();
         
-        _textSprite.text = (_expanded ? cmd.text : cmd.text.substr(0, 35) + "...");
+        _textSprite.text =
+            (_expanded || cmd.text.length <= 35 ? cmd.text : cmd.text.substr(0, 35) + "...");
         
         const HMARGIN :int = 8;
         const VMARGIN :int = 12;
