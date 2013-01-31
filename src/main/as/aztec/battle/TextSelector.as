@@ -39,7 +39,7 @@ public class TextSelector extends LocalObject
             _curSelectable = null;
         }
         
-        if (e.keyCode == KeyboardCodes.ESCAPE) {
+        if (e.keyCode == KeyboardCodes.ESCAPE || e.keyCode == KeyboardCodes.BACKSPACE) {
             // if we have an actor selected, escape deselects.
             // else, escape "cancels" the text selection
             if (_curSelectable != null) {
