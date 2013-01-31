@@ -3,6 +3,7 @@
 
 package aztec.battle.controller {
 
+import aspire.util.Comparators;
 import aspire.util.Log;
 import aspire.util.Map;
 import aspire.util.Maps;
@@ -35,7 +36,7 @@ public class VillagerGenerator extends NetObject
             log.error("First letter was already claimed!", "name", name);
         }
         
-        _regs.addSignalListener(villager.destroyed, function () :void {
+        _regs.addOneShotSignalListener(villager.destroyed, function () :void {
              var removed :Boolean = _claimedLetters.remove(firstLetter);
              if (!removed) {
                  log.error("First letter was already un-claimed!", "name", name);
@@ -78,7 +79,7 @@ public class VillagerGenerator extends NetObject
             allowedFirstLetters = allowedFirstLetters.replace(godLetter, "");
         }
         
-        _names = Maps.newMapOf(String);
+        _names = Maps.newSortedMapOf(String, Comparators.compareStrings);
         for (var ii :int = 0; ii < allowedFirstLetters.length; ++ii) {
             var letter :String = allowedFirstLetters.charAt(ii);
             _names.put(letter, []);
@@ -109,7 +110,8 @@ public class VillagerGenerator extends NetObject
     
     // Each Villager must have a name that starts with a unique letter.
     // This tracks with letters are claimed by existing Villagers.
-    protected static var _claimedLetters :Set = Sets.newSetOf(String);
+    protected static var _claimedLetters :Set =
+        Sets.newSortedSetOf(String, Comparators.compareStrings);
     
     protected static const log :Log = Log.getLog(VillagerGenerator);
     
