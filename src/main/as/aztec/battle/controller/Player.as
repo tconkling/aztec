@@ -140,9 +140,7 @@ public class Player extends NetObject
         if (this == summoner) {
             var heartsUsed :int = GameDesc.godHearts(god);
             _hearts -= heartsUsed;
-            for (; heartsUsed > 0; heartsUsed--) {
-                _heartView.removeHeart();
-            }
+            _heartView.hearts = _hearts;
             _templeView.summonGod(god);
             
         } else {
@@ -186,7 +184,7 @@ public class Player extends NetObject
         case VillagerAction.SACRIFICE:
             if (_hearts < GameDesc.MAX_HEARTS) {
                 _hearts++;
-                _heartView.addHeart();
+                _heartView.hearts = _hearts;
             }
             offsetAffinity(GameDesc.sacrificeAffinityOffset);
             break;
