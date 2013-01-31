@@ -84,7 +84,7 @@ public class VillagerView extends LocalSpriteObject
     override protected function addedToMode () :void {
         super.addedToMode();
         
-        _viewVariation = _ctx.randomsFor(this).getInRange(1, 4);
+        _viewVariation = rands().getInRange(1, 4);
         
         // fade in
         _sprite.alpha = 0;
@@ -108,7 +108,7 @@ public class VillagerView extends LocalSpriteObject
     }
     
     protected function walk () :void {
-        var rands :Randoms = _ctx.randomsFor(this);
+        var rands :Randoms = rands();
         const r :Rectangle = GameDesc.villagerWalkBounds;
         
         var curLoc :Vector2 = new Vector2(_sprite.x, _sprite.y);
@@ -140,7 +140,7 @@ public class VillagerView extends LocalSpriteObject
     }
     
     protected function randomWalkLoc () :Vector2 {
-        var rands :Randoms = _ctx.randomsFor(this);
+        var rands :Randoms = rands();
         var r :Rectangle = GameDesc.villagerWalkBounds;
         return new Vector2(
             r.x + rands.getNumberInRange(0, r.width),
@@ -151,7 +151,7 @@ public class VillagerView extends LocalSpriteObject
         var loc :Vector2 = forPlayer.desc.festivalLoc.clone(new Vector2());
         loc.y += 36;
         
-        var rands :Randoms = _ctx.randomsFor(this);
+        var rands :Randoms = rands();
         var angle :Number = rands.getNumber(Math.PI * 2);
         var dist :Number = rands.getNumberInRange(5, 36);
         
@@ -160,7 +160,7 @@ public class VillagerView extends LocalSpriteObject
     }
     
     protected function randomWorshipLoc (forPlayer :Player) :Vector2 {
-        var rands :Randoms = _ctx.randomsFor(this);
+        var rands :Randoms = rands();
         var loc :Vector2 = forPlayer.desc.templeLoc.clone(new Vector2());
         loc.x += rands.getNumberInRange(-96, 96);
         loc.y += rands.getNumberInRange(20, 68);

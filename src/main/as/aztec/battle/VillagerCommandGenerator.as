@@ -32,7 +32,7 @@ public class VillagerCommandGenerator extends LocalObject
         });
         
         // perform substitutions
-        var text :String = CommandText(_ctx.randomsFor(this).pick(commandList)).text;
+        var text :String = CommandText(rands().pick(commandList)).text;
         text = text.replace(RE_NAME, StringUtil.capitalize(villager.name));
         
         while (true) {
@@ -57,7 +57,7 @@ public class VillagerCommandGenerator extends LocalObject
                 });
             }
             
-            var sub :String = _ctx.randomsFor(this).pick(subs);
+            var sub :String = rands().pick(subs);
             var match :String = result[0];
             text = text.replace(match, sub);
         }
