@@ -1,18 +1,18 @@
 <root>
   <subs>
-    <sacrifice_short text="Follow me to the Altar!"/>
+    <sacrifice_short text="Follow me to the altar!"/>
     <sacrifice_short text="Get to the temple!"/>
     <sacrifice_short text="Check out this knife!"/>
     <sacrifice_short text="I need your heart."/>
     <sacrifice_short text="This won't hurt a bit."/>
     <sacrifice_short text="Time to die!"/>
 
-
     <sacrifice_medium text="There's a prize waiting for you at the temple!"/>
     <sacrifice_medium text="Don't worry, you're in good hands! I'm a surgeon!"/>
     <sacrifice_medium text="It's cool, I promise! I'm a doctor!"/>
     <sacrifice_medium text="You're not attached to that heart, are you?"/>
     <sacrifice_medium text="Is it cool if I cut you open and take your heart?"/>
+    <sacrifice_medium text="I honor the place where my knife meets your chest."/>
   </subs>
 
   <command action="SACRIFICE" affinity="1.0" text="{greeting}! *Stab*"/>
@@ -52,6 +52,8 @@
     <festival_short text="Do the twist!"/>
     <festival_short text="Get down!"/>
     <festival_short text="Do a little dance!"/>
+    <festival_short text="Shake it, baby!"/>
+    <festival_short text="Party down!"/>
 
     <festival_medium text="I want you to dance like nobody's watching!"/>
     <festival_medium text="Dance, monkey! Dance! Ahahahahahaha. Ha."/>
@@ -77,13 +79,18 @@
     <greeting text="Hi"/>
     <greeting text="Psst"/>
     <greeting text="Howdy"/>
+    <greeting text="Hello"/>
 
     <babble_short text="How's life? Also,"/>
     <babble_short text="How's the family? Also,"/>
     <babble_short text="Can I rap at you?"/>
     <babble_short text="Listen up, yo."/>
     <babble_short text="How bout this weather? Also,"/>
-    <babble_short text="How goes? Also,"/>
+    <babble_short text="How it going?"/>
+    <babble_short text="Pay close attention:"/>
+    <babble_short text="Listen closely:"/>
+    <babble_short text="This is very important:"/>
+    <babble_short text="Do you like my headdress? Also,"/>
 
     <babble_medium text="Gods grant me the serenity to accept the things I cannot change, and the courage to sacrifice my friends. Also,"/>
     <babble_medium text="Beer is constant proof that the Gods love us and love to see us happy. Also,"/>
