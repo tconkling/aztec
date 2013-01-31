@@ -3,6 +3,7 @@
 
 package aztec.battle {
 
+import aspire.util.Log;
 import aspire.util.Preconditions;
 
 import aztec.Aztec;
@@ -44,6 +45,8 @@ public class BattleMode extends AppMode
     }
     
     override protected function setup () :void {
+        log.info("Starting match", "randomSeed", _randomSeed);
+        
         // BattleCtx
         _ctx = new BattleCtx(_randomSeed);
         _ctx.viewObjects = this;
@@ -116,5 +119,7 @@ public class BattleMode extends AppMode
     private var _randomSeed:int;
     protected var _ctx :BattleCtx;
     protected var _msgMgr: MessageMgr;
+    
+    protected static const log :Log = Log.getLog(BattleMode);
 }
 }

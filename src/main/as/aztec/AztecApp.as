@@ -5,6 +5,7 @@ package aztec {
 
 import aspire.util.Cloneable;
 import aspire.util.Log;
+import aspire.util.Randoms;
 
 import aztec.battle.BattleMode;
 import aztec.battle.controller.Player;
@@ -52,7 +53,9 @@ public class AztecApp extends FlashbangApp
                 if (!Aztec.MULTIPLAYER) {
                     var player1 :Player = new Player(1, "Tim", GameDesc.player1, true);
                     var player2 :Player = new Player(2, "Charlie", GameDesc.player2, false);
-                    defaultViewport.pushMode(new BattleMode(player1, player2, Aztec.rands.getInt(1000), new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
+                    defaultViewport.pushMode(new BattleMode(player1, player2,
+                        new Randoms().getInt(1000),
+                        new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
                 }
             },
             function (e :Error) :void {

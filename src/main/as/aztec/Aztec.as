@@ -3,8 +3,6 @@
 
 package aztec {
 
-import aspire.util.Randoms;
-
 public class Aztec {
     public static var newGameCondition :NewGameCondition;
 
@@ -18,8 +16,6 @@ public class Aztec {
     public static const TITLE_FONT2 :String = "arial";
     
     public static const TITLE_COLOR :uint = 0x192E20;
-    
-    public static const rands :Randoms = new Randoms();
 
     public static const MULTIPLAYER :Boolean = true;
     //public static const SERVER :String = "localhost";
