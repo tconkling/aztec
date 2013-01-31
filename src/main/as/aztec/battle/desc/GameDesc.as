@@ -28,8 +28,8 @@ public class GameDesc
     
     public static const festivalTime :Number = 45;
     public static const worshipTime :Number = 45;
-    public static const festivalAffinityPerSecond :Number = 0.15 / festivalTime;
-    public static const worshipDefensePerSecond :Number = 0.3 / worshipTime;
+    public static const festivalAffinityPerSecond :Number = 0.2 / festivalTime;
+    public static const worshipDefensePerSecond :Number = 0.4 / worshipTime;
     
     public static const summonDestroysOpponentVillagers :Boolean = true;
 
@@ -46,7 +46,7 @@ public class GameDesc
     
     public static function godDamage (god :God) :Number {
         switch (god) {
-        case God.QUETZ: return 0.2;
+        case God.QUETZ: return 0.1;
         case God.HUITZ: return 0.4;
         case God.TLAH: return 0.8;
         }
