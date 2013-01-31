@@ -93,6 +93,9 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                     //textSpriteObj.removeNamedTasks(GOD_PULSE);
                     //textSprite.scaleX = textSprite.scaleY = 1;
                     _selectables.pop();
+                }
+                
+                if (_numHearts < origHearts) {
                     textSprite.deselect();
                 }
             }
