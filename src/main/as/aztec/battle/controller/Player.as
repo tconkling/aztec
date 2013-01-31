@@ -151,10 +151,11 @@ public class Player extends NetObject
                 new TimedTask(2),
                 new FunctionTask(function () :void {
                     var damage :Number = GameDesc.godDamage(god);
-                    var defensePossible :Number = _templeDefense * GameDesc.DEFENSE_STRENGTH;
-                    var defenseUsed :Number = Math.min(defensePossible, damage);
-                    damage -= defenseUsed;
-                    offsetDefense(-defenseUsed);
+                    var absorbedByDefense :Number =
+                        Math.min(damage * GameDesc.DEFENSE_STRENGTH, _templeDefense);
+                    damage -= absorbedByDefense;
+                    
+                    offsetDefense(-absorbedByDefense);
                     offsetHealth(-damage);
                     
                     if (GameDesc.summonDestroysOpponentVillagers) {
