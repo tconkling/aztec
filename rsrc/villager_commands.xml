@@ -81,6 +81,10 @@
     <greeting text="Psst"/>
     <greeting text="Howdy"/>
     <greeting text="Hello"/>
+    <greeting text="Ahoy"/>
+    <greeting text="G'day"/>
+    <greeting text="What's up"/>
+    <greeting text="Sup"/>
 
     <babble_short text="How's life? Also,"/>
     <babble_short text="How's the family? Also,"/>
@@ -108,6 +112,8 @@
     <babble_medium text="Do not worry about avoiding temptation. As you grow older it will avoid you. Also,"/>
     <babble_medium text="I distrust camels, and anyone else who can go a week without a drink. Also,"/>
     <babble_medium text="Cleanliness becomes more important when godliness is unlikely. Also,"/>
+    <babble_medium text="Tragedy is when I cut my finger. Comedy is when you fall into an open sewer and die. Also,"/>
+    <babble_medium text="I never drink water because of the disgusting things that fish do in it. Also,"/>
   </subs>
 
 </root>

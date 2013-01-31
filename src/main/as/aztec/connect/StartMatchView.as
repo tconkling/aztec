@@ -36,7 +36,7 @@ public class StartMatchView extends SpriteObject {
                     "Your sacrifices and typing skills\nhave impressed the gods", 18,
                     Aztec.TITLE_FONT2));
                 
-                _sprite.addChild(drawTextAt(160, 430, TIPS, 14, Aztec.TITLE_FONT2));
+                _sprite.addChild(drawTextAt(160, 400, TIPS, 14, Aztec.TITLE_FONT2));
                 
             } else {
                 _sprite.addChild(MovieResource.createMovie("aztec/lose_screen"));
@@ -45,7 +45,7 @@ public class StartMatchView extends SpriteObject {
                     "More sacrifices must be offered\nto atone for your typing skills", 24,
                     Aztec.TITLE_FONT2));
                 
-                _sprite.addChild(drawTextAt(160, 430, TIPS, 14, Aztec.TITLE_FONT2));
+                _sprite.addChild(drawTextAt(160, 400, TIPS, 14, Aztec.TITLE_FONT2));
             }
             
             _sprite.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 12,
@@ -96,7 +96,8 @@ public class StartMatchView extends SpriteObject {
     protected static const TIPS :String = "TIPS:\n" +
         "Press 'Escape' to cancel your current typing\nselection.\n\n" +
         "Steal villagers! Sacrifice them while\nthey're dancing or worshipping for your opponent.\n\n" +
-        "Summoned Gods will destroy your\nopponent's dancing and worshipping villagers.";
+        "Summoned Gods will destroy your\nopponent's dancing and worshipping villagers.\n\n" +
+        "Capitalization doesn't matter. Neither do spaces.";
         
 }
 }
