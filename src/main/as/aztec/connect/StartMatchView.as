@@ -161,7 +161,7 @@ public class StartMatchView extends SpriteObject {
         
     
     protected static const TIPS :String = "TIPS:\n" +
-        "Press 'Escape' or 'Backspace' to cancel\nyour current typing selection.\n\n" +
+        "Press 'Escape' to cancel\nyour current typing selection.\n\n" +
         "Steal villagers! Sacrifice them while\nthey're dancing or worshipping for your opponent.\n\n" +
         "Summoned Gods will destroy your\nopponent's dancing and worshipping villagers.\n\n" +
         "Capitalization doesn't matter. Neither do spaces.";
