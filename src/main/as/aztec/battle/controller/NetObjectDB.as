@@ -3,16 +3,17 @@
 
 package aztec.battle.controller {
 
-import starling.display.DisplayObjectContainer;
-
 import aspire.util.Preconditions;
 
-import flashbang.core.AppMode;
-import flashbang.core.GameObject;
-import flashbang.core.GameObjectRef;
 import aztec.battle.BattleCtx;
 
-public class NetObjectDB extends AppMode
+import flashbang.core.GameObject;
+import flashbang.core.GameObjectRef;
+import flashbang.core.ObjectDB;
+
+import starling.display.DisplayObjectContainer;
+
+public class NetObjectDB extends ObjectDB
 {
     public function NetObjectDB (ctx :BattleCtx) {
         _ctx = ctx;

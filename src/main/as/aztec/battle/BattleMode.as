@@ -91,6 +91,11 @@ public class BattleMode extends AppMode
         }
     }
 
+    override protected function destroy () :void {
+        _ctx.netObjects.shutdown();
+        super.destroy();
+    }
+
     override protected function beginUpdate (dt :Number) :void {
         super.beginUpdate(dt);
 
