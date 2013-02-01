@@ -9,10 +9,14 @@ import aztec.battle.desc.GameDesc;
 import aztec.battle.view.SelectableTextSprite;
 import aztec.text.CustomTextField;
 
+import flashbang.core.Flashbang;
 import flashbang.core.GameObject;
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
+import flashbang.tasks.FunctionTask;
 import flashbang.tasks.RepeatingTask;
+import flashbang.tasks.TimedTask;
+import flashbang.util.DisplayUtil;
 
 import org.osflash.signals.Signal;
 
@@ -28,7 +32,6 @@ public class StartMatchView extends SpriteObject {
     public function StartMatchView (condition :NewGameCondition) {
         _condition = condition;
         _textField = new TextEntryField(200, 30, "", Aztec.UI_FONT, 24);
-
 
         var static :Sprite = new Sprite();
         _sprite.addChild(static);
@@ -105,17 +108,42 @@ public class StartMatchView extends SpriteObject {
     override protected function addedToMode() :void {
         super.addedToMode();
         _regs.addSignalListener(_textField.enterPressed, function () :void {
-            if (_startEntered || _textField.text.toLowerCase() != "start") return;
-            _startEntered = true;
-            var searching :TextField = new TextField(400, 300, "Searching for opponent", Aztec.UI_FONT, 36);
-            if (_condition == NewGameCondition.INITIAL) {
-                searching.x = 300;
-                searching.y = 100;
-            } else {
-                searching.x = 95;
-                searching.y = 340;
+            if (_startEntered || _textField.text.toLowerCase() != "start") {
+                return;
             }
+            _startEntered = true;
+
+            var dark :DisplayObject =
+                DisplayUtil.fillRect(Flashbang.stageWidth, Flashbang.stageHeight, 0);
+            dark.alpha = 0.8;
+            _sprite.addChild(dark);
+
+            const SEARCHING :String = "Searching for opponent";
+
+            var searching :CustomTextField = new CustomTextField(1, 1, SEARCHING,
+                Aztec.UI_FONT, 36, 0xffffff);
+            searching.autoSize = TextFieldAutoSize.SINGLE_LINE;
+            searching.x = (Flashbang.stageWidth - searching.width) * 0.5;
+            searching.y = (Flashbang.stageHeight - searching.height) * 0.5;
             _sprite.addChild(searching);
+
+            var animator :GameObject = new GameObject();
+            var numDots :int = 0;
+            animator.addTask(new RepeatingTask(
+                new TimedTask(0.4),
+                new FunctionTask(function () :void {
+                    if (++numDots > 3) {
+                        numDots = 0;
+                    }
+                    var text :String = SEARCHING;
+                    for (var ii :int = 0; ii < numDots; ++ii) {
+                        text += ".";
+                    }
+                    searching.text = text;
+                })));
+            addDependentObject(animator);
+
+
             startEntered.dispatch();
         });
     }
