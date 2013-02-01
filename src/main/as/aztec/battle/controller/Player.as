@@ -189,6 +189,9 @@ public class Player extends NetObject
                 _heartView.hearts = _hearts;
             }
             offsetAffinity(GameDesc.sacrificeAffinityOffset);
+            if (_templeView.viewState == TempleView.NORMAL) {
+                _templeView.viewState = TempleView.BLOODY;
+            }
             break;
         }
     }
@@ -213,6 +216,9 @@ public class Player extends NetObject
             _ctx.messages.win();
         }
         _templeView.updateHealth(_templeHealth);
+        if (_templeHealth <= 0.25) {
+            _templeView.viewState = TempleView.BROKEN;
+        }
     }
 
     override protected function addedToMode () :void {

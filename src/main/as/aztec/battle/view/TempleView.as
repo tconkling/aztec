@@ -25,6 +25,10 @@ import starling.text.TextFieldAutoSize;
 
 public class TempleView extends LocalSpriteObject
 {
+    public static const NORMAL :int = 0;
+    public static const BLOODY :int = 1;
+    public static const BROKEN :int = 2;
+
     public function TempleView (name :String, healthColor :uint, onRight :Boolean) {
         _onRight = onRight;
         _movie = MovieResource.createMovie("aztec/temple");
@@ -55,6 +59,8 @@ public class TempleView extends LocalSpriteObject
         nameField.x = -nameField.width * 0.5;
         nameField.y = -78;
         sprite.addChild(nameField);
+
+        _viewState = NORMAL;
     }
 
     public function updateHealth (templeHealth :Number) :void {
@@ -83,12 +89,22 @@ public class TempleView extends LocalSpriteObject
         ));
     }
 
+    public function get viewState () :int {
+        return _viewState;
+    }
+
+    public function set viewState (val :int) :void {
+        _viewState = val;
+        _movie.goTo(val);
+    }
+
     protected var _defenseMeter :RectMeter = new RectMeter(120, 10);
     protected var _healthMeter :RectMeter = new RectMeter(120, 20);
     protected var _movie :Movie;
     protected var _onRight :Boolean;
 
-    protected static const GOD_LOC :Point = new Point(0, -150);
+    protected var _viewState :int;
 
+    protected static const GOD_LOC :Point = new Point(0, -150);
 }
 }
