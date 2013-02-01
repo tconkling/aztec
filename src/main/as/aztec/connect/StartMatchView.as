@@ -33,28 +33,28 @@ public class StartMatchView extends SpriteObject {
         _condition = condition;
         _textField = new TextEntryField(200, 30, "", Aztec.UI_FONT, 24);
 
-        var static :Sprite = new Sprite();
-        _sprite.addChild(static);
+        var fixed :Sprite = new Sprite();
+        _sprite.addChild(fixed);
 
         if (condition == NewGameCondition.INITIAL) {
-            static.addChild(MovieResource.createMovie("aztec/new_match_screen"));
-            static.addChild(drawTextAt(673, 673, "Type \"START\" to begin a new match", 14,
+            fixed.addChild(MovieResource.createMovie("aztec/new_match_screen"));
+            fixed.addChild(drawTextAt(673, 673, "Type \"START\" to begin a new match", 14,
                 Aztec.TITLE_FONT2));
             _textField.display.x = 704;
             _textField.display.y = 636;
 
-            static.addChild(drawTextAt(47, 126, KEYBOARD_ONLY, 12, Aztec.TITLE_FONT2, 0xffffff));
+            fixed.addChild(drawTextAt(47, 126, KEYBOARD_ONLY, 12, Aztec.TITLE_FONT2, 0xffffff));
 
-            static.addChild(drawTextAt(417, 150, "How to Play", 30));
+            fixed.addChild(drawTextAt(417, 150, "How to Play", 30));
 
             const HELP_SIZE :Number = 18;
 
-            static.addChild(drawTextAt(238, 220, HELP_1, HELP_SIZE, Aztec.COMMAND_FONT));
-            static.addChild(drawTextAt(603, 220, HELP_2, HELP_SIZE, Aztec.COMMAND_FONT));
-            static.addChild(drawTextAt(534, 376, HELP_3, HELP_SIZE, Aztec.COMMAND_FONT));
-            static.addChild(drawTextAt(50, 505, HELP_4, HELP_SIZE, Aztec.COMMAND_FONT));
-            static.addChild(drawTextAt(58, 584, HELP_5, HELP_SIZE, Aztec.COMMAND_FONT));
-            static.addChild(drawTextAt(210, 690, HELP_6, HELP_SIZE, Aztec.COMMAND_FONT));
+            fixed.addChild(drawTextAt(238, 220, HELP_1, HELP_SIZE, Aztec.COMMAND_FONT));
+            fixed.addChild(drawTextAt(603, 220, HELP_2, HELP_SIZE, Aztec.COMMAND_FONT));
+            fixed.addChild(drawTextAt(534, 376, HELP_3, HELP_SIZE, Aztec.COMMAND_FONT));
+            fixed.addChild(drawTextAt(50, 505, HELP_4, HELP_SIZE, Aztec.COMMAND_FONT));
+            fixed.addChild(drawTextAt(58, 584, HELP_5, HELP_SIZE, Aztec.COMMAND_FONT));
+            fixed.addChild(drawTextAt(210, 690, HELP_6, HELP_SIZE, Aztec.COMMAND_FONT));
 
             var animator :GameObject = new GameObject();
             addDependentObject(animator);
@@ -75,35 +75,35 @@ public class StartMatchView extends SpriteObject {
 
         } else {
             if (condition == NewGameCondition.WON) {
-                static.addChild(MovieResource.createMovie("aztec/win_screen"));
-                static.addChild(drawTextAt(160, 168, "QuetzalCoatl\nSmiles!", 70));
-                static.addChild(drawTextAt(160, 325,
+                fixed.addChild(MovieResource.createMovie("aztec/win_screen"));
+                fixed.addChild(drawTextAt(160, 168, "QuetzalCoatl\nSmiles!", 70));
+                fixed.addChild(drawTextAt(160, 325,
                     "Your sacrifices and typing skills\nhave impressed the gods", 18,
                     Aztec.TITLE_FONT2));
 
             } else {
-                static.addChild(MovieResource.createMovie("aztec/lose_screen"));
-                static.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
+                fixed.addChild(MovieResource.createMovie("aztec/lose_screen"));
+                fixed.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
                 if (condition == NewGameCondition.OPPONENT_DISCONNECTED) {
-                    static.addChild(drawTextAt(160, 325,
+                    fixed.addChild(drawTextAt(160, 325,
                         "Your opponent left the match early\nquaking at your typing skills", 24,
                         Aztec.TITLE_FONT2));
                 } else {
-                    static.addChild(drawTextAt(160, 325,
+                    fixed.addChild(drawTextAt(160, 325,
                             "More sacrifices must be offered\nto atone for your typing skills", 24,
                             Aztec.TITLE_FONT2));
                 }
             }
-            static.addChild(drawTextAt(160, 395, TIPS, 14, Aztec.TITLE_FONT2));
+            fixed.addChild(drawTextAt(160, 395, TIPS, 14, Aztec.TITLE_FONT2));
             
-            static.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 12,
+            fixed.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 12,
                 Aztec.TITLE_FONT2));
 
             _textField.display.x = 184;
             _textField.display.y = 627;
         }
 
-        static.flatten();
+        fixed.flatten();
 
         addDependentObject(_textField, _sprite);
     }
