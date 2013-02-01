@@ -23,31 +23,31 @@ public class BattleCtx extends GameObject
     }
 
     public var localPlayer :Player;
-    
+
     public var players :Vector.<Player> = new Vector.<Player>(2, true);
-    
+
     public var netObjects :NetObjectDB;
     public var viewObjects :BattleMode;
-    
+
+    public var board :BattleBoard;
+
     public var messages :BattleMessages;
 
     public var selector :TextSelector;
-    
-    public var board :BattleBoard;
-    
     public var commandGenerator :VillagerCommandGenerator;
-    
+    public var villagerSelectionMgr :VillagerSelectionMgr;
+
     public var boardLayer :Sprite = new Sprite();
     public var uiLayer :Sprite = new Sprite();
     public var effectLayer :Sprite = new Sprite();
     public var debugLayer :Sprite = new Sprite();
-    
+
     public var keyboardInput :KeyboardInput = new KeyboardInput();
-    
+
     public function randomsFor (obj :GameObject) :Randoms {
         return (obj is NetObject ? _netRandoms : _viewRandoms);
     }
-    
+
     protected var _netRandoms :Randoms;
     protected var _viewRandoms :Randoms = new Randoms(Random.create());
 }

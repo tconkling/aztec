@@ -84,7 +84,7 @@ public class BattleMode extends AppMode
         _ctx.players[1] = _player2;
 
         addObject(new AffinityView(), _ctx.uiLayer);
-        addObject(new VillagerSelectables());
+        addObject(new VillagerSelectionMgr());
 
         if (Aztec.DEBUG) {
             addObject(new BattleDebug());
