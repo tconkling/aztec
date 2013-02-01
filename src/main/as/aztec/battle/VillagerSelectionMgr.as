@@ -4,7 +4,6 @@
 package aztec.battle {
 
 import aspire.util.F;
-import aspire.util.RegistrationList;
 
 import aztec.battle.controller.Villager;
 

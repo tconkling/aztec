@@ -1,4 +1,8 @@
+//
+// aztec
+
 package aztec.connect {
+
 import aztec.Aztec;
 import aztec.battle.BattleMode;
 import aztec.battle.controller.Player;
@@ -15,7 +19,7 @@ import starling.events.KeyboardEvent;
 public class ConnectMode extends AppMode
 {
     public const keyboardInput :KeyboardInput = new KeyboardInput();
-    
+
     override protected function setup() :void {
         if (!Aztec.MULTIPLAYER) { return; }
         var nameEntry :NameEntryView = new NameEntryView();

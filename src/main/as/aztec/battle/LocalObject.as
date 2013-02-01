@@ -13,11 +13,11 @@ public class LocalObject extends GameObject
     public function setCtx (ctx :BattleCtx) :void {
         _ctx = ctx;
     }
-    
+
     protected function rands () :Randoms {
         return _ctx.randomsFor(this);
     }
-    
+
     protected var _ctx :BattleCtx
 }
 }

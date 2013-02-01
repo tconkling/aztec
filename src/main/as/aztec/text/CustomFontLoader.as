@@ -12,7 +12,7 @@ public class CustomFontLoader extends ResourceLoader
 {
     /** The name of the Font (required) */
     public static const NAME :String = "name";
-    
+
     /**
      * a String containing a URL to load the XML from OR
      * a ByteArray containing the XML OR
@@ -20,7 +20,7 @@ public class CustomFontLoader extends ResourceLoader
      * (required)
      */
     public static const XML_DATA :String = "xmlData";
-    
+
     /**
      * a String containing a URL to load the XML from OR
      * a ByteArray containing the XML OR
@@ -28,28 +28,28 @@ public class CustomFontLoader extends ResourceLoader
      * (required)
      */
     public static const TEXTURE_DATA :String = "textureData";
-    
+
     /** The scale of the font texture (optional, @default 1) */
     public static const SCALE :String = "scale";
-    
+
     public function CustomFontLoader (params :Object)
     {
         super(params);
     }
-    
+
     override protected function doLoad () :void
     {
         var name :String = requireLoadParam(NAME, String);
-        
+
         var xmlLoader :XmlLoader =
             new XmlLoader({ name: "dummy", data: requireLoadParam(XML_DATA) });
         var textureLoader :TextureLoader =
             new TextureLoader(requireLoadParam(TEXTURE_DATA), getLoadParam(SCALE, 1));
-        
+
         _batch = new LoadableBatch();
         _batch.addLoadable(xmlLoader);
         _batch.addLoadable(textureLoader);
-        
+
         _batch.load(
             function () :void {
                 try {
@@ -63,7 +63,7 @@ public class CustomFontLoader extends ResourceLoader
             },
             fail);
     }
-    
+
     override protected function onLoadCanceled () :void
     {
         if (_batch != null) {
@@ -71,7 +71,7 @@ public class CustomFontLoader extends ResourceLoader
             _batch = null;
         }
     }
-    
+
     protected var _batch :LoadableBatch;
     protected var _xmlLoader :XmlLoader;
 }
@@ -98,28 +98,28 @@ class LoadedTexture
     public function LoadedTexture (loader :Loader, scale :Number)
     {
         _loader = loader;
-        
+
         var bmd :BitmapData = Bitmap(loader.content).bitmapData;
         _tex = Texture.fromBitmapData(bmd, false, false, scale);
-        
+
         // If Starling doesn't need to handle lost contexts, we can close the loader right now.
         if (!Starling.handleLostContext) {
             closeLoader();
         }
     }
-    
+
     public function get texture () :Texture
     {
         return _tex;
     }
-    
+
     public function unload () :void
     {
         _tex.dispose();
         _tex = null;
         closeLoader();
     }
-    
+
     protected function closeLoader () :void
     {
         // Loader may already be closed.
@@ -132,7 +132,7 @@ class LoadedTexture
             _loader = null;
         }
     }
-    
+
     protected var _tex :Texture;
     protected var _loader :Loader;
 }
@@ -144,14 +144,14 @@ class TextureLoader extends Loadable
         _data = data;
         _scale = scale;
     }
-    
+
     override protected function doLoad () :void
     {
         if (_data is Class) {
             var clazz :Class = Class(_data);
             _data = ByteArray(new clazz());
         }
-        
+
         _loader = new Loader();
         _loader.contentLoaderInfo.addEventListener(Event.INIT, function (..._) :void {
             try {
@@ -161,12 +161,12 @@ class TextureLoader extends Loadable
                 fail(e);
             }
         });
-        
+
         _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,
             function (evt :IOErrorEvent) :void {
                 fail(new IOError(evt.text, evt.errorID));
             });
-        
+
         if (_data is String) {
             _loader.load(new URLRequest(_data as String));
         } else if (_data is ByteArray) {
@@ -176,7 +176,7 @@ class TextureLoader extends Loadable
                 ClassUtil.tinyClassName(_data) + "'");
         }
     }
-    
+
     override protected function onLoadCanceled () :void
     {
         // Loader may already be closed.
@@ -189,7 +189,7 @@ class TextureLoader extends Loadable
             _loader = null;
         }
     }
-    
+
     protected var _data :Object;
     protected var _scale :Number;
     protected var _loader :Loader;

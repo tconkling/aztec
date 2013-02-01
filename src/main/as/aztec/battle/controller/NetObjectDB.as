@@ -17,17 +17,17 @@ public class NetObjectDB extends AppMode
     public function NetObjectDB (ctx :BattleCtx) {
         _ctx = ctx;
     }
-    
+
     override public function addObject (obj :GameObject,
         displayParent :DisplayObjectContainer = null,
         displayIdx :int = -1) :GameObjectRef {
-        
+
         Preconditions.checkArgument(obj is NetObject, "You may only add NetObjects");
-        
+
         NetObject(obj).setCtx(_ctx);
         return super.addObject(obj, displayParent, displayIdx);
     }
-    
+
     protected var _ctx :BattleCtx;
 }
 }

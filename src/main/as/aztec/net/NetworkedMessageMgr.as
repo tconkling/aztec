@@ -1,10 +1,15 @@
+//
+// aztec
+
 package aztec.net {
+
 import aztec.data.AztecMessage;
 import aztec.data.MatchObject;
 
 import com.threerings.io.TypedArray;
 
-public class NetworkedMessageMgr implements MessageMgr {
+public class NetworkedMessageMgr implements MessageMgr
+{
     public function NetworkedMessageMgr(matchObj: MatchObject) {
         _matchObject = matchObj;
         _matchObject.messagesChanged.add(function (newMessages :TypedArray, oldMessages :TypedArray) :void {
@@ -36,6 +41,5 @@ public class NetworkedMessageMgr implements MessageMgr {
 
     protected var _matchObject :MatchObject;
     protected var _ticks :Vector.<Vector.<AztecMessage>> = new Vector.<Vector.<AztecMessage>>();
-
 }
 }

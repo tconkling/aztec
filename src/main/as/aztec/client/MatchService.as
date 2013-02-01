@@ -1,5 +1,6 @@
 //
-// SPACK
+// aztec
+
 package aztec.client {
 
 import aztec.data.AztecMessage;

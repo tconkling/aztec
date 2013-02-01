@@ -87,7 +87,7 @@ public class TempleView extends LocalSpriteObject
     protected var _healthMeter :RectMeter = new RectMeter(120, 20);
     protected var _movie :Movie;
     protected var _onRight :Boolean;
-    
+
     protected static const GOD_LOC :Point = new Point(0, -150);
 
 }

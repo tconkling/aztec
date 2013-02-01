@@ -9,8 +9,6 @@ import aztec.Aztec;
 import aztec.text.CustomTextField;
 
 import starling.display.Sprite;
-import starling.utils.HAlign;
-import starling.utils.VAlign;
 
 public class SelectableTextSprite extends Sprite
 {

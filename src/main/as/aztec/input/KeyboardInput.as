@@ -12,7 +12,7 @@ public class KeyboardInput
 {
     public function handleKeyboardEvent (e :KeyboardEvent) :Boolean {
         var handled :Boolean = false;
-        
+
         if (_listeners.length > 0) {
             for each (var l :KeyboardListener in _listeners.concat()) {// Iterate over a copy
                 handled = l.onKeyboardEvent(e);
@@ -21,10 +21,10 @@ public class KeyboardInput
                 }
             }
         }
-        
+
         return handled;
     }
-    
+
     /**
      * Adds a listener to the KeyboardInput. Listeners are placed on a stack,
      * so the most recently-added listener gets the first chance at each event.
@@ -40,12 +40,12 @@ public class KeyboardInput
             }
         });
     }
-    
+
     /** Removes all listeners from the KeyboardInput */
     public function removeAllListeners () :void {
         _listeners.length = 0;
     }
-    
+
     protected var _listeners :Vector.<KeyboardListener> = new <KeyboardListener>[];
 }
 }

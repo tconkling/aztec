@@ -17,7 +17,6 @@ import aztec.data.SummonMessage;
 import aztec.data.VillagerActionMessage;
 import aztec.net.MessageMgr;
 
-import flashbang.core.AppMode;
 import flashbang.core.Flashbang;
 
 public class BattleMessages
@@ -36,19 +35,19 @@ public class BattleMessages
         msg.godName = god.name();
         _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
-    
+
     public function selectVillager (villager :Villager, senderOid :int = 0) :void {
         var msg :SelectVillagerMessage = new SelectVillagerMessage();
         msg.villagerName = villager.name;
         _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
-    
+
     public function deselectVillager (villager :Villager, senderOid :int = 0) :void {
         var msg :DeselectVillagerMessage = new DeselectVillagerMessage();
         msg.villagerName = villager.name;
         _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
-    
+
     public function doVillagerAction (villager :Villager, action :VillagerAction,
         senderOid :int = 0) :void {
         var msg :VillagerActionMessage = new VillagerActionMessage();
@@ -56,10 +55,10 @@ public class BattleMessages
         msg.action = action.name();
         _mgr.sendMessage(defaultToLocal(senderOid), msg);
     }
-    
+
     public function processTicks (dt :Number) :void {
         _mgr.update(dt);
-        
+
         // update the network
         for each (var ticks :Vector.<AztecMessage> in _mgr.ticks) {
             for each (var msg :AztecMessage in ticks) {
@@ -68,27 +67,27 @@ public class BattleMessages
             _ctx.netObjects.update(Aztec.NETWORK_UPDATE_RATE);
         }
     }
-    
+
     protected function defaultToLocal (oid :int) :int {
         return (oid != 0 ? oid : _ctx.localPlayer.oid);
     }
-    
+
     protected function handleMessage (msg :AztecMessage) :void {
         var sender :Player = Player.withOid(_ctx, msg.senderOid);
         if (sender == null) {
             log.warning("Message with unrecognized sender oid", "msg", msg);
             return;
         }
-        
+
         if (msg is SelectVillagerMessage) {
             handleSelectVillager(sender, SelectVillagerMessage(msg));
-            
+
         } else if (msg is DeselectVillagerMessage) {
             handleDeselectVillager(sender, DeselectVillagerMessage(msg));
-            
+
         } else if (msg is VillagerActionMessage) {
             handleVillagerAction(sender, VillagerActionMessage(msg));
-            
+
         } else if (msg is SummonMessage) {
             handleSummon(sender, SummonMessage(msg));
         } else if (msg is IWonMessage) {
@@ -102,7 +101,7 @@ public class BattleMessages
             log.error("Unhandled message!", "msg", msg);
         }
     }
-    
+
     protected function handleSelectVillager (sender :Player, msg :SelectVillagerMessage) :void {
         var villager :Villager = Villager.withName(_ctx, msg.villagerName);
         if (villager == null) {
@@ -113,7 +112,7 @@ public class BattleMessages
             sender.selectVillager(villager);
         }
     }
-    
+
     protected function handleDeselectVillager (sender :Player, msg :DeselectVillagerMessage) :void {
         var villager :Villager = Villager.withName(_ctx, msg.villagerName);
         if (villager == null) {
@@ -124,7 +123,7 @@ public class BattleMessages
             sender.deselectVillager();
         }
     }
-    
+
     protected function handleVillagerAction (sender :Player, msg :VillagerActionMessage) :void {
         var action :VillagerAction;
         try {
@@ -133,7 +132,7 @@ public class BattleMessages
             log.warning("handleVillagerAction: unrecognized action", "actionName", msg.action);
             return;
         }
-        
+
         var villager :Villager = Villager.withName(_ctx, msg.villagerName);
         if (villager == null) {
             log.warning("handleVillagerAction: no such villager", "name", msg.villagerName);
@@ -154,12 +153,12 @@ public class BattleMessages
         } catch (e :Error) {
             log.error("unrecognized god name: " + msg.godName);
         }
-        
+
         if (!sender.canSummon(god)) {
             log.warning("handleSummon: player can't summon god", "player", player, "god", god);
             return;
         }
-        
+
         for each (var player :Player in _ctx.netObjects.getObjectsInGroup(Player)) {
             player.handleSummon(god, sender);
         }
@@ -167,7 +166,7 @@ public class BattleMessages
 
     protected var _ctx :BattleCtx;
     protected var _mgr :MessageMgr;
-    
+
     protected static const log :Log = Log.getLog(BattleMessages);
 }
 }

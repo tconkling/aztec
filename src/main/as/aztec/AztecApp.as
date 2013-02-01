@@ -30,10 +30,10 @@ public class AztecApp extends FlashbangApp
 
     // classes needed by the network code
     Cloneable;
-    
+
     override protected function run () :void {
         Flashbang.rsrcs.registerResourceLoader("customFont", CustomFontLoader);
-        
+
         Aztec.newGameCondition = NewGameCondition.INITIAL;
 
         addEventListener(Event.ACTIVATE, function (event:Event) :void {
@@ -62,7 +62,7 @@ public class AztecApp extends FlashbangApp
                 Log.getLog(AztecApp).error("Error loading resources", e);
             });
     }
-    
+
     override protected function createConfig () :Config {
         var config :Config = new Config();
         config.stageWidth = config.windowWidth = 1024;

@@ -1,3 +1,6 @@
+//
+// aztec
+
 package aztec.connect {
 
 import aspire.ui.KeyboardCodes;
@@ -29,7 +32,7 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
         _sprite.addChild(_tf);
         _pipe = DisplayUtil.fillRect(2, _tf.height - 4, color);
         _sprite.addChild(_pipe);
-        
+
         // force the text to change
         _tf.text = text + " ";
         this.text = text;

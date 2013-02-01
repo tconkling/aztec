@@ -19,7 +19,7 @@ public class DebugOverlayMode extends AppMode
         fpsView.textField.y = 3;
         addObject(fpsView, _modeSprite);
     }
-    
+
     override protected function enter () :void {
         _modeSprite.touchable = false;
     }

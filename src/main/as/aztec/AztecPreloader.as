@@ -21,9 +21,9 @@ public class AztecPreloader extends MovieClip
         //the document class must be a MovieClip so that things can go on
         //the second frame.
         stop();
-        
+
         addChild(new IMAGE());
-        
+
         // draw a progress bar
         const WIDTH :Number = 400;
         const HEIGHT :Number = 20;
@@ -37,36 +37,36 @@ public class AztecPreloader extends MovieClip
             fillRect(progressBar, WIDTH * (e.bytesLoaded / e.bytesTotal), HEIGHT, 0x455F46);
             outlineRect(progressBar, WIDTH, HEIGHT, 2, 0x000000);
         });
-        
+
         loaderInfo.addEventListener(Event.COMPLETE, onComplete);
     }
-    
+
     protected function onComplete (event:Event) :void {
         // go to frame two because that's where the classes we need are located
         gotoAndStop(2);
-        
+
         removeChildren();
-        
+
         var appClass :Class = getDefinitionByName("aztec.AztecApp") as Class;
         addChild(new appClass());
     }
-    
+
     protected static function fillRect (shape :Shape, w :Number, h :Number, color :uint) :void {
         var g :Graphics = shape.graphics;
         g.beginFill(color);
         g.drawRect(0, 0, w, h);
         g.endFill();
     }
-    
+
     protected static function outlineRect (shape :Shape, w :Number, h :Number, lineSize :Number,
         color :uint) :void {
-        
+
         var g :Graphics = shape.graphics;
         g.lineStyle(lineSize, color);
         g.drawRect(0, 0, w, h);
         g.endFill();
     }
-    
+
     [Embed(source="../../../../rsrc/art/preloader.jpg")]
     protected static const IMAGE :Class;
 }

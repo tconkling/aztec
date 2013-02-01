@@ -20,7 +20,7 @@ public class TextSelector extends LocalObject
     public const canceled :Signal = new Signal();
     public const selectionBegan :Signal = new Signal(Selectable);
     public const selectionCanceled :Signal = new Signal(Selectable);
-    
+
     public var selectionColor :uint;
 
     public function registerProvider (provider :SelectableProvider) :Registration {
@@ -34,11 +34,11 @@ public class TextSelector extends LocalObject
         if (e.type != KeyboardEvent.KEY_DOWN) {
             return false;
         }
-        
+
         if (_curSelectable != null && !_curSelectable.isSelectable) {
             _curSelectable = null;
         }
-        
+
         if (e.keyCode == KeyboardCodes.ESCAPE) {
             // if we have an actor selected, escape deselects.
             // else, escape "cancels" the text selection
@@ -47,16 +47,16 @@ public class TextSelector extends LocalObject
             } else {
                 this.canceled.dispatch();
             }
-            
+
             return true;
-            
+
         } else if (e.keyCode == KeyboardCodes.SPACE) {
             // ignore spaces
             return true;
         }
-        
+
         var typedLetter :String = String.fromCharCode(e.charCode).toLowerCase();
-        
+
         if (_curSelectable == null) {
             // try to select a new selectable
             for each (var potential :Selectable in getSelectables()) {
@@ -87,7 +87,7 @@ public class TextSelector extends LocalObject
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -95,22 +95,22 @@ public class TextSelector extends LocalObject
         super.addedToMode();
         _regs.add(_ctx.keyboardInput.registerListener(this));
     }
-    
+
     protected function get curText () :String {
         return _curSelectable.textSprite.text;
     }
-    
+
     protected function getLetter (s :Selectable, idx :int) :String {
         return s.textSprite.text.substr(idx, 1).toLowerCase();
     }
-    
+
     protected function beginSelection (s :Selectable) :void {
         endCurSelection();
         _curSelectable = s;
         _selectionLength = 0;
         this.selectionBegan.dispatch(_curSelectable);
     }
-    
+
     protected function endCurSelection () :void {
         if (_curSelectable != null) {
             if (_curSelectable.isSelectable) {
@@ -121,7 +121,7 @@ public class TextSelector extends LocalObject
             this.selectionCanceled.dispatch(old);
         }
     }
-    
+
     protected function getSelectables () :Array {
         var activeProviders :Array = [];
         var exclusiveActive :Boolean = false;

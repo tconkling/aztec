@@ -62,7 +62,7 @@ public class CustomTextField extends DisplayObjectContainer
 {
     // the name container with the registered bitmap fonts
     private static const CUSTOM_BITMAP_FONT_DATA_NAME:String = "aztec.text.BitmapFonts";
-    
+
     private var mFontSize:Number;
     private var mColor:uint;
     private var mSelectionColor:uint;
@@ -79,22 +79,22 @@ public class CustomTextField extends DisplayObjectContainer
     private var mNativeFilters:Array;
     private var mRequiresRedraw:Boolean;
     private var mTextBounds:Rectangle;
-    
+
     private var mAutoSize:String = TextFieldAutoSize.NONE;
     private var mAutoSizeMaxWidth:Number = 0;
     private var mAutoSizeMaxHeight:Number = 0;
-    
+
     private var mHitArea:DisplayObject;
     private var mBorder:DisplayObjectContainer;
-    
+
     private var mImage:Image;
     private var mQuadBatchParent:Sprite = new Sprite();
     private var mQuadBatchUnselected:QuadBatch;
     private var mQuadBatchSelected:QuadBatch;
-    
+
     // this object will be used for text rendering
     private static var sNativeTextField:flash.text.TextField = new flash.text.TextField();
-    
+
     /** Create a new text field with the given properties. */
     public function CustomTextField(width:int, height:int, text:String, fontName:String="Verdana",
         fontSize:Number=12, color:uint=0x0, bold:Boolean=false)
@@ -108,15 +108,15 @@ public class CustomTextField extends DisplayObjectContainer
         mKerning = true;
         mBold = bold;
         this.fontName = fontName;
-        
+
         mHitArea = new Quad(width, height);
         mHitArea.alpha = 0.0;
         addChild(mHitArea);
         addChild(mQuadBatchParent);
-        
+
         addEventListener(Event.FLATTEN, onFlatten);
     }
-    
+
     /** Disposes the underlying texture data. */
     public override function dispose():void
     {
@@ -126,48 +126,48 @@ public class CustomTextField extends DisplayObjectContainer
         if (mQuadBatchUnselected) mQuadBatchUnselected.dispose();
         super.dispose();
     }
-    
+
     private function onFlatten():void
     {
         if (mRequiresRedraw) redrawContents();
     }
-    
+
     /** @inheritDoc */
     public override function render(support:RenderSupport, parentAlpha:Number):void
     {
         if (mRequiresRedraw) redrawContents();
         super.render(support, parentAlpha);
     }
-    
+
     private function redrawContents():void
     {
         createComposedContents();
         mRequiresRedraw = false;
     }
-    
+
     /** formatText is called immediately before the text is rendered. The intent of formatText
      *  is to be overridden in a subclass, so that you can provide custom formatting for TextField.
      *  <code>textField</code> is the flash.text.TextField object that you can specially format;
      *  <code>textFormat</code> is the default TextFormat for <code>textField</code>.
      */
     protected function formatText(textField:flash.text.TextField, textFormat:TextFormat):void {}
-    
+
     private function autoScaleNativeTextField(textField:flash.text.TextField):void
     {
         var size:Number   = Number(textField.defaultTextFormat.size);
         var maxHeight:int = textField.height - 4;
         var maxWidth:int  = textField.width - 4;
-        
+
         while (textField.textWidth > maxWidth || textField.textHeight > maxHeight)
         {
             if (size <= 4) break;
-            
+
             var format:TextFormat = textField.defaultTextFormat;
             format.size = size--;
             textField.setTextFormat(format);
         }
     }
-    
+
     private function createComposedContents():void
     {
         if (mImage)
@@ -175,7 +175,7 @@ public class CustomTextField extends DisplayObjectContainer
             mImage.removeFromParent(true);
             mImage = null;
         }
-        
+
         if (mQuadBatchUnselected == null)
         {
             mQuadBatchUnselected = new QuadBatch();
@@ -184,7 +184,7 @@ public class CustomTextField extends DisplayObjectContainer
         }
         else
             mQuadBatchUnselected.reset();
-        
+
         if (mQuadBatchSelected == null)
         {
             mQuadBatchSelected = new QuadBatch();
@@ -193,10 +193,10 @@ public class CustomTextField extends DisplayObjectContainer
         }
         else
             mQuadBatchSelected.reset();
-        
+
         var bitmapFont :CustomBitmapFont = bitmapFonts[mFontName];
         if (bitmapFont == null) throw new Error("Bitmap font not registered: " + mFontName);
-        
+
         // Determine our parameters
         var width:Number;
         var height:Number;
@@ -210,14 +210,14 @@ public class CustomTextField extends DisplayObjectContainer
             autoSize = false;
             multiline = true;
             break;
-        
+
         case TextFieldAutoSize.SINGLE_LINE:
             width = (autoSizeMaxWidth > 0 ? autoSizeMaxWidth : Number.MAX_VALUE);
             height = bitmapFont.lineHeight;
             autoSize = true;
             multiline = false;
             break;
-        
+
         case TextFieldAutoSize.MULTI_LINE:
             width = (autoSizeMaxWidth > 0 ? autoSizeMaxWidth : Number.MAX_VALUE);
             height = (autoSizeMaxHeight > 0 ? autoSizeMaxHeight : Number.MAX_VALUE);
@@ -225,13 +225,13 @@ public class CustomTextField extends DisplayObjectContainer
             multiline = true;
             break;
         }
-        
+
         bitmapFont.fillQuadBatch(mQuadBatchUnselected, mQuadBatchSelected,
             width, height, mText, mFontSize, mColor, mSelectionColor, mSelectionLength,
             mHAlign, mVAlign, mAutoScale, mKerning, autoSize, multiline);
-        
+
         mTextBounds = null; // will be created on demand
-        
+
         if (autoSize)
         {
             mTextBounds = mQuadBatchParent.getBounds(mQuadBatchParent);
@@ -240,19 +240,19 @@ public class CustomTextField extends DisplayObjectContainer
             updateBorder();
         }
     }
-    
+
     private function updateBorder():void
     {
         if (mBorder == null) return;
-        
+
         var width:Number  = mHitArea.width;
         var height:Number = mHitArea.height;
-        
+
         var topLine:Quad    = mBorder.getChildAt(0) as Quad;
         var rightLine:Quad  = mBorder.getChildAt(1) as Quad;
         var bottomLine:Quad = mBorder.getChildAt(2) as Quad;
         var leftLine:Quad   = mBorder.getChildAt(3) as Quad;
-        
+
         topLine.width    = width; topLine.height    = 1;
         bottomLine.width = width; bottomLine.height = 1;
         leftLine.width   = 1;     leftLine.height   = height;
@@ -261,7 +261,7 @@ public class CustomTextField extends DisplayObjectContainer
         bottomLine.y = height - 1;
         topLine.color = rightLine.color = bottomLine.color = leftLine.color = mColor;
     }
-    
+
     /** Returns the bounds of the text within the text field. */
     public function get textBounds():Rectangle
     {
@@ -269,7 +269,7 @@ public class CustomTextField extends DisplayObjectContainer
         if (mTextBounds == null) mTextBounds = mQuadBatchParent.getBounds(mQuadBatchParent);
         return mTextBounds.clone();
     }
-    
+
     /** @inheritDoc */
     public override function getBounds(targetSpace:DisplayObject, resultRect:Rectangle=null):Rectangle
     {
@@ -277,7 +277,7 @@ public class CustomTextField extends DisplayObjectContainer
         if (mRequiresRedraw && mAutoSize != TextFieldAutoSize.NONE) redrawContents();
         return mHitArea.getBounds(targetSpace, resultRect);
     }
-    
+
     /** Sets the width of the TextField. Unlike ordinary display objects, changing
      * the size of the TextField will not change its scaling. Instead, it makes the texture
      * bigger or smaller while the size of the text and font stays the same.
@@ -293,7 +293,7 @@ public class CustomTextField extends DisplayObjectContainer
             updateBorder();
         }
     }
-    
+
     /** Sets the height of the TextField. Unlike ordinary display objects, changing
      * the size of the TextField will not change its scaling. Instead, it makes the texture
      * bigger or smaller while the size of the text and font stays the same.
@@ -309,7 +309,7 @@ public class CustomTextField extends DisplayObjectContainer
             updateBorder();
         }
     }
-    
+
     /** The displayed text. */
     public function get text():String { return mText; }
     public function set text(value:String):void
@@ -321,7 +321,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The name of the font (true type or bitmap font). */
     public function get fontName():String { return mFontName; }
     public function set fontName(value:String):void
@@ -332,7 +332,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The size of the font. For bitmap fonts, use <code>BitmapFont.NATIVE_SIZE</code> for
      *  the original size. */
     public function get fontSize():Number { return mFontSize; }
@@ -344,7 +344,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The color of the text. For bitmap fonts, use <code>Color.WHITE</code> to use the
      *  original, untinted color. @default black */
     public function get color():uint { return mColor; }
@@ -357,7 +357,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The selection color of the text. For bitmap fonts, use <code>Color.WHITE</code> to use the
     *  original, untinted color. @default black */
     public function get selectionColor():uint { return mSelectionColor; }
@@ -369,7 +369,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The selection color of the text. For bitmap fonts, use <code>Color.WHITE</code> to use the
      *  original, untinted color. @default black */
     public function get selectionLength():uint { return mSelectionLength; }
@@ -381,35 +381,35 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The horizontal alignment of the text. @default center @see starling.utils.HAlign */
     public function get hAlign():String { return mHAlign; }
     public function set hAlign(value:String):void
     {
         if (!HAlign.isValid(value))
             throw new ArgumentError("Invalid horizontal align: " + value);
-        
+
         if (mHAlign != value)
         {
             mHAlign = value;
             mRequiresRedraw = true;
         }
     }
-    
+
     /** The vertical alignment of the text. @default center @see starling.utils.VAlign */
     public function get vAlign():String { return mVAlign; }
     public function set vAlign(value:String):void
     {
         if (!VAlign.isValid(value))
             throw new ArgumentError("Invalid vertical align: " + value);
-        
+
         if (mVAlign != value)
         {
             mVAlign = value;
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Draws a border around the edges of the text field. Useful for visual debugging.
      *  @default false */
     public function get border():Boolean { return mBorder != null; }
@@ -419,10 +419,10 @@ public class CustomTextField extends DisplayObjectContainer
         {
             mBorder = new Sprite();
             addChild(mBorder);
-            
+
             for (var i:int=0; i<4; ++i)
                 mBorder.addChild(new Quad(1.0, 1.0));
-            
+
             updateBorder();
         }
         else if (!value && mBorder != null)
@@ -431,7 +431,7 @@ public class CustomTextField extends DisplayObjectContainer
             mBorder = null;
         }
     }
-    
+
     /** Indicates whether the text is bold. @default false */
     public function get bold():Boolean { return mBold; }
     public function set bold(value:Boolean):void
@@ -442,7 +442,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Indicates whether the text is italicized. @default false */
     public function get italic():Boolean { return mItalic; }
     public function set italic(value:Boolean):void
@@ -453,7 +453,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Indicates whether the text is underlined. @default false */
     public function get underline():Boolean { return mUnderline; }
     public function set underline(value:Boolean):void
@@ -464,7 +464,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Indicates whether kerning is enabled. @default true */
     public function get kerning():Boolean { return mKerning; }
     public function set kerning(value:Boolean):void
@@ -475,7 +475,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Indicates whether the font size is scaled down so that the complete text fits
      *  into the text field. (Auto-sizing is incompatible with auto-scaling;
      *  enabling auto-sizing will disable auto-scaling and vice-versa).
@@ -490,7 +490,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Specifies the type of auto-sizing the TextField will do. (Auto-sizing is incompatible
      *   with auto-scaling; enabling auto-sizing will disable auto-scaling and vice-versa).
      *   @default "none" */
@@ -504,7 +504,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Specifies the TextField's maximum width when auto-sizing is used. A value <= 0
      *  indicates no max width. @default 0 */
     public function get autoSizeMaxWidth():Number { return mAutoSizeMaxWidth; }
@@ -516,7 +516,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Specifies the TextField's maximum height when auto-sizing is used. A value <= 0
      *  indicates no max height. @default 0 */
     public function get autoSizeMaxHeight():Number { return mAutoSizeMaxHeight; }
@@ -528,7 +528,7 @@ public class CustomTextField extends DisplayObjectContainer
             mRequiresRedraw = true;
         }
     }
-    
+
     /** Makes a bitmap font available at any text field, identified by its <code>name</code>.
      *  Per default, the <code>name</code> property of the bitmap font will be used, but you
      *  can pass a custom name, as well. @returns the name of the font. */
@@ -538,34 +538,34 @@ public class CustomTextField extends DisplayObjectContainer
         bitmapFonts[name] = bitmapFont;
         return name;
     }
-    
+
     /** Unregisters the bitmap font and, optionally, disposes it. */
     public static function unregisterBitmapFont(name:String, dispose:Boolean=true):void
     {
         if (dispose && bitmapFonts[name] != undefined)
             bitmapFonts[name].dispose();
-        
+
         delete bitmapFonts[name];
     }
-    
+
     /** Returns a registered bitmap font (or null, if the font has not been registered). */
     public static function getBitmapFont(name:String):CustomBitmapFont
     {
         return bitmapFonts[name];
     }
-    
+
     /** Stores the currently available bitmap fonts. Since a bitmap font will only work
      *  in one Stage3D context, they are saved in Starling's 'contextData' property. */
     private static function get bitmapFonts():Dictionary
     {
         var fonts:Dictionary = Starling.current.contextData[CUSTOM_BITMAP_FONT_DATA_NAME] as Dictionary;
-        
+
         if (fonts == null)
         {
             fonts = new Dictionary();
             Starling.current.contextData[CUSTOM_BITMAP_FONT_DATA_NAME] = fonts;
         }
-        
+
         return fonts;
     }
 }

@@ -1,15 +1,16 @@
+//
+// aztec
+
 package aztec.battle.view {
+
 import aztec.battle.God;
 import aztec.battle.SelectableProvider;
 import aztec.battle.desc.GameDesc;
 
 import flashbang.objects.SceneObject;
-import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
 import flashbang.tasks.AnimateValueTask;
 import flashbang.tasks.RepeatingTask;
-import flashbang.tasks.ScaleTask;
-import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.BoxedNumber;
 import flashbang.util.Easing;
@@ -27,7 +28,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
             _hearts.push(heart);
             _sprite.addChildAt(heart,  0);
         }
-        
+
         if (forLocalPlayer) {
             for each (var god :God in God.values()) {
                 var textSprite :SelectableTextSprite = new SelectableTextSprite(god.displayName);
@@ -44,32 +45,32 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
             }
         }
     }
-    
+
     public function get selectables():Array {
         return _selectables;
     }
-    
+
     public function get isExclusive():Boolean {
         return false;
     }
-    
+
     public function get hearts () :int {
         return _numHearts;
     }
-    
+
     public function set hearts (val :int) :void {
         if (_numHearts == val) {
             return;
         }
         var origHearts :int = _numHearts;
         _numHearts = val;
-        
+
         var ii :int = 0;
         for (ii = 0; ii < _hearts.length; ++ii) {
             _hearts[ii].alpha = (_numHearts > ii ? 1 : DISABLED_ALPHA);
         }
         updateHeartPulse();
-        
+
         if (_forLocalPlayer) {
             var gods :Array = God.values();
             for (ii = 0; ii < gods.length; ++ii) {
@@ -80,7 +81,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                 var wasActive :Boolean = origHearts >= requiredHearts;
                 var active :Boolean = _numHearts >= requiredHearts;
                 textSprite.alpha = (active ? 1 : DISABLED_ALPHA);
-                
+
                 //const GOD_PULSE :String = "GodPulse";
                 if (active && !wasActive) {
                     /*textSpriteObj.addNamedTask(GOD_PULSE, new SerialTask(
@@ -88,26 +89,26 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                         new TimedTask(1),
                         new ScaleTask(1, 1, 0.1, Easing.easeOut)));*/
                     _selectables.push(new SelectableGod(god, textSprite, _ctx.messages.summon));
-                    
+
                 } else if (!active && wasActive) {
                     //textSpriteObj.removeNamedTasks(GOD_PULSE);
                     //textSprite.scaleX = textSprite.scaleY = 1;
                     _selectables.pop();
                 }
-                
+
                 if (_numHearts < origHearts) {
                     textSprite.deselect();
                 }
             }
         }
     }
-    
+
     protected function updateHeartPulse () :void {
         const HEART_PULSE :String = "HeartPulse";
-        
+
         removeNamedTasks(HEART_PULSE);
         _pulse.value = 1;
-        
+
         if (_numHearts > 0) {
             const MIN_DELAY :Number = 0;
             const MAX_DELAY :Number = 1;
@@ -119,7 +120,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                 new TimedTask(delay)));
         }
     }
-    
+
     override protected function update (dt :Number) :void {
         for (var ii :int = 0; ii < _hearts.length; ++ii) {
             var heart :Movie = _hearts[ii];
@@ -138,9 +139,9 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
     protected var _numHearts :int;
     protected var _hearts :Vector.<Movie> = new <Movie>[];
     protected var _forLocalPlayer :Boolean;
-    
+
     protected var _pulse :BoxedNumber = new BoxedNumber(1);
-    
+
     protected static const DISABLED_ALPHA :Number = 0.3;
 }
 }

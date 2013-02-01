@@ -1,4 +1,8 @@
+//
+// aztec
+
 package aztec.battle.view {
+
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
 
