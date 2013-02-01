@@ -30,10 +30,10 @@
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="/aspire/dist/aspire.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="/flashbang/dist/flashbang.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/threerings/naryalib/1.13-SNAPSHOT/naryalib-1.13-SNAPSHOT.swc" sourcepath="/export/narya-groves/aslib/src/main/as" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/bungleton/naryalib/1.13/naryalib-1.13.swc" sourcepath="/export/narya-groves/aslib/src/main/as" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath>
-      <sourceAttachmentPathEntry kind="3" linkType="1" path="${M2_REPO}/com/threerings/naryalib/1.13-SNAPSHOT/naryalib-1.13-SNAPSHOT.swc" sourcepath="/export/narya-groves/aslib/src/main/as" useDefaultLinkType="false"/>
+      <sourceAttachmentPathEntry kind="3" linkType="1" path="${M2_REPO}/com/bungleton/naryalib/1.13/naryalib-1.13.swc" sourcepath="/export/narya-groves/aslib/src/main/as" useDefaultLinkType="false"/>
     </sourceAttachmentPath>
   </compiler>
   <applications>
