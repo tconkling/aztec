@@ -28,9 +28,13 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="3" linkType="1" path="/aspire/dist/aspire.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="/flashbang/dist/flashbang.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/org/osflash/signals/0.9/signals-0.9.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/deng/fzip/a5430bd/fzip-a5430bd.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/gamua/starling-framework/1.4-83e5429/starling-framework-1.4-83e5429.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/timconkling/aspire/1.0/aspire-1.0.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/bungleton/naryalib/1.13/naryalib-1.13.swc" sourcepath="/export/narya-groves/aslib/src/main/as" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/threerings/flump/flump-runtime/1.02/flump-runtime-1.02.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="${M2_REPO}/com/timconkling/flashbang-starling/1.0/flashbang-starling-1.0.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="${M2_REPO}/com/bungleton/naryalib/1.13/naryalib-1.13.swc" sourcepath="/export/narya-groves/aslib/src/main/as" useDefaultLinkType="false"/>
