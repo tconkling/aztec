@@ -29,19 +29,21 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
         _sprite.addChild(_tf);
         _pipe = DisplayUtil.fillRect(2, _tf.height - 4, color);
         _sprite.addChild(_pipe);
+        
+        // force the text to change
+        _tf.text = text + " ";
         this.text = text;
     }
 
     public function get text () :String {
-        return _text;
+        return _tf.text;
     }
 
     public function set text (newText :String) :void {
-        if (newText == _text) return;
-        _text = newText;
-        _tf.text = _text;
+        if (newText == _tf.text) return;
+        _tf.text = newText;
         _pipe.x = _tf.x + _tf.textBounds.right;
-        textChanged.dispatch(_text);
+        textChanged.dispatch(newText);
     }
 
     override protected function addedToMode() :void {
@@ -62,10 +64,10 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
             enterPressed.dispatch();
         } else if (e.keyCode == KeyboardCodes.BACKSPACE) {
             this.text = this.text.substring(0, this.text.length - 1);
-        } else if (_text.length < 20) {
+        } else if (_tf.text.length < 20) {
             var entered :String = String.fromCharCode(e.charCode);
             if (entered.match(/\w/)) {
-                this.text = this.text + entered;
+                this.text += entered;
             }
         }
 
@@ -73,7 +75,6 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
     }
 
     protected var _pipe :DisplayObject;
-    protected var _text :String;
     protected var _tf :TextField;
 }
 }

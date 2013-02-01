@@ -29,6 +29,10 @@ public class SelectableTextSprite extends Sprite
         deselect();
     }
     
+    public function get selectionLength () :uint {
+        return _tf.selectionLength;
+    }
+    
     public function get text () :String {
         return _tf.text;
     }
