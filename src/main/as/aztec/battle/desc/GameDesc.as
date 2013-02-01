@@ -59,28 +59,33 @@ public class GameDesc
     protected static function get_player1 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0xE15656;
+
+        desc.sacrificeLoc.x = 194;
+        desc.sacrificeLoc.y = 257;
         desc.templeLoc.x = 188;
         desc.templeLoc.y = 448;
         desc.festivalLoc.x = 256;
         desc.festivalLoc.y = 627;
+
         desc.heartLoc.x = 35;
         desc.heartLoc.y = 170;
 
-        desc.sacrificeCommandLoc.x = 40;
+        desc.sacrificeCommandLoc.x = 318;
         desc.sacrificeCommandLoc.y = 152;
-        desc.festivalCommandLoc.x = 119;
-        desc.festivalCommandLoc.y = 498;
-        desc.worshipCommandLoc.x = 348;
+        desc.worshipCommandLoc.x = 368;
         desc.worshipCommandLoc.y = 332;
+        desc.festivalCommandLoc.x = 328;
+        desc.festivalCommandLoc.y = 498;
 
-        desc.sacrificeLoc.x = 114;
-        desc.sacrificeLoc.y = 239;
         return desc;
     }
 
     protected static function get_player2 () :PlayerDesc {
         var desc :PlayerDesc = new PlayerDesc();
         desc.color = 0x6191C5;
+
+        desc.sacrificeLoc.x = 835;
+        desc.sacrificeLoc.y = 257;
         desc.templeLoc.x = 832;
         desc.templeLoc.y = 448;
         desc.festivalLoc.x = 768;
@@ -89,15 +94,13 @@ public class GameDesc
         desc.heartLoc.y = 170;
         desc.displayedOnRight = true;
 
-        desc.sacrificeCommandLoc.x = 575;
+        desc.sacrificeCommandLoc.x = 588;
         desc.sacrificeCommandLoc.y = 152;
-        desc.festivalCommandLoc.x = 610;
-        desc.festivalCommandLoc.y = 498;
-        desc.worshipCommandLoc.x = 348;
+        desc.worshipCommandLoc.x = 528;
         desc.worshipCommandLoc.y = 332;
+        desc.festivalCommandLoc.x = 578;
+        desc.festivalCommandLoc.y = 498;
 
-        desc.sacrificeLoc.x = 820;
-        desc.sacrificeLoc.y = 221;
         return desc;
     }
 }
