@@ -39,7 +39,9 @@ public class ConnectMode extends AppMode
 
     override protected function exit():void {
         super.exit();
-        _startMatch.destroySelf();
+        if (_startMatch != null) {
+            _startMatch.destroySelf();
+        }
     }
 
     protected function showStartMatch () :void {
@@ -76,6 +78,12 @@ public class ConnectMode extends AppMode
         _regs.addEventListener(_client, ClientEvent.CLIENT_DID_LOGON, function (e :ClientEvent) :void {
             _nameEntry.destroySelf();
             showStartMatch();
+        });
+        _regs.addEventListener(_client, ClientEvent.CLIENT_CONNECTION_FAILED, function (e :ClientEvent) :void {
+            viewport.pushMode(new NetworkFailureMode("Connection lost!"));
+        });
+        _regs.addEventListener(_client, ClientEvent.CLIENT_FAILED_TO_LOGON, function (e :ClientEvent) :void {
+            viewport.pushMode(new NetworkFailureMode("Unable to connect!"));
         });
         _client.logon();
     }
