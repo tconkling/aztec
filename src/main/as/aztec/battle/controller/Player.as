@@ -30,13 +30,8 @@ import flashbang.tasks.TimedTask;
 
 public class Player extends NetObject
 {
-    public static function withOid (ctx :BattleCtx, oid :int) :Player {
-        return Player(ctx.netObjects.getObjectNamed(nameForOid(oid)));
-    }
-
-    public static function withOtherOid(ctx:BattleCtx, senderOid:int) :Player {
-        const players :Array = ctx.netObjects.getObjectsInGroup(Player);
-        return players[0].oid == senderOid ? players[1] : players[0];
+    public static function withId (ctx :BattleCtx, oid :int) :Player {
+        return Player(ctx.netObjects.getObjectNamed(nameForId(oid)));
     }
 
     public static function getAll(ctx:BattleCtx) :Array {
@@ -44,8 +39,8 @@ public class Player extends NetObject
         return ctx.netObjects.getObjectsInGroup(Player);
     }
 
-    public function Player (oid :int, name :String, desc :PlayerDesc, localPlayer :Boolean) {
-        _oid = oid;
+    public function Player (id :int, name :String, desc :PlayerDesc, localPlayer :Boolean) {
+        _id = id;
         _name = name;
         _desc = desc;
         _localPlayer = localPlayer;
@@ -55,7 +50,7 @@ public class Player extends NetObject
     }
 
     public function get name () :String { return _name; }
-    public function get oid () :int { return _oid; }
+    public function get id () :int { return _id; }
     public function get desc () :PlayerDesc { return _desc; }
 
     public function get affinity () :Number {
@@ -67,7 +62,7 @@ public class Player extends NetObject
     }
 
     override public function get objectNames () :Array {
-        return [ nameForOid(oid) ].concat(super.objectNames);
+        return [ nameForId(id) ].concat(super.objectNames);
     }
 
     override public function get objectGroups () :Array {
@@ -250,11 +245,11 @@ public class Player extends NetObject
         _ctx.viewObjects.addObject(_heartView, _ctx.uiLayer);
     }
 
-    protected static function nameForOid (oid :int) :String {
+    protected static function nameForId (oid :int) :String {
         return "Player_" + oid;
     }
-
-    protected var _oid :int;
+    
+    protected var _id :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
     protected var _localPlayer :Boolean;

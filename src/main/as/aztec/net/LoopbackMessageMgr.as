@@ -38,7 +38,7 @@ public class LoopbackMessageMgr
     }
     
     public function sendMessage (senderOid :int, msg :AztecMessage) :void {
-        msg.senderOid = senderOid;
+        msg.senderId = senderOid;
         _filling.push(msg);
     }
     

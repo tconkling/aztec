@@ -5,7 +5,6 @@ import aztec.server.MatchProvider;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.samskivert.util.Interval;
-import com.samskivert.util.Randoms;
 import com.threerings.presents.data.ClientObject;
 import com.threerings.presents.dobj.ObjectDeathListener;
 import com.threerings.presents.dobj.ObjectDestroyedEvent;
@@ -28,6 +27,9 @@ public class AztecMatchManager implements MatchProvider {
             public void run() {
                 _mobj.setMessages(_queuedMessages.toArray(new AztecMessage[_queuedMessages.size()]));
                 _queuedMessages.clear();
+                if (_gotWinMessage || _playerDisconnected) {
+                    shutdown();
+                }
             }
         });
     }
@@ -52,23 +54,34 @@ public class AztecMatchManager implements MatchProvider {
 
     @Override
     public void sendMessage(ClientObject caller, AztecMessage message) {
-        log.debug("Received", "msg", message);
+        if (message instanceof IWonMessage) {
+            _gotWinMessage = true;
+        }
         _queuedMessages.add(message);
+    }
+
+    private void shutdown() {
+        log.info("Shutting down match", "oid", _mobj.getOid(), "hadWinner", _gotWinMessage, "playerDisconnected", _playerDisconnected);
+        for (AztecClientObject client : _clients) {
+            client.removeListener(_clientDeathListener);
+            if (client.isActive()) client.setMatchOid(-1);
+        }
+        _messageSender.cancel();
+        _mobj.destroy();
     }
 
     private final ObjectDeathListener _clientDeathListener = new ObjectDeathListener() {
         @Override
         public void objectDestroyed(ObjectDestroyedEvent objectDestroyedEvent) {
-            for (AztecClientObject client : _clients) {
-                if (client.getOid() != objectDestroyedEvent.getTargetOid()) {
-                    // If the client is still connected, tell it it needs to find a new match id
-                    client.setMatchOid(-1);
-                }
-            }
-            _messageSender.cancel();
-            _mobj.destroy();
+            _playerDisconnected = true;
+            PlayerDisconnectedMessage msg = new PlayerDisconnectedMessage();
+            msg.senderId = 1;// The id is either 1 or 2, and it doesn't matter which we choose
+            sendMessage(null, msg);
         }
     };
+
+    private boolean _gotWinMessage;
+    private boolean _playerDisconnected;
 
     private final List<AztecMessage> _queuedMessages = Lists.newArrayList();
 

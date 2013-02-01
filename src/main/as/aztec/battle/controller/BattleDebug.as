@@ -13,7 +13,7 @@ public class BattleDebug extends LocalObject {
         super.addedToMode();
 
         for each (var player :Player in Player.getAll(_ctx)) {
-            var view :DebugView = new DebugView(this, player.oid);
+            var view :DebugView = new DebugView(this, player.id);
             if (!player.isLocalPlayer) {
                 view.sprite.x = 960;
             }

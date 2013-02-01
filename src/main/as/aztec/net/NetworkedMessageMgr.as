@@ -35,7 +35,7 @@ public class NetworkedMessageMgr implements MessageMgr
     }
 
     public function sendMessage (senderOid :int,  msg :AztecMessage) :void {
-        msg.senderOid = senderOid;
+        msg.senderId = senderOid;
         _matchObject.marshaller.sendMessage(msg);
     }
 

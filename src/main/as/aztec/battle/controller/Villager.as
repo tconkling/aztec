@@ -54,7 +54,7 @@ public class Villager extends NetObject
     }
 
     public function markSelected () :void {
-        _ctx.messages.selectVillager(this, _ctx.localPlayer.oid);
+        _ctx.messages.selectVillager(this, _ctx.localPlayer.id);
     }
 
     public function get isSelected () :Boolean {

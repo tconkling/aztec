@@ -81,18 +81,21 @@ public class StartMatchView extends SpriteObject {
                     "Your sacrifices and typing skills\nhave impressed the gods", 18,
                     Aztec.TITLE_FONT2));
 
-                static.addChild(drawTextAt(160, 395, TIPS, 14, Aztec.TITLE_FONT2));
-
             } else {
                 static.addChild(MovieResource.createMovie("aztec/lose_screen"));
                 static.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
-                static.addChild(drawTextAt(160, 325,
-                    "More sacrifices must be offered\nto atone for your typing skills", 24,
-                    Aztec.TITLE_FONT2));
-
-                static.addChild(drawTextAt(160, 395, TIPS, 14, Aztec.TITLE_FONT2));
+                if (condition == NewGameCondition.OPPONENT_DISCONNECTED) {
+                    static.addChild(drawTextAt(160, 325,
+                        "Your opponent left the match early\nquaking at your typing skills", 24,
+                        Aztec.TITLE_FONT2));
+                } else {
+                    static.addChild(drawTextAt(160, 325,
+                            "More sacrifices must be offered\nto atone for your typing skills", 24,
+                            Aztec.TITLE_FONT2));
+                }
             }
-
+            static.addChild(drawTextAt(160, 395, TIPS, 14, Aztec.TITLE_FONT2));
+            
             static.addChild(drawTextAt(160, 667, "Type \"START\" to begin a new match", 12,
                 Aztec.TITLE_FONT2));
 

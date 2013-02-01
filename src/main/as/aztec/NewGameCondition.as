@@ -10,6 +10,7 @@ public final class NewGameCondition extends Enum
     public static const INITIAL :NewGameCondition = new NewGameCondition("INITIAL");
     public static const WON :NewGameCondition = new NewGameCondition("WON");
     public static const LOST :NewGameCondition = new NewGameCondition("LOST");
+    public static const OPPONENT_DISCONNECTED :NewGameCondition = new NewGameCondition("OPPONENT_DISCONNECTED");
     finishedEnumerating(NewGameCondition);
 
     /**

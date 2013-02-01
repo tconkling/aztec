@@ -12,6 +12,7 @@ import aztec.battle.controller.Villager;
 import aztec.data.AztecMessage;
 import aztec.data.DeselectVillagerMessage;
 import aztec.data.IWonMessage;
+import aztec.data.PlayerDisconnectedMessage;
 import aztec.data.SelectVillagerMessage;
 import aztec.data.SummonMessage;
 import aztec.data.VillagerActionMessage;
@@ -69,11 +70,11 @@ public class BattleMessages
     }
 
     protected function defaultToLocal (oid :int) :int {
-        return (oid != 0 ? oid : _ctx.localPlayer.oid);
+        return (oid != 0 ? oid : _ctx.localPlayer.id);
     }
 
     protected function handleMessage (msg :AztecMessage) :void {
-        var sender :Player = Player.withOid(_ctx, msg.senderOid);
+        var sender :Player = Player.withId(_ctx, msg.senderId);
         if (sender == null) {
             log.warning("Message with unrecognized sender oid", "msg", msg);
             return;
@@ -96,6 +97,10 @@ public class BattleMessages
             } else {
                 Aztec.newGameCondition = NewGameCondition.LOST;
             }
+            Flashbang.app.defaultViewport.popMode();
+        } else if (msg is PlayerDisconnectedMessage) {
+            log.info("Opponent disconnected! Ending game.");
+            Aztec.newGameCondition = NewGameCondition.OPPONENT_DISCONNECTED;
             Flashbang.app.defaultViewport.popMode();
         } else {
             log.error("Unhandled message!", "msg", msg);
