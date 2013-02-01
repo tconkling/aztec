@@ -18,6 +18,7 @@ import aztec.battle.desc.GameDesc;
 import aztec.battle.desc.PlayerDesc;
 import aztec.battle.view.FestivalView;
 import aztec.battle.view.HeartView;
+import aztec.battle.view.ResourceIcon;
 import aztec.battle.view.TempleView;
 import aztec.battle.view.VillagerAlert;
 import aztec.battle.view.VillagerCommandMenu;
@@ -191,6 +192,12 @@ public class Player extends NetObject
             offsetAffinity(GameDesc.sacrificeAffinityOffset);
             if (_templeView.viewState == TempleView.NORMAL) {
                 _templeView.viewState = TempleView.BLOODY;
+            }
+
+            if (this.isLocalPlayer) {
+                for each (var v :Villager in Villager.getAll(_ctx)) {
+                    v.view.showResourceIcon(ResourceIcon.ANGRY);
+                }
             }
             break;
         }

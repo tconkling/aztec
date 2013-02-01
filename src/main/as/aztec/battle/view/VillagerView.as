@@ -20,9 +20,11 @@ import flashbang.tasks.AlphaTask;
 import flashbang.tasks.FunctionTask;
 import flashbang.tasks.LocationTask;
 import flashbang.tasks.PlayMovieTask;
+import flashbang.tasks.RepeatingTask;
 import flashbang.tasks.SelfDestructTask;
 import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
+import flashbang.util.DisplayUtil;
 
 import flump.display.Movie;
 
@@ -71,14 +73,37 @@ public class VillagerView extends LocalSpriteObject
             loc = randomFestivalLoc(forPlayer);
             _sprite.x = loc.x;
             _sprite.y = loc.y;
+            if (forPlayer == _ctx.localPlayer) {
+                addNamedTask(ACTION_ANIM, new RepeatingTask(
+                    new FunctionTask(F.callback(showResourceIcon, ResourceIcon.HAPPY)),
+                    new TimedTask(2)));
+            }
             break;
 
         case VillagerAction.WORSHIP:
             loc = randomWorshipLoc(forPlayer);
             _sprite.x = loc.x;
             _sprite.y = loc.y;
+            if (forPlayer == _ctx.localPlayer) {
+                addNamedTask(ACTION_ANIM, new RepeatingTask(
+                    new FunctionTask(F.callback(showResourceIcon, ResourceIcon.DEFENSE)),
+                    new TimedTask(2)));
+            }
             break;
         }
+    }
+
+    public function showResourceIcon (type :int) :void {
+        var bounds :Rectangle = _movie.getBounds(_sprite);
+        var loc :Vector2 = new Vector2(
+            bounds.x + (bounds.width * 0.5) + rands().getNumberInRange(-10, 10),
+            bounds.y + rands().getNumberInRange(-5, 5));
+        loc = DisplayUtil.transformVector(loc, _sprite, _ctx.effectLayer, loc);
+
+        var icon :ResourceIcon = new ResourceIcon(type);
+        icon.display.x = loc.x;
+        icon.display.y = loc.y;
+        _ctx.viewObjects.addObject(icon, _ctx.effectLayer);
     }
 
     override protected function addedToMode () :void {
@@ -163,7 +188,7 @@ public class VillagerView extends LocalSpriteObject
 
     protected function randomFestivalLoc (forPlayer :Player) :Vector2 {
         var loc :Vector2 = forPlayer.desc.festivalLoc.clone(new Vector2());
-        loc.y += 36;
+        loc.y += 56;
 
         var angle :Number = rands().getNumber(Math.PI * 2);
         var dist :Number = rands().getNumberInRange(5, 36);
