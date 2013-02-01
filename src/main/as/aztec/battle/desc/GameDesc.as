@@ -91,7 +91,7 @@ public class GameDesc
 
         desc.sacrificeCommandLoc.x = 575;
         desc.sacrificeCommandLoc.y = 152;
-        desc.festivalCommandLoc.x = 619;
+        desc.festivalCommandLoc.x = 610;
         desc.festivalCommandLoc.y = 498;
         desc.worshipCommandLoc.x = 348;
         desc.worshipCommandLoc.y = 332;
