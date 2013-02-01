@@ -12,6 +12,8 @@ import aztec.input.KeyboardInput;
 import aztec.net.AztecClient;
 import aztec.net.NetworkedMessageMgr;
 
+import com.threerings.presents.client.ClientEvent;
+
 import flashbang.core.AppMode;
 
 import starling.events.KeyboardEvent;
@@ -22,12 +24,11 @@ public class ConnectMode extends AppMode
 
     override protected function setup() :void {
         if (!Aztec.MULTIPLAYER) { return; }
-        var nameEntry :NameEntryView = new NameEntryView();
-        _regs.addOneShotSignalListener(nameEntry.nameEntered, function (name :String) :void {
-            nameEntry.destroySelf();
+        _nameEntry = new NameEntryView();
+        _regs.addOneShotSignalListener(_nameEntry.nameEntered, function (name :String) :void {
             connect(name);
         });
-        addObject(nameEntry, modeSprite);
+        addObject(_nameEntry, modeSprite);
     }
 
     override protected function enter () :void {
@@ -70,12 +71,18 @@ public class ConnectMode extends AppMode
             var player2 :Player = new Player(2, matchObj.player2.toString(), GameDesc.player2, !player1Local);
             viewport.pushMode(new BattleMode(player1, player2, matchObj.seed, new NetworkedMessageMgr(matchObj)));
         });
+        const logonOverlay :ActivityOverlay = new ActivityOverlay("Connecting");
+        _nameEntry.addDependentObject(logonOverlay, _nameEntry.sprite);
+        _regs.addEventListener(_client, ClientEvent.CLIENT_DID_LOGON, function (e :ClientEvent) :void {
+            _nameEntry.destroySelf();
+            showStartMatch();
+        });
         _client.logon();
-        showStartMatch();
     }
 
     protected var _client :AztecClient;
 
+    protected var _nameEntry :NameEntryView;
     protected var _startMatch :StartMatchView;
 }
 }

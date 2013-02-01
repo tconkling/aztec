@@ -116,36 +116,7 @@ public class StartMatchView extends SpriteObject {
             }
             _startEntered = true;
 
-            var dark :DisplayObject =
-                DisplayUtil.fillRect(Flashbang.stageWidth, Flashbang.stageHeight, 0);
-            dark.alpha = 0.8;
-            _sprite.addChild(dark);
-
-            const SEARCHING :String = "Searching for opponent";
-
-            var searching :CustomTextField = new CustomTextField(1, 1, SEARCHING,
-                Aztec.UI_FONT, 36, 0xffffff);
-            searching.autoSize = TextFieldAutoSize.SINGLE_LINE;
-            searching.x = (Flashbang.stageWidth - searching.width) * 0.5;
-            searching.y = (Flashbang.stageHeight - searching.height) * 0.5;
-            _sprite.addChild(searching);
-
-            var animator :GameObject = new GameObject();
-            var numDots :int = 0;
-            animator.addTask(new RepeatingTask(
-                new TimedTask(0.4),
-                new FunctionTask(function () :void {
-                    if (++numDots > 3) {
-                        numDots = 0;
-                    }
-                    var text :String = SEARCHING;
-                    for (var ii :int = 0; ii < numDots; ++ii) {
-                        text += ".";
-                    }
-                    searching.text = text;
-                })));
-            addDependentObject(animator);
-
+            addDependentObject(new ActivityOverlay("Searching for opponent"), _sprite);
 
             startEntered.dispatch();
         });
