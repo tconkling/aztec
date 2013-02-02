@@ -106,12 +106,12 @@ public class VillagerGenerator extends NetObject
         }
     }
 
-    protected static var _names :Map; // <String, Array<String>>
-
     // Each Villager must have a name that starts with a unique letter.
     // This tracks with letters are claimed by existing Villagers.
-    protected static var _claimedLetters :Set =
+    protected const _claimedLetters :Set =
         Sets.newSortedSetOf(String, Comparators.compareStrings);
+
+    protected static var _names :Map; // <String, Array<String>>
 
     protected static const log :Log = Log.getLog(VillagerGenerator);
 
