@@ -21,7 +21,7 @@ public class NetworkFailureMode extends AppMode {
         _modeSprite.addChild(fixed);
         fixed.addChild(MovieResource.createMovie("aztec/lose_screen"));
         fixed.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
-        fixed.addChild(drawTextAt(160, 325, _reason, 24, Aztec.TITLE_FONT2));
+        fixed.addChild(drawTextAt(160, 325, _reason + "\n Reload the window to try again.", 24, Aztec.TITLE_FONT2));
     }
 
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
