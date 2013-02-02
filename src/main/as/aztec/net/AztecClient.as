@@ -5,6 +5,7 @@ import aspire.util.Log;
 
 import aztec.Aztec;
 import aztec.client.MatchmakerService;
+import aztec.connect.NetworkFailureMode;
 import aztec.data.AztecClientObject;
 import aztec.data.MatchObject;
 import aztec.data.MatchmakerMarshaller;
@@ -16,6 +17,8 @@ import com.threerings.presents.dobj.ObjectAccessError;
 import com.threerings.presents.dobj.SubscriberAdapter;
 import com.threerings.presents.net.UsernamePasswordCreds;
 import com.threerings.util.Name;
+
+import flashbang.core.Flashbang;
 
 import org.osflash.signals.Signal;
 
@@ -54,6 +57,7 @@ public class AztecClient extends Client {
 
     private function onMatchSubscribeFail (oid :int, cause :ObjectAccessError) :void {
         log.warning("Failed to subscribe", "oid", oid, "cause", cause);
+        Flashbang.app.defaultViewport.pushMode(new NetworkFailureMode("Unable to get match: " + cause));
     }
 
     private static const log :Log = Log.getLog(AztecClient);
