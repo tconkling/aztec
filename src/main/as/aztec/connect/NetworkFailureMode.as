@@ -1,5 +1,6 @@
 package aztec.connect {
 import aztec.Aztec;
+import aztec.input.KeyboardInputMode;
 import aztec.text.CustomTextField;
 
 import flashbang.core.AppMode;
@@ -12,7 +13,7 @@ import starling.text.TextField;
 import starling.text.TextFieldAutoSize;
 import starling.utils.HAlign;
 
-public class NetworkFailureMode extends AppMode {
+public class NetworkFailureMode extends KeyboardInputMode {
     public function NetworkFailureMode(reason :String) {
         _reason = reason;
     }
@@ -21,7 +22,22 @@ public class NetworkFailureMode extends AppMode {
         _modeSprite.addChild(fixed);
         fixed.addChild(MovieResource.createMovie("aztec/lose_screen"));
         fixed.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
-        fixed.addChild(drawTextAt(160, 325, _reason + "\n Reload the window to try again.", 24, Aztec.TITLE_FONT2));
+        fixed.addChild(drawTextAt(160, 325, _reason, 24, Aztec.TITLE_FONT2));
+        fixed.addChild(drawTextAt(160, 667, "Type \"START\" to try again", 12, Aztec.TITLE_FONT2));
+        fixed.flatten();
+
+        _textField = new TextEntryField(200, 30, "", Aztec.UI_FONT, 24);
+        _textField.display.x = 184;
+        _textField.display.y = 627;
+        addObject(_textField,  _modeSprite);
+
+        _regs.addSignalListener(_textField.enterPressed, function () :void {
+            if (_textField.text.toLowerCase() != "start") {
+                return;
+            }
+
+            viewport.unwindToMode(new ConnectMode());
+        });
     }
 
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
@@ -51,5 +67,6 @@ public class NetworkFailureMode extends AppMode {
     }
 
     private var _reason :String;
+    protected var _textField :TextEntryField;
 }
 }

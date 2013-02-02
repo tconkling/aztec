@@ -18,8 +18,9 @@ import starling.display.Sprite;
 
 public class BattleCtx extends GameObject
 {
-    public function BattleCtx (netRandomSeed :int) {
+    public function BattleCtx(netRandomSeed:int, keyboardInput:KeyboardInput) {
         _netRandoms = new Randoms(new Random(netRandomSeed));
+        this.keyboardInput = keyboardInput;
     }
 
     public var localPlayer :Player;
@@ -42,7 +43,7 @@ public class BattleCtx extends GameObject
     public var effectLayer :Sprite = new Sprite();
     public var debugLayer :Sprite = new Sprite();
 
-    public var keyboardInput :KeyboardInput = new KeyboardInput();
+    public var keyboardInput :KeyboardInput;
 
     public function randomsFor (obj :GameObject) :Randoms {
         return (obj is NetObject ? _netRandoms : _viewRandoms);

@@ -8,20 +8,14 @@ import aztec.battle.BattleMode;
 import aztec.battle.controller.Player;
 import aztec.battle.desc.GameDesc;
 import aztec.data.MatchObject;
-import aztec.input.KeyboardInput;
+import aztec.input.KeyboardInputMode;
 import aztec.net.AztecClient;
 import aztec.net.NetworkedMessageMgr;
 
 import com.threerings.presents.client.ClientEvent;
 
-import flashbang.core.AppMode;
-
-import starling.events.KeyboardEvent;
-
-public class ConnectMode extends AppMode
+public class ConnectMode extends KeyboardInputMode
 {
-    public const keyboardInput :KeyboardInput = new KeyboardInput();
-
     override protected function setup() :void {
         if (!Aztec.MULTIPLAYER) { return; }
         _nameEntry = new NameEntryView();
@@ -50,18 +44,6 @@ public class ConnectMode extends AppMode
             _client.findMatch();
         });
         addObject(_startMatch, modeSprite);
-    }
-
-    override public function onKeyDown (keyEvent :KeyboardEvent) :void {
-        if (!keyboardInput.handleKeyboardEvent(keyEvent)) {
-            super.onKeyDown(keyEvent);
-        }
-    }
-
-    override public function onKeyUp (keyEvent :KeyboardEvent) :void {
-        if (!keyboardInput.handleKeyboardEvent(keyEvent)) {
-            super.onKeyUp(keyEvent);
-        }
     }
 
     protected function connect (name :String) :void {

@@ -14,16 +14,15 @@ import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.VillagerGenerator;
 import aztec.battle.view.AffinityView;
+import aztec.input.KeyboardInputMode;
 import aztec.net.MessageMgr;
 
-import flashbang.core.AppMode;
 import flashbang.core.GameObject;
 import flashbang.core.GameObjectRef;
 
 import starling.display.DisplayObjectContainer;
-import starling.events.KeyboardEvent;
 
-public class BattleMode extends AppMode
+public class BattleMode extends KeyboardInputMode
 {
     public function BattleMode (player1: Player, player2: Player, randomSeed :int, messageMgr: MessageMgr) {
         _player1 = player1;
@@ -32,23 +31,11 @@ public class BattleMode extends AppMode
         _randomSeed = randomSeed;
     }
 
-    override public function onKeyDown (keyEvent :KeyboardEvent) :void {
-        if (!_ctx.keyboardInput.handleKeyboardEvent(keyEvent)) {
-            super.onKeyDown(keyEvent);
-        }
-    }
-
-    override public function onKeyUp (keyEvent :KeyboardEvent) :void {
-        if (!_ctx.keyboardInput.handleKeyboardEvent(keyEvent)) {
-            super.onKeyUp(keyEvent);
-        }
-    }
-
     override protected function setup () :void {
         log.info("Starting match", "randomSeed", _randomSeed);
 
         // BattleCtx
-        _ctx = new BattleCtx(_randomSeed);
+        _ctx = new BattleCtx(_randomSeed, keyboardInput);
         _ctx.viewObjects = this;
         addObject(_ctx);
 

@@ -5,6 +5,8 @@ package aztec.connect {
 
 import aspire.ui.KeyboardCodes;
 
+import aztec.input.KeyboardInputMode;
+
 import aztec.input.KeyboardListener;
 
 import flashbang.objects.SpriteObject;
@@ -51,7 +53,7 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
 
     override protected function addedToMode() :void {
         super.addedToMode();
-        _regs.add(ConnectMode(mode).keyboardInput.registerListener(this));
+        _regs.add(KeyboardInputMode(mode).keyboardInput.registerListener(this));
         addTask(new RepeatingTask(new TimedTask(.5),
             new FunctionTask(function () :void {
                 _pipe.visible = !_pipe.visible;
