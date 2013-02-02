@@ -49,6 +49,7 @@ public class AztecMatchManager implements MatchProvider {
             for (AztecClientObject toSub : _clients) {
                 toSub.setMatchOid(_mobj.getOid());
             }
+            _matchStarted = true;
         }
     }
 
@@ -61,9 +62,8 @@ public class AztecMatchManager implements MatchProvider {
     }
 
     private void shutdown() {
-        log.info("Shutting down match", "oid", _mobj.getOid(), "hadWinner", _gotWinMessage, "playerDisconnected", _playerDisconnected);
+        log.info("Shutting down match", "oid", _mobj.getOid(), "matchStarted", _matchStarted, "hadWinner", _gotWinMessage, "playerDisconnected", _playerDisconnected);
         for (AztecClientObject client : _clients) {
-            client.removeListener(_clientDeathListener);
             if (client.isActive()) client.setMatchOid(-1);
         }
         _messageSender.cancel();
@@ -73,13 +73,18 @@ public class AztecMatchManager implements MatchProvider {
     private final ObjectDeathListener _clientDeathListener = new ObjectDeathListener() {
         @Override
         public void objectDestroyed(ObjectDestroyedEvent objectDestroyedEvent) {
-            _playerDisconnected = true;
-            PlayerDisconnectedMessage msg = new PlayerDisconnectedMessage();
-            msg.senderId = 1;// The id is either 1 or 2, and it doesn't matter which we choose
-            sendMessage(null, msg);
+            if (!_matchStarted) {
+                shutdown();
+            } else {
+                _playerDisconnected = true;
+                PlayerDisconnectedMessage msg = new PlayerDisconnectedMessage();
+                msg.senderId = 1;// The id is either 1 or 2, and it doesn't matter which we choose
+                sendMessage(null, msg);
+            }
         }
     };
 
+    private boolean _matchStarted;
     private boolean _gotWinMessage;
     private boolean _playerDisconnected;
 
