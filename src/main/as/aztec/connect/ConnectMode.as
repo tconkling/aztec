@@ -83,7 +83,8 @@ public class ConnectMode extends AppMode
             viewport.pushMode(new NetworkFailureMode("Connection lost!"));
         });
         _regs.addEventListener(_client, ClientEvent.CLIENT_FAILED_TO_LOGON, function (e :ClientEvent) :void {
-            viewport.pushMode(new NetworkFailureMode("Unable to connect!"));
+            var reason :String = e.getCause().message == "inuse" ? "Username already being used!" : "Unable to connect!";
+            viewport.pushMode(new NetworkFailureMode(reason));
         });
         _client.logon();
     }

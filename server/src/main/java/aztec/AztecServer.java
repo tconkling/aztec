@@ -1,18 +1,22 @@
 
 package aztec;
 
+import com.google.inject.Binder;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.threerings.presents.server.ClientResolver;
+import com.google.inject.Module;
+import com.threerings.presents.server.*;
 import com.threerings.util.Name;
-import com.threerings.presents.server.PresentsSession;
 import com.threerings.presents.net.AuthRequest;
-import com.threerings.presents.server.SessionFactory;
-import com.threerings.presents.server.PresentsServer;
 
 public class AztecServer extends PresentsServer {
     public static void main (String[] args) {
-        runServer(new PresentsModule(), new PresentsServerModule(AztecServer.class));
+        runServer(new PresentsModule(), new PresentsServerModule(AztecServer.class), new Module() {
+            @Override
+            public void configure(Binder binder) {
+                binder.bind(Authenticator.class).to(AztecAuthenticator.class);
+            }
+        });
     }
 
     @Override public void init (Injector injector) throws Exception {
