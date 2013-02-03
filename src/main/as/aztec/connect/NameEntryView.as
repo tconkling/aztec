@@ -5,6 +5,7 @@ package aztec.connect {
 
 import aztec.Aztec;
 
+import flash.external.ExternalInterface;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.ui.Mouse;
@@ -63,17 +64,24 @@ public class NameEntryView extends SpriteObject {
         tf.y = y;
 
         if (url != null) {
-            var request :URLRequest = new URLRequest(url);
             _regs.addEventListener(tf, TouchEvent.TOUCH, function (event :TouchEvent) :void {
                 Mouse.cursor = (event.interactsWith(tf) ? MouseCursor.BUTTON : MouseCursor.AUTO);
                 var touch:Touch = event.getTouch(tf);
-                if (touch != null && touch.phase == TouchPhase.BEGAN) {
-                    flash.net.navigateToURL(request, "_blank");
+                if (touch != null && touch.phase == TouchPhase.ENDED) {
+                    openUrl(url, "_blank");
                 }
             });
         }
 
         return tf;
+    }
+
+    protected static function openUrl (url :String, window :String) :void {
+        if (ExternalInterface.available) {
+            ExternalInterface.call("window.open", url, window);
+        } else {
+            navigateToURL(new URLRequest(url), window);
+        }
     }
 
     protected var _tfName :TextEntryField;
