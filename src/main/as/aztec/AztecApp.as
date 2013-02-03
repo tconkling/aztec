@@ -4,6 +4,7 @@
 package aztec {
 
 import aspire.util.Cloneable;
+import aspire.util.DelayUtil;
 import aspire.util.Log;
 import aspire.util.Randoms;
 
@@ -15,6 +16,7 @@ import aztec.debug.DebugOverlayMode;
 import aztec.net.LoopbackMessageMgr;
 import aztec.text.CustomFontLoader;
 
+import flash.display.DisplayObject;
 import flash.events.Event;
 
 import flashbang.core.Config;
@@ -24,6 +26,13 @@ import flashbang.core.FlashbangApp;
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
 {
+    public function AztecApp (splashScreen :DisplayObject = null) {
+        _splashScreen = splashScreen;
+        if (_splashScreen != null) {
+            addChild(splashScreen);
+        }
+    }
+
     public function get active () :Boolean {
         return _active;
     }
@@ -57,6 +66,14 @@ public class AztecApp extends FlashbangApp
                         new Randoms().getInt(1000),
                         new LoopbackMessageMgr(Aztec.NETWORK_UPDATE_RATE)));
                 }
+
+                // remove the splash screen after a frame
+                if (_splashScreen != null) {
+                    DelayUtil.delayFrame(function () :void {
+                        _splashScreen.parent.removeChild(_splashScreen);
+                        _splashScreen = null;
+                    });
+                }
             },
             function (e :Error) :void {
                 Log.getLog(AztecApp).error("Error loading resources", e);
@@ -71,5 +88,6 @@ public class AztecApp extends FlashbangApp
     }
 
     protected var _active :Boolean = true;
+    protected var _splashScreen :DisplayObject;
 }
 }

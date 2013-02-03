@@ -6,6 +6,7 @@ package aztec {
 import flash.display.Graphics;
 import flash.display.MovieClip;
 import flash.display.Shape;
+import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.ProgressEvent;
 import flash.utils.getDefinitionByName;
@@ -22,7 +23,9 @@ public class AztecPreloader extends MovieClip
         //the second frame.
         stop();
 
-        addChild(new IMAGE());
+        addChild(_splashScreen);
+
+        _splashScreen.addChild(new IMAGE());
 
         // draw a progress bar
         const WIDTH :Number = 400;
@@ -30,7 +33,7 @@ public class AztecPreloader extends MovieClip
         var progressBar :Shape = new Shape();
         progressBar.x = (1024 - WIDTH) * 0.5;
         progressBar.y = 725;
-        addChild(progressBar);
+        _splashScreen.addChild(progressBar);
         loaderInfo.addEventListener(ProgressEvent.PROGRESS, function (e :ProgressEvent) :void {
             progressBar.graphics.clear();
             fillRect(progressBar, WIDTH, HEIGHT, 0xcccccc);
@@ -45,10 +48,11 @@ public class AztecPreloader extends MovieClip
         // go to frame two because that's where the classes we need are located
         gotoAndStop(2);
 
+        _splashScreen.parent.removeChild(_splashScreen);
         removeChildren();
 
         var appClass :Class = getDefinitionByName("aztec.AztecApp") as Class;
-        addChild(new appClass());
+        addChild(new appClass(_splashScreen));
     }
 
     protected static function fillRect (shape :Shape, w :Number, h :Number, color :uint) :void {
@@ -66,6 +70,8 @@ public class AztecPreloader extends MovieClip
         g.drawRect(0, 0, w, h);
         g.endFill();
     }
+
+    protected var _splashScreen :Sprite = new Sprite();
 
     [Embed(source="../../../../rsrc/art/preloader.jpg")]
     protected static const IMAGE :Class;
