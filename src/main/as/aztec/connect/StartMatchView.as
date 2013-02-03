@@ -116,7 +116,10 @@ public class StartMatchView extends SpriteObject {
             }
             _startEntered = true;
 
-            addDependentObject(new ActivityOverlay("Searching for opponent"), _sprite);
+            addDependentObject(new ActivityOverlay(
+                "Searching for opponent",
+                "(This is a two-player game; if you aren't auto-matched\nwith another player, send the link to a buddy!)"),
+                _sprite);
 
             startEntered.dispatch();
         });
