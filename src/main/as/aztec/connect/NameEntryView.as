@@ -68,7 +68,7 @@ public class NameEntryView extends SpriteObject {
                 Mouse.cursor = (event.interactsWith(tf) ? MouseCursor.BUTTON : MouseCursor.AUTO);
                 var touch:Touch = event.getTouch(tf);
                 if (touch != null && touch.phase == TouchPhase.ENDED) {
-                    openUrl(url, "_blank");
+                    openUrl(url, "_self");
                 }
             });
         }
