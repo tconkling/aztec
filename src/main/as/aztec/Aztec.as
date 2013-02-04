@@ -6,6 +6,9 @@ package aztec {
 public class Aztec {
     public static var newGameCondition :NewGameCondition;
 
+    public static const WIDTH :Number = 1024;
+    public static const HEIGHT :Number = 768;
+
     public static const NETWORK_UPDATE_RATE :Number = 1.0 / 10.0; // 10 messages/sec
 
     /** Constants */

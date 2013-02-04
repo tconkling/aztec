@@ -11,7 +11,7 @@ import flash.system.LoaderContext;
 import flash.system.Security;
 import flash.system.SecurityDomain;
 
-[SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
+[SWF(width="800", height="600", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecWrapper extends Sprite
 {
     public function AztecWrapper () {
@@ -26,7 +26,14 @@ public class AztecWrapper extends Sprite
 
         var loader :Loader = new Loader();
         loader.load(url, ctx);
+
+        var scale :Number = Math.min(WIDTH / Aztec.WIDTH, HEIGHT / Aztec.HEIGHT);
+        this.scaleX = this.scaleY = scale;
+
         addChild(loader);
     }
+
+    protected static const WIDTH :Number = 800;
+    protected static const HEIGHT :Number = 600;
 }
 }

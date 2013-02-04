@@ -26,6 +26,9 @@ import flashbang.core.FlashbangApp;
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
 {
+    // classes needed by the network code
+    Cloneable;
+
     public function AztecApp (splashScreen :DisplayObject = null) {
         _splashScreen = splashScreen;
         if (_splashScreen != null) {
@@ -37,10 +40,12 @@ public class AztecApp extends FlashbangApp
         return _active;
     }
 
-    // classes needed by the network code
-    Cloneable;
-
     override protected function run () :void {
+        // scale our content if we're running in a scaled-down wrapper
+        _mainSprite.scaleX = _mainSprite.scaleY = Math.min(
+            this.stage.stageWidth / this.config.windowWidth,
+            this.stage.stageHeight / this.config.windowHeight);
+
         Flashbang.rsrcs.registerResourceLoader("customFont", CustomFontLoader);
 
         Aztec.newGameCondition = NewGameCondition.INITIAL;
@@ -82,8 +87,8 @@ public class AztecApp extends FlashbangApp
 
     override protected function createConfig () :Config {
         var config :Config = new Config();
-        config.stageWidth = config.windowWidth = 1024;
-        config.stageHeight = config.windowHeight = 768;
+        config.stageWidth = config.windowWidth = Aztec.WIDTH;
+        config.stageHeight = config.windowHeight = Aztec.HEIGHT;
         return config;
     }
 
