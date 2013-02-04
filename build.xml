@@ -56,6 +56,16 @@
     </mxmlc>
   </target>
 
+  <target name="swf-wrapper" depends="-prepare" description="Builds aztec-wrapper.swf">
+    <mkdir dir="${deploy.dir}"/>
+    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.6"/>
+    <mxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
+      dest="${deploy.dir}/${ant.project.name}-wrapper.swf" static-lrsl="true"
+      main="aztec/AztecWrapper.as">
+      <arg value="-swf-version=13"/>
+    </mxmlc>
+  </target>
+
   <target name="gendobj" depends="-preptools"
     description="Generates additional methods for distributed object classes">
     <ooojavac srcdir="${jsrc.dir}" destdir="${classes.dir}" version="1.5"
