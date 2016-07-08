@@ -12,7 +12,6 @@ import aztec.battle.VillagerAction;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.Villager;
 import aztec.battle.desc.GameDesc;
-import aztec.text.CustomTextField;
 
 import flashbang.tasks.AlphaTask;
 import flashbang.tasks.LocationTask;
@@ -22,9 +21,10 @@ import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.DisplayUtil;
 import flashbang.util.Easing;
+import flashbang.util.TextFieldBuilder;
 
 import starling.display.DisplayObject;
-import starling.text.TextFieldAutoSize;
+import starling.text.TextField;
 
 public class VillagerAlert extends LocalSpriteObject
 {
@@ -71,9 +71,13 @@ public class VillagerAlert extends LocalSpriteObject
             break;
         }
 
-        var tf :CustomTextField = new CustomTextField(1, 1, text, Aztec.UI_FONT, 24, 0xCD4843);
-        tf.autoSize = TextFieldAutoSize.MULTI_LINE;
-        tf.autoSizeMaxWidth = 300;
+        var tf :TextField = new TextFieldBuilder(text)
+            .font(Aztec.UI_FONT)
+            .fontSize(24)
+            .color(0xCD4843)
+            .autoSizeVertical()
+            .width(300)
+            .build();
 
         const HPADDING :Number = 15;
         const VPADDING :Number = 15;

@@ -6,22 +6,27 @@ package aztec.battle.view {
 import aspire.util.Preconditions;
 
 import aztec.Aztec;
-import aztec.text.CustomTextField;
+
+import flashbang.util.TextFieldBuilder;
 
 import starling.display.Sprite;
+import starling.text.TextField;
+import starling.text.TextFieldAutoSize;
 
 public class SelectableTextSprite extends Sprite
 {
     public function SelectableTextSprite (text :String, font :String = null, size :Number = 24,
-        autoSize :String = "singleLine", maxWidth :Number = 0) {
+        autoSize :String = TextFieldAutoSize.HORIZONTAL, maxWidth :Number = 0) {
 
         font = (font || Aztec.UI_FONT);
 
-        _tf = new CustomTextField(1, 1, text, font, size);
-        _tf.color = 0xffffff;
-        _tf.selectionColor = 0x00ff00;
-        _tf.autoSize = autoSize;
-        _tf.autoSizeMaxWidth = maxWidth;
+        _tf = new TextFieldBuilder(text)
+            .color(0xffffff)
+            .font(font)
+            .fontSize(size)
+            .autoSize(autoSize)
+            .width(maxWidth)
+            .build();
         addChild(_tf);
 
         touchable = false;
@@ -41,7 +46,7 @@ public class SelectableTextSprite extends Sprite
     }
 
     public function get selectionLength () :uint {
-        return _tf.selectionLength;
+        return _selectionLength;
     }
 
     public function get text () :String {
@@ -62,8 +67,9 @@ public class SelectableTextSprite extends Sprite
     public function select (numCharacters :uint, color :uint) :void {
         Preconditions.checkArgument(numCharacters <= _tf.text.length);
 
-        _tf.selectionColor = color;
-        _tf.selectionLength = numCharacters;
+        _selectionLength = numCharacters;
+//        _tf.selectionColor = color;
+//        _tf.selectionLength = numCharacters;
     }
 
     protected function updateAlignment () :void {
@@ -71,7 +77,8 @@ public class SelectableTextSprite extends Sprite
         _tf.y = (_centered ? -_tf.height * 0.5 : 0);
     }
 
-    protected var _tf :CustomTextField;
+    protected var _selectionLength :int;
+    protected var _tf :TextField;
     protected var _centered :Boolean;
 }
 }

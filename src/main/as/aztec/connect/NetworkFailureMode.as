@@ -1,11 +1,10 @@
 package aztec.connect {
 
 import aztec.Aztec;
-import aztec.text.CustomTextField;
 
 import flashbang.core.AppMode;
-
 import flashbang.resource.MovieResource;
+import flashbang.util.TextFieldBuilder;
 
 import starling.display.DisplayObject;
 import starling.display.Sprite;
@@ -42,28 +41,16 @@ public class NetworkFailureMode extends AppMode {
 
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
                                           font :String = "herculanumLarge", color :uint = 0x192E20) :DisplayObject {
-
-        if (CustomTextField.getBitmapFont(font) != null) {
-            var ctf :CustomTextField = new CustomTextField(1, 1, text);
-            ctf.color = color;
-            ctf.hAlign = Align.LEFT;
-            ctf.fontName = font;
-            ctf.fontSize = size;
-            ctf.autoSize = TextFieldAutoSize.MULTI_LINE;
-            ctf.x = x;
-            ctf.y = y;
-            return ctf;
-        } else {
-            var tf :TextField = new TextField(1, 1, text);
-            tf.color = color;
-            tf.hAlign = Align.LEFT;
-            tf.fontName = font
-            tf.fontSize = size;
-            tf.autoSize = TextFieldAutoSize.MULTI_LINE;
-            tf.x = x;
-            tf.y = y;
-            return tf;
-        }
+        var tf :TextField = new TextFieldBuilder(text)
+            .color(color)
+            .hAlign(Align.LEFT)
+            .font(font)
+            .fontSize(size)
+            .autoSize(TextFieldAutoSize.VERTICAL)
+            .build();
+        tf.x = x;
+        tf.y = y;
+        return tf;
     }
 
     private var _reason :String;

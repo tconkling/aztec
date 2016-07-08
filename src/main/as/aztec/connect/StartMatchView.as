@@ -7,11 +7,11 @@ import aztec.Aztec;
 import aztec.NewGameCondition;
 import aztec.battle.desc.GameDesc;
 import aztec.battle.view.SelectableTextSprite;
-import aztec.text.CustomTextField;
 
 import flashbang.core.GameObject;
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
+import flashbang.util.TextFieldBuilder;
 
 import react.UnitSignal;
 
@@ -122,27 +122,16 @@ public class StartMatchView extends SpriteObject {
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
         font :String = "herculanumLarge", color :uint = 0x192E20) :DisplayObject {
 
-        if (CustomTextField.getBitmapFont(font) != null) {
-            var ctf :CustomTextField = new CustomTextField(1, 1, text);
-            ctf.color = color;
-            ctf.hAlign = Align.LEFT;
-            ctf.fontName = font
-            ctf.fontSize = size;
-            ctf.autoSize = TextFieldAutoSize.MULTI_LINE;
-            ctf.x = x;
-            ctf.y = y;
-            return ctf;
-        } else {
-            var tf :TextField = new TextField(1, 1, text);
-            tf.color = color;
-            tf.hAlign = Align.LEFT;
-            tf.fontName = font
-            tf.fontSize = size;
-            tf.autoSize = TextFieldAutoSize.MULTI_LINE;
-            tf.x = x;
-            tf.y = y;
-            return tf;
-        }
+        var tf :TextField = new TextFieldBuilder(text)
+            .color(color)
+            .hAlign(Align.LEFT)
+            .font(font)
+            .fontSize(size)
+            .autoSize(TextFieldAutoSize.VERTICAL)
+            .build();
+        tf.x = x;
+        tf.y = y;
+        return tf;
     }
 
     protected var _startEntered :Boolean;

@@ -6,12 +6,16 @@ package aztec.battle.view {
 import aztec.battle.God;
 import aztec.battle.SelectableProvider;
 import aztec.battle.desc.GameDesc;
+import aztec.util.AnimateValueTask;
+import aztec.util.BoxedNumber;
+
+import flashbang.core.ObjectTask;
 
 import flashbang.core.Updatable;
-
 import flashbang.objects.SceneObject;
 import flashbang.resource.MovieResource;
 import flashbang.tasks.RepeatingTask;
+import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.Easing;
 
@@ -64,7 +68,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider, 
         var origHearts :int = _numHearts;
         _numHearts = val;
 
-        var ii :int = 0;
+        var ii :int;
         for (ii = 0; ii < _hearts.length; ++ii) {
             _hearts[ii].alpha = (_numHearts > ii ? 1 : DISABLED_ALPHA);
         }
@@ -113,10 +117,13 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider, 
             const MAX_DELAY :Number = 1;
             var m :Number = (GameDesc.MAX_HEARTS - _numHearts) / GameDesc.MAX_HEARTS;
             var delay :Number = MIN_DELAY + (m * (MAX_DELAY - MIN_DELAY));
-            addNamedTask(HEART_PULSE, new RepeatingTask(
-                new AnimateValueTask(_pulse, 1.2, 0.25, Easing.easeIn),
-                new AnimateValueTask(_pulse, 1, 0.1, Easing.easeOut),
-                new TimedTask(delay)));
+
+            addNamedObject(HEART_PULSE, new RepeatingTask(function () :ObjectTask {
+                return new SerialTask(
+                    new AnimateValueTask(_pulse, 1.2, 0.25, Easing.easeIn),
+                    new AnimateValueTask(_pulse, 1, 0.1, Easing.easeOut),
+                    new TimedTask(delay));
+            }));
         }
     }
 

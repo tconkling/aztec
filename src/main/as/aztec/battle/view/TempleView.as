@@ -5,7 +5,7 @@ package aztec.battle.view {
 
 import aztec.Aztec;
 import aztec.battle.God;
-import aztec.text.CustomTextField;
+import aztec.util.RectMeter;
 
 import flash.geom.Point;
 
@@ -17,12 +17,11 @@ import flashbang.tasks.SelfDestructTask;
 import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.DisplayUtil;
-import flashbang.util.RectMeter;
-import flashbang.util.meter.RectMeter;
+import flashbang.util.TextFieldBuilder;
 
 import flump.display.Movie;
 
-import starling.text.TextFieldAutoSize;
+import starling.text.TextField;
 
 public class TempleView extends LocalSpriteObject
 {
@@ -34,9 +33,10 @@ public class TempleView extends LocalSpriteObject
         _onRight = onRight;
         _movie = MovieResource.createMovie("aztec/temple");
         _sprite.addChild(_movie);
-        addObject(_healthMeter, _sprite);
-        _healthMeter.sprite.x = -60;
-        _healthMeter.sprite.y = -200;
+
+        _sprite.addChild(_healthMeter);
+        _healthMeter.x = -60;
+        _healthMeter.y = -200;
         _healthMeter.maxValue = 1.0;
         _healthMeter.value = 1.0;
         _healthMeter.foregroundColor = healthColor;
@@ -44,9 +44,9 @@ public class TempleView extends LocalSpriteObject
         _healthMeter.outlineSize = 2;
         _healthMeter.outlineColor = 0;
 
-        addObject(_defenseMeter, _sprite);
-        _defenseMeter.sprite.x = -60;
-        _defenseMeter.sprite.y = -230;
+        _sprite.addChild(_defenseMeter);
+        _defenseMeter.x = -60;
+        _defenseMeter.y = -230;
         _defenseMeter.maxValue = 1.0;
         _defenseMeter.value = 0.0;
         _defenseMeter.foregroundColor = 0x7D8A57;
@@ -54,9 +54,12 @@ public class TempleView extends LocalSpriteObject
         _defenseMeter.outlineSize = 2;
         _defenseMeter.outlineColor = 0;
 
-        var nameField :CustomTextField = new CustomTextField(1, 1, name, Aztec.UI_FONT, 24);
-        nameField.autoSize = TextFieldAutoSize.SINGLE_LINE;
-        nameField.color = healthColor;
+        var nameField :TextField = new TextFieldBuilder(name)
+            .font(Aztec.UI_FONT)
+            .fontSize(24)
+            .autoSizeHorizontal()
+            .color(healthColor)
+            .build();
         nameField.x = -nameField.width * 0.5;
         nameField.y = -78;
         sprite.addChild(nameField);

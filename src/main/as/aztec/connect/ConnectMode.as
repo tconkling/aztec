@@ -60,17 +60,17 @@ public class ConnectMode extends AppMode {
             _modeStack.pushMode(new BattleMode(player1, player2, matchObj.seed, new NetworkedMessageMgr(matchObj)));
         });
         const logonOverlay :ActivityOverlay = new ActivityOverlay("Connecting");
-        _nameEntry.addDependentObject(logonOverlay, _nameEntry.sprite);
+        _nameEntry.addObject(logonOverlay, _nameEntry.sprite);
         _regs.addEventListener(_client, ClientEvent.CLIENT_DID_LOGON, function (e :ClientEvent) :void {
             _nameEntry.destroySelf();
             showStartMatch();
         });
         _regs.addEventListener(_client, ClientEvent.CLIENT_CONNECTION_FAILED, function (e :ClientEvent) :void {
-            viewport.pushMode(new NetworkFailureMode("Connection lost!"));
+            _modeStack.pushMode(new NetworkFailureMode("Connection lost!"));
         });
         _regs.addEventListener(_client, ClientEvent.CLIENT_FAILED_TO_LOGON, function (e :ClientEvent) :void {
             var reason :String = e.getCause().message == "inuse" ? "Username already being used!" : "Unable to connect!";
-            viewport.pushMode(new NetworkFailureMode(reason));
+            _modeStack.pushMode(new NetworkFailureMode(reason));
         });
         _client.logon();
     }

@@ -116,7 +116,7 @@ public class VillagerView extends LocalSpriteObject implements Updatable {
     override protected function added () :void {
         super.added();
 
-        _viewVariation = rands().getInRange(1, 4);
+        _viewVariation = rands().getIntInRange(1, 4);
 
         // fade in
         _sprite.alpha = 0;
@@ -199,7 +199,7 @@ public class VillagerView extends LocalSpriteObject implements Updatable {
         var angle :Number = rands().getNumber(Math.PI * 2);
         var dist :Number = rands().getNumberInRange(5, 36);
 
-        loc.addLocal(Vector2.fromAngle(angle, dist));
+        loc.addLocal(Vector2.fromPolar(dist, angle));
         return loc;
     }
 

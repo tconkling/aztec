@@ -12,12 +12,10 @@ import aztec.battle.controller.Player;
 import aztec.battle.desc.GameDesc;
 import aztec.connect.ConnectMode;
 import aztec.net.LoopbackMessageMgr;
-import aztec.text.CustomFontLoader;
 
 import flash.display.DisplayObject;
 import flash.events.Event;
 
-import flashbang.core.Flashbang;
 import flashbang.core.FlashbangApp;
 import flashbang.core.FlashbangConfig;
 import flashbang.util.Timers;
@@ -46,8 +44,6 @@ public class AztecApp extends FlashbangApp
         _mainSprite.scaleX = _mainSprite.scaleY = Math.min(
             this.stage.stageWidth / this.config.windowWidth,
             this.stage.stageHeight / this.config.windowHeight);
-
-        Flashbang.rsrcs.registerResourceLoader("customFont", CustomFontLoader);
 
         Aztec.newGameCondition = NewGameCondition.INITIAL;
 

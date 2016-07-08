@@ -4,17 +4,19 @@
 package aztec.connect {
 
 import aztec.Aztec;
-import aztec.text.CustomTextField;
 
 import flashbang.core.Flashbang;
+import flashbang.core.ObjectTask;
 import flashbang.objects.SpriteObject;
-import flashbang.tasks.FunctionTask;
+import flashbang.tasks.CallbackTask;
 import flashbang.tasks.RepeatingTask;
+import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.DisplayUtil;
+import flashbang.util.TextFieldBuilder;
 
 import starling.display.DisplayObject;
-import starling.text.TextFieldAutoSize;
+import starling.text.TextField;
 
 public class ActivityOverlay extends SpriteObject
 {
@@ -23,17 +25,23 @@ public class ActivityOverlay extends SpriteObject
             DisplayUtil.fillRect(Flashbang.stageWidth, Flashbang.stageHeight, 0);
         dark.alpha = 0.8;
         _sprite.addChild(dark);
-        var tfActivity :CustomTextField = new CustomTextField(1, 1, activity,
-                Aztec.UI_FONT, 42, 0xffffff);
-        tfActivity.autoSize = TextFieldAutoSize.MULTI_LINE;
+
+        var tfActivity :TextField = new TextFieldBuilder(activity)
+            .font(Aztec.UI_FONT)
+            .fontSize(42)
+            .color(0xffffff)
+            .autoSizeVertical()
+            .build();
         tfActivity.x = (Flashbang.stageWidth - tfActivity.width) * 0.5;
         tfActivity.y = (Flashbang.stageHeight - tfActivity.height) * 0.5;
         _sprite.addChild(tfActivity);
 
         var numDots :int = 0;
-        addTask(new RepeatingTask(
+
+        addObject(new RepeatingTask(function () :ObjectTask {
+            return new SerialTask(
                 new TimedTask(0.4),
-                new FunctionTask(function () :void {
+                new CallbackTask(function () :void {
                     if (++numDots > 3) {
                         numDots = 0;
                     }
@@ -42,12 +50,16 @@ public class ActivityOverlay extends SpriteObject
                         text += ".";
                     }
                     tfActivity.text = text;
-                })));
+                }));
+        }));
 
         if (subText != null) {
-            var tfSubText :CustomTextField =
-                new CustomTextField(1, 1, subText, Aztec.UI_FONT, 20, 0xEBEBEB);
-            tfSubText.autoSize = TextFieldAutoSize.MULTI_LINE;
+            var tfSubText :TextField = new TextFieldBuilder(subText)
+                .font(Aztec.UI_FONT)
+                .fontSize(20)
+                .color(0xEBEBEB)
+                .autoSizeVertical()
+                .build();
             tfSubText.x = (Flashbang.stageWidth - tfSubText.width) * 0.5;
             tfSubText.y = tfActivity.y + tfActivity.height + 30;
             _sprite.addChild(tfSubText);

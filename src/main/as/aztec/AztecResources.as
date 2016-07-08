@@ -26,7 +26,7 @@ public class AztecResources extends ResourceSet
 
     protected function futuraFont () :Object {
         return {
-            type: "customFont",
+            type: "font",
             name: "futura",
             xmlData: FUTURA_XML,
             textureData: FUTURA_TEX,
@@ -36,7 +36,7 @@ public class AztecResources extends ResourceSet
 
     protected function herculanumFont () :Object {
         return {
-            type: "customFont",
+            type: "font",
             name: "herculanum",
             xmlData: HERCULANUM18_XML,
             textureData: HERCULANUM18_TEX,

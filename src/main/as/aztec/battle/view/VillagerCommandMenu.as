@@ -87,7 +87,7 @@ class CommandSprite extends Sprite
         _onSelected = onSelected;
 
         _textSprite = new SelectableTextSprite(cmd.text, Aztec.COMMAND_FONT, 18,
-            TextFieldAutoSize.MULTI_LINE, 400);
+            TextFieldAutoSize.VERTICAL, 400);
 
         redraw();
     }
