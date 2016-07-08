@@ -90,8 +90,8 @@ public class VillagerAlert extends LocalSpriteObject
         _sprite.addChild(tf);
     }
 
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
 
         const Y_MOVE :Number = 60;
 
@@ -102,7 +102,7 @@ public class VillagerAlert extends LocalSpriteObject
         _sprite.y = y + Y_MOVE;
         _sprite.alpha = 0;
 
-        addTask(new SerialTask(
+        addObject(new SerialTask(
             new ParallelTask(
                 new LocationTask(x, y, 0.5, Easing.easeOut),
                 new AlphaTask(1, 0.75)),

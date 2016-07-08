@@ -10,7 +10,7 @@ import aztec.battle.VillagerCommand;
 
 import flashbang.util.DisplayUtil;
 
-import org.osflash.signals.Signal;
+import react.Signal;
 
 import starling.display.Quad;
 
@@ -34,29 +34,29 @@ public class VillagerCommandMenu extends LocalSpriteObject implements Selectable
         return true;
     }
 
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
 
         // build command views
 
         _commandSprites = _commands.map(function (cmd :VillagerCommand, ..._) :CommandSprite {
-            var cmdSprite :CommandSprite = new CommandSprite(cmd, actionSelected.dispatch);
+            var cmdSprite :CommandSprite = new CommandSprite(cmd, actionSelected.emit);
             _sprite.addChild(cmdSprite);
             return cmdSprite;
         });
 
-        _regs.add(_ctx.selector.registerProvider(this));
-        _regs.addSignalListener(_ctx.selector.selectionBegan, function (s :Selectable) :void {
+        this.regs.add(_ctx.selector.registerProvider(this));
+        this.regs.add(_ctx.selector.selectionBegan.connect(function (s :Selectable) :void {
             if (s is CommandSprite) {
                 CommandSprite(s).expanded = true;
             }
-        });
-        _regs.addSignalListener(_ctx.selector.selectionCanceled, function (s :Selectable) :void {
+        }));
+        this.regs.add(_ctx.selector.selectionCanceled.connect(function (s :Selectable) :void {
             if (s is CommandSprite) {
                 CommandSprite(s).expanded = false;
             }
-        });
-        _regs.addSignalListener(_ctx.selector.canceled, destroySelf);
+        }));
+        this.regs.add(_ctx.selector.canceled.connect(destroySelf));
     }
 
     protected var _commands :Array;

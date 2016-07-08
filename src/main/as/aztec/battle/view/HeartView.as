@@ -7,18 +7,17 @@ import aztec.battle.God;
 import aztec.battle.SelectableProvider;
 import aztec.battle.desc.GameDesc;
 
+import flashbang.core.Updatable;
+
 import flashbang.objects.SceneObject;
 import flashbang.resource.MovieResource;
-import flashbang.tasks.AnimateValueTask;
 import flashbang.tasks.RepeatingTask;
 import flashbang.tasks.TimedTask;
-import flashbang.util.BoxedNumber;
 import flashbang.util.Easing;
 
 import flump.display.Movie;
 
-public class HeartView extends LocalSpriteObject implements SelectableProvider {
-
+public class HeartView extends LocalSpriteObject implements SelectableProvider, Updatable {
     public function HeartView (forLocalPlayer :Boolean, textToRight :Boolean) {
         _forLocalPlayer = forLocalPlayer;
         for (var ii :int = 0; ii < GameDesc.MAX_HEARTS; ii++) {
@@ -40,7 +39,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
                 textSprite.y = _hearts[GameDesc.godHearts(god) - 1].y;
                 textSprite.alpha = DISABLED_ALPHA;
                 var obj :SceneObject = new SceneObject(textSprite);
-                addDependentObject(obj, _sprite);
+                addObject(obj, _sprite);
                 _godNameObjects.push(obj);
             }
         }
@@ -106,7 +105,7 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
     protected function updateHeartPulse () :void {
         const HEART_PULSE :String = "HeartPulse";
 
-        removeNamedTasks(HEART_PULSE);
+        removeNamedObjects(HEART_PULSE);
         _pulse.value = 1;
 
         if (_numHearts > 0) {
@@ -121,17 +120,17 @@ public class HeartView extends LocalSpriteObject implements SelectableProvider {
         }
     }
 
-    override protected function update (dt :Number) :void {
+    public function update (dt :Number) :void {
         for (var ii :int = 0; ii < _hearts.length; ++ii) {
             var heart :Movie = _hearts[ii];
             heart.scaleX = heart.scaleY = (_numHearts > ii ? _pulse.value : 1);
         }
     }
 
-    override protected function addedToMode():void {
-        super.addedToMode();
+    override protected function added():void {
+        super.added();
 
-        _regs.add(_ctx.selector.registerProvider(this));
+        this.regs.add(_ctx.selector.registerProvider(this));
     }
 
     protected var _selectables :Array = [];

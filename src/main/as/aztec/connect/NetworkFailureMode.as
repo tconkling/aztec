@@ -1,22 +1,23 @@
 package aztec.connect {
+
 import aztec.Aztec;
-import aztec.input.KeyboardInputMode;
 import aztec.text.CustomTextField;
 
 import flashbang.core.AppMode;
+
 import flashbang.resource.MovieResource;
 
 import starling.display.DisplayObject;
-
 import starling.display.Sprite;
 import starling.text.TextField;
 import starling.text.TextFieldAutoSize;
-import starling.utils.HAlign;
+import starling.utils.Align;
 
-public class NetworkFailureMode extends KeyboardInputMode {
+public class NetworkFailureMode extends AppMode {
     public function NetworkFailureMode(reason :String) {
         _reason = reason;
     }
+
     override protected function setup() :void {
         var fixed :Sprite = new Sprite();
         _modeSprite.addChild(fixed);
@@ -24,20 +25,19 @@ public class NetworkFailureMode extends KeyboardInputMode {
         fixed.addChild(drawTextAt(160, 168, "Huitzilopochtli\nRages!", 70));
         fixed.addChild(drawTextAt(160, 325, _reason, 24, Aztec.TITLE_FONT2));
         fixed.addChild(drawTextAt(160, 667, "Type \"START\" to try again", 12, Aztec.TITLE_FONT2));
-        fixed.flatten();
 
         _textField = new TextEntryField(200, 30, "", Aztec.UI_FONT, 24);
         _textField.display.x = 184;
         _textField.display.y = 627;
         addObject(_textField,  _modeSprite);
 
-        _regs.addSignalListener(_textField.enterPressed, function () :void {
+        _regs.add(_textField.enterPressed.connect(function () :void {
             if (_textField.text.toLowerCase() != "start") {
                 return;
             }
 
-            viewport.unwindToMode(new ConnectMode());
-        });
+            _modeStack.unwindToMode(new ConnectMode());
+        }));
     }
 
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
@@ -46,8 +46,8 @@ public class NetworkFailureMode extends KeyboardInputMode {
         if (CustomTextField.getBitmapFont(font) != null) {
             var ctf :CustomTextField = new CustomTextField(1, 1, text);
             ctf.color = color;
-            ctf.hAlign = HAlign.LEFT;
-            ctf.fontName = font
+            ctf.hAlign = Align.LEFT;
+            ctf.fontName = font;
             ctf.fontSize = size;
             ctf.autoSize = TextFieldAutoSize.MULTI_LINE;
             ctf.x = x;
@@ -56,7 +56,7 @@ public class NetworkFailureMode extends KeyboardInputMode {
         } else {
             var tf :TextField = new TextField(1, 1, text);
             tf.color = color;
-            tf.hAlign = HAlign.LEFT;
+            tf.hAlign = Align.LEFT;
             tf.fontName = font
             tf.fontSize = size;
             tf.autoSize = TextFieldAutoSize.MULTI_LINE;

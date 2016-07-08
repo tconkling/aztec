@@ -23,7 +23,6 @@ public class BattleBoardView extends SpriteObject
         _board = board;
 
         _groundLayer.addChild(ImageResource.createImage("aztec/img_background"));
-        _groundLayer.flatten();
 
         _scroller.addChild(_groundLayer);
         _scroller.addChild(_objectLayer);

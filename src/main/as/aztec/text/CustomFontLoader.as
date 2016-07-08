@@ -3,10 +3,9 @@
 
 package aztec.text {
 
+import flashbang.loader.XmlLoader;
 import flashbang.resource.ResourceLoader;
-import flashbang.resource.XmlLoader;
 import flashbang.resource.XmlResource;
-import flashbang.util.LoadableBatch;
 
 public class CustomFontLoader extends ResourceLoader
 {
@@ -87,8 +86,6 @@ import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
-
-import flashbang.util.Loadable;
 
 import starling.core.Starling;
 import starling.textures.Texture;

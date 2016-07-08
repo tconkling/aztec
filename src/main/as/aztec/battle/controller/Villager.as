@@ -13,24 +13,23 @@ import aztec.battle.view.SelectableTextSprite;
 import aztec.battle.view.VillagerAlert;
 import aztec.battle.view.VillagerView;
 
+import flashbang.core.Updatable;
 import flashbang.tasks.FunctionTask;
 import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 
-import org.osflash.signals.Signal;
+import react.UnitSignal;
 
-public class Villager extends NetObject
-    implements Selectable
-{
-    public const selected :Signal = new Signal();
-    public const deselected :Signal = new Signal();
+public class Villager extends NetObject implements Selectable, Updatable {
+    public const selected :UnitSignal = new UnitSignal();
+    public const deselected :UnitSignal = new UnitSignal();
 
     public static function getCount (ctx :BattleCtx) :int {
         return ctx.netObjects.getObjectRefsInGroup(Villager).length;
     }
 
     public static function withName (ctx :BattleCtx, name :String) :Villager {
-        return Villager(ctx.netObjects.getObjectNamed(villagerName(name)));
+        return Villager(ctx.netObjects.getObjectWithId(villagerName(name)));
     }
 
     public static function getAll (ctx :BattleCtx) :Array {
@@ -91,7 +90,7 @@ public class Villager extends NetObject
         if (action == VillagerAction.SACRIFICE) {
             destroySelf();
         } else {
-            addNamedTask(PERFORM_ACTION_TASK, new SerialTask(
+            addNamedObject(PERFORM_ACTION_TASK, new SerialTask(
                 new TimedTask(_curAction.duration),
                 new FunctionTask(endCurAction)));
         }
@@ -101,7 +100,7 @@ public class Villager extends NetObject
         if (_curAction != null) {
             _curAction = null;
             _performingActionFor = null;
-            removeNamedTasks(PERFORM_ACTION_TASK);
+            removeNamedObjects(PERFORM_ACTION_TASK);
 
             _view.showActionAnim(VillagerAction.DEFAULT, null);
         }
@@ -111,16 +110,15 @@ public class Villager extends NetObject
         return _view;
     }
 
-    override public function get objectNames () :Array {
-        return [ villagerName(_name) ].concat(super.objectNames);
+    override public function get ids () :Array {
+        return [ villagerName(_name) ].concat(super.ids);
     }
 
-    override public function get objectGroups () :Array {
-        return [ Villager ].concat(super.objectGroups);
+    override public function get groups () :Array {
+        return [ Villager ].concat(super.groups);
     }
 
-    override protected function update (dt :Number) :void {
-        super.update(dt);
+    public function update (dt :Number) :void {
         if (_curAction == VillagerAction.FESTIVAL) {
             _performingActionFor.offsetAffinity(GameDesc.festivalAffinityPerSecond * dt);
         } else if (_curAction == VillagerAction.WORSHIP) {
@@ -128,8 +126,8 @@ public class Villager extends NetObject
         }
     }
 
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
 
         _view = new VillagerView(this);
         _ctx.viewObjects.addObject(_view, _ctx.board.view.objectLayer);

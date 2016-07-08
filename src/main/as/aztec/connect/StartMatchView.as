@@ -9,25 +9,20 @@ import aztec.battle.desc.GameDesc;
 import aztec.battle.view.SelectableTextSprite;
 import aztec.text.CustomTextField;
 
-import flashbang.core.Flashbang;
 import flashbang.core.GameObject;
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
-import flashbang.tasks.FunctionTask;
-import flashbang.tasks.RepeatingTask;
-import flashbang.tasks.TimedTask;
-import flashbang.util.DisplayUtil;
 
-import org.osflash.signals.Signal;
+import react.UnitSignal;
 
 import starling.display.DisplayObject;
 import starling.display.Sprite;
 import starling.text.TextField;
 import starling.text.TextFieldAutoSize;
-import starling.utils.HAlign;
+import starling.utils.Align;
 
 public class StartMatchView extends SpriteObject {
-    public const startEntered :Signal = new Signal();
+    public const startEntered :UnitSignal = new UnitSignal();
 
     public function StartMatchView (condition :NewGameCondition) {
         _condition = condition;
@@ -57,20 +52,20 @@ public class StartMatchView extends SpriteObject {
             fixed.addChild(drawTextAt(210, 690, HELP_6, HELP_SIZE, Aztec.COMMAND_FONT));
 
             var animator :GameObject = new GameObject();
-            addDependentObject(animator);
+            addObject(animator);
 
             var sts :SelectableTextSprite = new SelectableTextSprite("Xoxipepe", Aztec.UI_FONT, 24);
             sts.x = 145;
             sts.y = 180;
             _sprite.addChild(sts);
-            animator.addTask(SelectNextCharacterTask.createTypingAnimTask(
+            animator.addObject(SelectNextCharacterTask.createTypingAnimTask(
                 sts, GameDesc.player1.color));
 
             sts = new SelectableTextSprite("Quetzalcoatl", Aztec.UI_FONT, 24);
             sts.x = 334;
             sts.y = 302;
             _sprite.addChild(sts);
-            animator.addTask(SelectNextCharacterTask.createTypingAnimTask(
+            animator.addObject(SelectNextCharacterTask.createTypingAnimTask(
                 sts, GameDesc.player1.color));
 
         } else {
@@ -103,26 +98,25 @@ public class StartMatchView extends SpriteObject {
             _textField.display.y = 627;
         }
 
-        fixed.flatten();
-
-        addDependentObject(_textField, _sprite);
+        addObject(_textField, _sprite);
     }
 
-    override protected function addedToMode() :void {
-        super.addedToMode();
-        _regs.addSignalListener(_textField.enterPressed, function () :void {
+    override protected function added() :void {
+        super.added();
+
+        this.regs.add(_textField.enterPressed.connect(function () :void {
             if (_startEntered || _textField.text.toLowerCase() != "start") {
                 return;
             }
             _startEntered = true;
 
-            addDependentObject(new ActivityOverlay(
+            addObject(new ActivityOverlay(
                 "Searching for opponent",
                 "(This is a two-player game; if you aren't auto-matched\nwith another player, send the link to a buddy!)"),
                 _sprite);
 
-            startEntered.dispatch();
-        });
+            startEntered.emit();
+        }));
     }
 
     protected static function drawTextAt (x :Number, y :Number, text :String, size :Number,
@@ -131,7 +125,7 @@ public class StartMatchView extends SpriteObject {
         if (CustomTextField.getBitmapFont(font) != null) {
             var ctf :CustomTextField = new CustomTextField(1, 1, text);
             ctf.color = color;
-            ctf.hAlign = HAlign.LEFT;
+            ctf.hAlign = Align.LEFT;
             ctf.fontName = font
             ctf.fontSize = size;
             ctf.autoSize = TextFieldAutoSize.MULTI_LINE;
@@ -141,7 +135,7 @@ public class StartMatchView extends SpriteObject {
         } else {
             var tf :TextField = new TextField(1, 1, text);
             tf.color = color;
-            tf.hAlign = HAlign.LEFT;
+            tf.hAlign = Align.LEFT;
             tf.fontName = font
             tf.fontSize = size;
             tf.autoSize = TextFieldAutoSize.MULTI_LINE;
@@ -181,27 +175,31 @@ import flashbang.core.GameObject;
 import flashbang.core.ObjectTask;
 import flashbang.tasks.FunctionTask;
 import flashbang.tasks.RepeatingTask;
-import flashbang.tasks.VariableTimedTask;
+import flashbang.tasks.SerialTask;
+import flashbang.tasks.TimedTask;
 
-class SelectNextCharacterTask implements ObjectTask {
+class SelectNextCharacterTask extends ObjectTask {
     public static function createTypingAnimTask (sprite :SelectableTextSprite, color :uint) :ObjectTask {
         var rands :Randoms = new Randoms();
         var endDelay :Number = rands.getNumberInRange(2, 4);
-        return new RepeatingTask(
-            new VariableTimedTask(0.2, 0.8, new Randoms()),
-            new SelectNextCharacterTask(sprite, color),
-            new FunctionTask(function (dt :Number) :Boolean {
-                if (sprite.selectionLength < sprite.text.length) {
-                    return true;
-                } else {
-                    endDelay -= dt;
-                    if (endDelay <= 0) {
-                        endDelay = rands.getNumberInRange(2, 4);
+
+        return new RepeatingTask(function () :ObjectTask {
+            return new SerialTask(
+                new TimedTask(RANDS.getNumberInRange(0.2, 0.8)),
+                new SelectNextCharacterTask(sprite, color),
+                new FunctionTask(function (dt :Number) :Boolean {
+                    if (sprite.selectionLength < sprite.text.length) {
                         return true;
+                    } else {
+                        endDelay -= dt;
+                        if (endDelay <= 0) {
+                            endDelay = rands.getNumberInRange(2, 4);
+                            return true;
+                        }
                     }
-                }
-                return false;
-            }));
+                    return false;
+                }));
+        });
     }
 
     public function SelectNextCharacterTask (sprite :SelectableTextSprite, color :uint) {
@@ -224,4 +222,6 @@ class SelectNextCharacterTask implements ObjectTask {
 
     protected var _sprite :SelectableTextSprite;
     protected var _color :uint;
+
+    private static const RANDS :Randoms = new Randoms();
 }

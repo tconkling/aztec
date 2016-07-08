@@ -10,9 +10,9 @@ import aztec.battle.controller.BattleBoard;
 import aztec.battle.controller.NetObject;
 import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
-import aztec.input.KeyboardInput;
 
 import flashbang.core.GameObject;
+import flashbang.input.KeyboardInput;
 
 import starling.display.Sprite;
 

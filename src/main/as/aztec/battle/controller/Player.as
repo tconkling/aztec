@@ -4,9 +4,7 @@
 package aztec.battle.controller {
 
 import aspire.geom.Vector2;
-import aspire.util.Log;
 import aspire.util.MathUtil;
-import aspire.util.Registration;
 import aspire.util.Set;
 import aspire.util.Sets;
 
@@ -28,10 +26,12 @@ import flashbang.tasks.FunctionTask;
 import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 
+import react.Registration;
+
 public class Player extends NetObject
 {
     public static function withId (ctx :BattleCtx, oid :int) :Player {
-        return Player(ctx.netObjects.getObjectNamed(nameForId(oid)));
+        return Player(ctx.netObjects.getObjectWithId(nameForId(oid)));
     }
 
     public static function getAll(ctx:BattleCtx) :Array {
@@ -61,12 +61,12 @@ public class Player extends NetObject
         _villagerAffinity = MathUtil.clamp(_villagerAffinity + offset, 0, 1);
     }
 
-    override public function get objectNames () :Array {
-        return [ nameForId(id) ].concat(super.objectNames);
+    override public function get ids () :Array {
+        return [ nameForId(id) ].concat(super.ids);
     }
 
-    override public function get objectGroups () :Array {
-        return [ Player ].concat(super.objectGroups);
+    override public function get groups () :Array {
+        return [ Player ].concat(super.groups);
     }
 
     public function get selectedVillager () :Villager {
@@ -80,7 +80,7 @@ public class Player extends NetObject
     public function selectVillager (villager :Villager) :void {
         deselectVillager();
         _selectedVillager = villager.ref;
-        villager.selected.dispatch();
+        villager.selected.emit();
         villager.view.textView.select(villager.name.length, _desc.darkColor);
 
         if (this.isLocalPlayer) {
@@ -100,28 +100,28 @@ public class Player extends NetObject
 
             var commandMenu :VillagerCommandMenu = new VillagerCommandMenu(commands);
             _ctx.viewObjects.addObject(commandMenu, _ctx.uiLayer);
-            _regs.addSignalListener(commandMenu.actionSelected, function (action :VillagerAction) :void {
+            this.regs.add(commandMenu.actionSelected.connect(function (action :VillagerAction) :void {
                 if (_selectedVillager == villager.ref) {
                     _ctx.messages.doVillagerAction(villager, action);
                     // hide the selected text
                     villager.textSprite.deselect();
                 }
                 commandMenu.destroySelf();
-            });
+            }));
 
             // close the menu if the villager is destroyed
             var villagerDestroyedConn :Registration =
-                _regs.addSignalListener(villager.destroyed, commandMenu.destroySelf);
+                this.regs.add(villager.destroyed.connect(commandMenu.destroySelf));
 
-            _regs.addOneShotSignalListener(_ctx.selector.canceled, function () :void {
+            this.regs.add(_ctx.selector.canceled.connect(function () :void {
                 if (_selectedVillager == villager.ref) {
                     _ctx.messages.deselectVillager(villager);
                 }
-            });
+            }).once());
 
-            _regs.addOneShotSignalListener(commandMenu.destroyed, function () :void {
-                villagerDestroyedConn.cancel();
-            });
+            this.regs.add(commandMenu.destroyed.connect(function () :void {
+                villagerDestroyedConn.close();
+            }).once());
         }
     }
 
@@ -130,7 +130,7 @@ public class Player extends NetObject
         if (selected != null) {
             _selectedVillager = GameObjectRef.Null();
             selected.view.textView.deselect();
-            selected.deselected.dispatch();
+            selected.deselected.emit();
         }
     }
 
@@ -143,7 +143,7 @@ public class Player extends NetObject
 
         } else {
             var self :Player = this;
-            addTask(new SerialTask(
+            addObject(new SerialTask(
                 new TimedTask(2),
                 new FunctionTask(function () :void {
                     var damage :Number = GameDesc.godDamage(god);
@@ -223,8 +223,8 @@ public class Player extends NetObject
         }
     }
 
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
 
         _templeView = new TempleView(_name, _desc.color, desc.displayedOnRight);
         _templeView.display.x = _desc.templeLoc.x;
@@ -248,7 +248,7 @@ public class Player extends NetObject
     protected static function nameForId (oid :int) :String {
         return "Player_" + oid;
     }
-    
+
     protected var _id :int;
     protected var _name :String;
     protected var _desc :PlayerDesc;
@@ -264,7 +264,5 @@ public class Player extends NetObject
     protected var _templeView :TempleView;
     protected var _festivalView :FestivalView;
     protected var _heartView :HeartView;
-
-    private static const log :Log = Log.getLog(Player);
 }
 }

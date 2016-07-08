@@ -20,7 +20,7 @@ import com.threerings.util.Name;
 
 import flashbang.core.Flashbang;
 
-import org.osflash.signals.Signal;
+import react.Signal;
 
 public class AztecClient extends Client {
     MatchmakerMarshaller;

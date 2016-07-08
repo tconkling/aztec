@@ -5,42 +5,37 @@ package flashbang.core {
 
 import aspire.util.Preconditions;
 
-public class ObjectDB extends AppMode
-{
+public class ObjectDB extends AppMode {
     public function ObjectDB () {
         _modeSprite = null;
     }
 
+    public function doUpdate (dt :Number) :void {
+        updateInternal(dt);
+    }
+
     public final function shutdown () :void {
-        Preconditions.checkState(!_destroyed, "already destroyed");
-        _destroyed = true;
+        Preconditions.checkState(!_disposed, "already destroyed");
+        _disposed = true;
 
-        var ref :GameObjectRef = _listHead;
-        while (null != ref) {
-            if (!ref.isNull) {
-                var obj :GameObject = ref._obj;
-                ref._obj = null;
-                obj.cleanupInternal();
-            }
+        _rootObject.disposeInternal();
+        _rootObject = null;
 
-            ref = ref._next;
-        }
-
-        _listHead = null;
-        _objectCount = 0;
-        _objectsPendingRemoval = null;
-        _namedObjects = null;
+        _deadGroupedObjects = null;
+        _idObjects = null;
         _groupedObjects = null;
 
-        _regs.cancel();
+        _regs.close();
         _regs = null;
+
+        _modeStack = null;
     }
 
     override protected final function setup () :void {
         throw new Error("ObjectDB may not be added to a modestack");
     }
 
-    override protected final function destroy () :void {
+    override protected final function dispose () :void {
         // this will never be called.
     }
 }

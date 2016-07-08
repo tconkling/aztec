@@ -33,7 +33,7 @@ public class ResourceIcon extends LocalSpriteObject
         movie.alpha = 0;
         _sprite.addChild(movie);
 
-        addTask(new SerialTask(
+        addObject(new SerialTask(
             new ParallelTask(
                 new LocationTask(0, -30, 0.5, Easing.easeOut, movie),
                 new AlphaTask(1, 0.5, Easing.linear, movie)),

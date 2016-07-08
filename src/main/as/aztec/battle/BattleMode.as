@@ -14,16 +14,15 @@ import aztec.battle.controller.NetObjectDB;
 import aztec.battle.controller.Player;
 import aztec.battle.controller.VillagerGenerator;
 import aztec.battle.view.AffinityView;
-import aztec.input.KeyboardInputMode;
 import aztec.net.MessageMgr;
 
-import flashbang.core.GameObject;
+import flashbang.core.AppMode;
+import flashbang.core.GameObjectBase;
 import flashbang.core.GameObjectRef;
 
 import starling.display.DisplayObjectContainer;
 
-public class BattleMode extends KeyboardInputMode
-{
+public class BattleMode extends AppMode {
     public function BattleMode (player1: Player, player2: Player, randomSeed :int, messageMgr: MessageMgr) {
         _player1 = player1;
         _player2 = player2;
@@ -35,7 +34,7 @@ public class BattleMode extends KeyboardInputMode
         log.info("Starting match", "randomSeed", _randomSeed);
 
         // BattleCtx
-        _ctx = new BattleCtx(_randomSeed, keyboardInput);
+        _ctx = new BattleCtx(_randomSeed, this.keyboardInput);
         _ctx.viewObjects = this;
         addObject(_ctx);
 
@@ -78,13 +77,13 @@ public class BattleMode extends KeyboardInputMode
         }
     }
 
-    override protected function destroy () :void {
+    override protected function dispose () :void {
         _ctx.netObjects.shutdown();
-        super.destroy();
+        super.dispose();
     }
 
-    override protected function beginUpdate (dt :Number) :void {
-        super.beginUpdate(dt);
+    override protected function update (dt :Number) :void {
+        super.update(dt);
 
         // update the network
         _ctx.messages.processTicks(dt);
@@ -92,10 +91,7 @@ public class BattleMode extends KeyboardInputMode
         _ctx.board.view.depthSort();
     }
 
-    override public function addObject (obj :GameObject,
-        displayParent :DisplayObjectContainer = null,
-        displayIdx :int = -1) :GameObjectRef {
-
+    override public function addObject (obj :GameObjectBase, displayParent :DisplayObjectContainer = null, displayIdx :int = -1) :GameObjectRef {
         Preconditions.checkArgument(!(obj is NetObject),
             "NetObjects must be added to the NetObjectDB");
 

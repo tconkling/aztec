@@ -10,6 +10,8 @@ import com.threerings.io.ObjectOutputStream;
 
 import com.threerings.presents.data.ClientObject;
 
+import react.Signal;
+
 // GENERATED PREAMBLE END
 
 // GENERATED CLASSDECL START
@@ -61,6 +63,8 @@ import com.threerings.presents.dobj.OidListListener;
 import com.threerings.presents.dobj.SetListener;
 
 import aztec.data.AztecClientObject;
+
+import react.Signal;
 
 class Signaller
     implements AttributeChangeListener, SetListener, ElementUpdateListener, OidListListener

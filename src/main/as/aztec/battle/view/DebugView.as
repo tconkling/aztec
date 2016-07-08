@@ -9,15 +9,15 @@ public class DebugView extends LocalSpriteObject {
         _debug = debug;
         // Move out of the way of the framerate
         _sprite.y = 768;
-        createButton("Sacrifice").clicked.add(function () :void { _debug.sacrifice(senderOid); });
-        createButton("Summon").clicked.add(function () :void { _debug.summon(senderOid); });
-        createButton("Win").clicked.add(function () :void { _debug.win(senderOid); });
+        createButton("Sacrifice").clicked.connect(function () :void { _debug.sacrifice(senderOid); });
+        createButton("Summon").clicked.connect(function () :void { _debug.summon(senderOid); });
+        createButton("Win").clicked.connect(function () :void { _debug.win(senderOid); });
     }
 
     protected function createButton (title :String) :SimpleTextButton {
         var button :SimpleTextButton = new SimpleTextButton(title);
         button.sprite.y = ++_buttonCount * -40;
-        addDependentObject(button, _sprite);
+        addObject(button, _sprite);
         return button;
     }
 

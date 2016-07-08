@@ -14,11 +14,12 @@ import aspire.util.XmlUtil;
 import aztec.battle.God;
 import aztec.battle.desc.GameDesc;
 
+import flashbang.core.Updatable;
+
 import flashbang.resource.XmlResource;
 
-public class VillagerGenerator extends NetObject
-{
-    override protected function update (dt :Number) :void {
+public class VillagerGenerator extends NetObject implements Updatable {
+    public function update (dt :Number) :void {
         var needed :int = GameDesc.numVillagers - Villager.getCount(_ctx);
         for (var ii :int = 0; ii < needed; ++ii) {
             generate();
@@ -36,12 +37,11 @@ public class VillagerGenerator extends NetObject
             log.error("First letter was already claimed!", "name", name);
         }
 
-        _regs.addOneShotSignalListener(villager.destroyed, function () :void {
-             var removed :Boolean = _claimedLetters.remove(firstLetter);
-             if (!removed) {
-                 log.error("First letter was already un-claimed!", "name", name);
-             }
-        });
+        this.regs.add(villager.destroyed.connect(function () :void {var removed :Boolean = _claimedLetters.remove(firstLetter);
+            if (!removed) {
+                log.error("First letter was already un-claimed!", "name", name);
+            }
+        }).once());
 
         _ctx.netObjects.addObject(villager);
     }

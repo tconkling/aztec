@@ -9,8 +9,8 @@ import aztec.battle.VillagerAction;
 import aztec.battle.view.DebugView;
 
 public class BattleDebug extends LocalObject {
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
 
         for each (var player :Player in Player.getAll(_ctx)) {
             var view :DebugView = new DebugView(this, player.id);

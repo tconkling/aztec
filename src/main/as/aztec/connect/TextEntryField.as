@@ -3,34 +3,42 @@
 
 package aztec.connect {
 
-import aspire.ui.KeyboardCodes;
+import flash.ui.Keyboard;
 
-import aztec.input.KeyboardInputMode;
-
-import aztec.input.KeyboardListener;
-
+import flashbang.core.ObjectTask;
+import flashbang.input.KeyboardListener;
 import flashbang.objects.SpriteObject;
-import flashbang.tasks.FunctionTask;
+import flashbang.tasks.CallbackTask;
 import flashbang.tasks.RepeatingTask;
+import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.DisplayUtil;
+import flashbang.util.TextFieldBuilder;
 
-import org.osflash.signals.Signal;
+import react.Signal;
+import react.UnitSignal;
 
 import starling.display.DisplayObject;
-
 import starling.events.KeyboardEvent;
-
 import starling.text.TextField;
 
 public class TextEntryField extends SpriteObject implements KeyboardListener {
-    public const enterPressed :Signal = new Signal();
+    public const enterPressed :UnitSignal = new UnitSignal();
 
     public const textChanged :Signal = new Signal(String);
 
     public function TextEntryField(width:int, height:int, text:String, fontName:String="Verdana",
                                    fontSize:Number=12, color:uint=0x0, bold:Boolean=false) {
-        _tf = new TextField(width, height, text, fontName, fontSize, color, bold);
+
+        _tf = new TextFieldBuilder(text)
+            .width(width)
+            .height(height)
+            .font(fontName)
+            .fontSize(fontSize)
+            .color(color)
+            .bold(true)
+            .build();
+        
         _sprite.addChild(_tf);
         _pipe = DisplayUtil.fillRect(2, _tf.height - 4, color);
         _sprite.addChild(_pipe);
@@ -48,16 +56,20 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
         if (newText == _tf.text) return;
         _tf.text = newText;
         _pipe.x = _tf.x + _tf.textBounds.right;
-        textChanged.dispatch(newText);
+        textChanged.emit(newText);
     }
 
-    override protected function addedToMode() :void {
-        super.addedToMode();
-        _regs.add(KeyboardInputMode(mode).keyboardInput.registerListener(this));
-        addTask(new RepeatingTask(new TimedTask(.5),
-            new FunctionTask(function () :void {
-                _pipe.visible = !_pipe.visible;
-            })));
+    override protected function added() :void {
+        super.added();
+
+        this.regs.add(mode.keyboardInput.registerListener(this));
+        addObject(new RepeatingTask(function () :ObjectTask {
+            return new SerialTask(
+                new TimedTask(0.5),
+                new CallbackTask(function () :void {
+                    _pipe.visible = !_pipe.visible;
+                }));
+        }));
     }
 
     public function onKeyboardEvent (e :KeyboardEvent) :Boolean {
@@ -65,9 +77,9 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
             return false;
         }
 
-        if (e.keyCode == KeyboardCodes.ENTER) {
-            enterPressed.dispatch();
-        } else if (e.keyCode == KeyboardCodes.BACKSPACE) {
+        if (e.keyCode == Keyboard.ENTER) {
+            enterPressed.emit();
+        } else if (e.keyCode == Keyboard.BACKSPACE) {
             this.text = this.text.substring(0, this.text.length - 1);
         } else if (_tf.text.length < 20) {
             var entered :String = String.fromCharCode(e.charCode);

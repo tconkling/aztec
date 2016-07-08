@@ -4,14 +4,14 @@
 package aztec.battle.view {
 
 import flashbang.core.Flashbang;
+import flashbang.core.Updatable;
 import flashbang.resource.MovieResource;
 
 import flump.display.Movie;
 
 import starling.display.DisplayObject;
 
-public class AffinityView extends LocalSpriteObject
-{
+public class AffinityView extends LocalSpriteObject implements Updatable {
     public function AffinityView () {
         var movie :Movie = MovieResource.createMovie("aztec/affinity");
         _sprite.addChild(movie);
@@ -22,7 +22,7 @@ public class AffinityView extends LocalSpriteObject
         _sprite.y = 720;
     }
 
-    override protected function update (dt :Number) :void {
+    public function update (dt :Number) :void {
         _head.x = MIN_X + (_ctx.localPlayer.affinity * (MAX_X - MIN_X));
     }
 

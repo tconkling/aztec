@@ -27,12 +27,12 @@ public class BattleBoard extends NetObject
         return _view;
     }
 
-    override public function get objectNames () :Array {
-        return [ NAME ].concat(super.objectNames);
+    override public function get ids () :Array {
+        return [ NAME ].concat(super.ids);
     }
 
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
         _ctx.board = this;
 
         _view = new BattleBoardView(this);

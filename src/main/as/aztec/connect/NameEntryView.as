@@ -13,18 +13,17 @@ import flash.ui.MouseCursor;
 
 import flashbang.objects.SpriteObject;
 import flashbang.resource.MovieResource;
+import flashbang.util.TextFieldBuilder;
 
-import org.osflash.signals.Signal;
+import react.Signal;
 
 import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
 import starling.text.TextField;
-import starling.text.TextFieldAutoSize;
-import starling.utils.HAlign;
+import starling.utils.Align;
 
 public class NameEntryView extends SpriteObject {
-
     public const nameEntered :Signal = new Signal(String);
 
     public function NameEntryView () {
@@ -43,10 +42,10 @@ public class NameEntryView extends SpriteObject {
         _tfName = new TextEntryField(200, 30, "", Aztec.TITLE_FONT2, 24);
         _tfName.display.y = 627;
         _tfName.display.x = 184;
-        addDependentObject(_tfName, _sprite);
-        _tfName.enterPressed.add(function () :void {
+        addObject(_tfName, _sprite);
+        _tfName.enterPressed.connect(function () :void {
             if (_tfName.text.length > 0) {
-                nameEntered.dispatch(_tfName.text);
+                nameEntered.emit(_tfName.text);
             }
         });
     }
@@ -54,17 +53,19 @@ public class NameEntryView extends SpriteObject {
     protected function drawTextAt (x :Number, y :Number, text :String, size :Number,
         font :String = "herculanumLarge", url :String = null) :TextField {
 
-        var tf :TextField = new TextField(1, 1, text);
-        tf.color = Aztec.TITLE_COLOR;
-        tf.hAlign = HAlign.LEFT;
-        tf.fontName = font
-        tf.fontSize = size;
-        tf.autoSize = TextFieldAutoSize.MULTI_LINE;
+        var tf :TextField = new TextFieldBuilder(text)
+            .color(Aztec.TITLE_COLOR)
+            .hAlign(Align.LEFT)
+            .font(font)
+            .fontSize(size)
+            .autoSizeVertical()
+            .build();
+
         tf.x = x;
         tf.y = y;
 
         if (url != null) {
-            _regs.addEventListener(tf, TouchEvent.TOUCH, function (event :TouchEvent) :void {
+            this.regs.addEventListener(tf, TouchEvent.TOUCH, function (event :TouchEvent) :void {
                 Mouse.cursor = (event.interactsWith(tf) ? MouseCursor.BUTTON : MouseCursor.AUTO);
                 var touch:Touch = event.getTouch(tf);
                 if (touch != null && touch.phase == TouchPhase.ENDED) {

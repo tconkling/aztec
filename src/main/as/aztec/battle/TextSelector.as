@@ -3,21 +3,23 @@
 
 package aztec.battle {
 
-import aspire.ui.KeyboardCodes;
 import aspire.util.Arrays;
-import aspire.util.Registration;
-import aspire.util.Registrations;
 
-import aztec.input.KeyboardListener;
+import flash.ui.Keyboard;
 
-import org.osflash.signals.Signal;
+import flashbang.input.KeyboardListener;
+
+import react.Registration;
+import react.Registrations;
+import react.Signal;
+import react.UnitSignal;
 
 import starling.events.KeyboardEvent;
 
 public class TextSelector extends LocalObject
     implements KeyboardListener
 {
-    public const canceled :Signal = new Signal();
+    public const canceled :UnitSignal = new UnitSignal();
     public const selectionBegan :Signal = new Signal(Selectable);
     public const selectionCanceled :Signal = new Signal(Selectable);
 
@@ -39,18 +41,18 @@ public class TextSelector extends LocalObject
             _curSelectable = null;
         }
 
-        if (e.keyCode == KeyboardCodes.ESCAPE) {
+        if (e.keyCode == Keyboard.ESCAPE) {
             // if we have an actor selected, escape deselects.
             // else, escape "cancels" the text selection
             if (_curSelectable != null) {
                 endCurSelection();
             } else {
-                this.canceled.dispatch();
+                this.canceled.emit();
             }
 
             return true;
 
-        } else if (e.keyCode == KeyboardCodes.SPACE) {
+        } else if (e.keyCode == Keyboard.SPACE) {
             // ignore spaces
             return true;
         }
@@ -91,9 +93,9 @@ public class TextSelector extends LocalObject
         return true;
     }
 
-    override protected function addedToMode() :void {
-        super.addedToMode();
-        _regs.add(_ctx.keyboardInput.registerListener(this));
+    override protected function added () :void {
+        super.added();
+        this.regs.add(_ctx.keyboardInput.registerListener(this));
     }
 
     protected function get curText () :String {
@@ -108,7 +110,7 @@ public class TextSelector extends LocalObject
         endCurSelection();
         _curSelectable = s;
         _selectionLength = 0;
-        this.selectionBegan.dispatch(_curSelectable);
+        this.selectionBegan.emit(_curSelectable);
     }
 
     protected function endCurSelection () :void {
@@ -118,7 +120,7 @@ public class TextSelector extends LocalObject
             }
             var old :Selectable = _curSelectable;
             _curSelectable = null;
-            this.selectionCanceled.dispatch(old);
+            this.selectionCanceled.emit(old);
         }
     }
 

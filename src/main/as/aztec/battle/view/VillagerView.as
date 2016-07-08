@@ -14,9 +14,13 @@ import aztec.battle.desc.GameDesc;
 
 import flash.geom.Rectangle;
 
+import flashbang.core.ObjectTask;
+import flashbang.core.Updatable;
+
 import flashbang.objects.MovieObject;
 import flashbang.resource.MovieResource;
 import flashbang.tasks.AlphaTask;
+import flashbang.tasks.CallbackTask;
 import flashbang.tasks.FunctionTask;
 import flashbang.tasks.LocationTask;
 import flashbang.tasks.PlayMovieTask;
@@ -28,11 +32,10 @@ import flashbang.util.DisplayUtil;
 
 import flump.display.Movie;
 
-public class VillagerView extends LocalSpriteObject
-{
+public class VillagerView extends LocalSpriteObject implements Updatable {
     public function VillagerView (villager :Villager) {
         _villager = villager;
-        _regs.addSignalListener(villager.destroyed, destroySelf);
+        this.regs.add(villager.destroyed.connect(destroySelf));
     }
 
     public function get textView () :SelectableTextSprite {
@@ -46,7 +49,7 @@ public class VillagerView extends LocalSpriteObject
             movie.display.x = forPlayer.desc.sacrificeLoc.x;
             movie.display.y = forPlayer.desc.sacrificeLoc.y;
             _ctx.viewObjects.addObject(movie, _ctx.effectLayer);
-            movie.addTask(new SerialTask(
+            movie.addObject(new SerialTask(
                 new PlayMovieTask(),
                 new SelfDestructTask()));
 
@@ -57,7 +60,7 @@ public class VillagerView extends LocalSpriteObject
             _movie.removeFromParent(true);
         }
 
-        removeNamedTasks(ACTION_ANIM);
+        removeNamedObjects(ACTION_ANIM);
 
         _movie = MovieResource.createMovie(action.getViewMovieName(_viewVariation));
         _movie.loop();
@@ -74,9 +77,11 @@ public class VillagerView extends LocalSpriteObject
             _sprite.x = loc.x;
             _sprite.y = loc.y;
             if (forPlayer == _ctx.localPlayer) {
-                addNamedTask(ACTION_ANIM, new RepeatingTask(
-                    new FunctionTask(F.callback(showResourceIcon, ResourceIcon.HAPPY)),
-                    new TimedTask(2)));
+                addNamedObject(ACTION_ANIM, new RepeatingTask(function () :ObjectTask {
+                    return new SerialTask(
+                        new CallbackTask(F.bind(showResourceIcon, ResourceIcon.HAPPY)),
+                        new TimedTask(2));
+                }));
             }
             break;
 
@@ -85,9 +90,11 @@ public class VillagerView extends LocalSpriteObject
             _sprite.x = loc.x;
             _sprite.y = loc.y;
             if (forPlayer == _ctx.localPlayer) {
-                addNamedTask(ACTION_ANIM, new RepeatingTask(
-                    new FunctionTask(F.callback(showResourceIcon, ResourceIcon.DEFENSE)),
-                    new TimedTask(2)));
+                addNamedObject(ACTION_ANIM, new RepeatingTask(function () :ObjectTask {
+                    return new SerialTask(
+                        new CallbackTask(F.bind(showResourceIcon, ResourceIcon.DEFENSE)),
+                        new TimedTask(2));
+                }));
             }
             break;
         }
@@ -106,14 +113,14 @@ public class VillagerView extends LocalSpriteObject
         _ctx.viewObjects.addObject(icon, _ctx.effectLayer);
     }
 
-    override protected function addedToMode () :void {
-        super.addedToMode();
+    override protected function added () :void {
+        super.added();
 
         _viewVariation = rands().getInRange(1, 4);
 
         // fade in
         _sprite.alpha = 0;
-        addTask(new AlphaTask(1, 0.5));
+        addObject(new AlphaTask(1, 0.5));
 
         var loc :Vector2 = randomWalkLoc();
         _sprite.x = loc.x;
@@ -127,8 +134,8 @@ public class VillagerView extends LocalSpriteObject
         _textView.y = -_textView.height + bounds.y - 4;
         _sprite.addChild(_textView);
 
-        _regs.addSignalListener(_ctx.villagerSelectionMgr.emphasizedVillagerChanged,
-            F.callback(updateTextEmphasis));
+        this.regs.add(_ctx.villagerSelectionMgr.emphasizedVillagerChanged.connect(
+            F.bind(updateTextEmphasis)));
         updateTextEmphasis();
     }
 
@@ -143,8 +150,7 @@ public class VillagerView extends LocalSpriteObject
         _textView.scaleX = _textView.scaleY = scale;
     }
 
-    override protected function update (dt :Number) :void {
-        super.update(dt);
+    public function update (dt :Number) :void {
         _movie.advanceTime(dt);
     }
 
@@ -173,7 +179,7 @@ public class VillagerView extends LocalSpriteObject
         } else if (nextLoc.x > curLoc.x) {
             _movie.scaleX = 1;
         }
-        addNamedTask(ACTION_ANIM, new SerialTask(
+        addNamedObject(ACTION_ANIM, new SerialTask(
             new LocationTask(nextLoc.x, nextLoc.y, time),
             new TimedTask(pause),
             new FunctionTask(walk)));

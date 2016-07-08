@@ -18,6 +18,7 @@ import flashbang.tasks.SerialTask;
 import flashbang.tasks.TimedTask;
 import flashbang.util.DisplayUtil;
 import flashbang.util.RectMeter;
+import flashbang.util.meter.RectMeter;
 
 import flump.display.Movie;
 
@@ -33,7 +34,7 @@ public class TempleView extends LocalSpriteObject
         _onRight = onRight;
         _movie = MovieResource.createMovie("aztec/temple");
         _sprite.addChild(_movie);
-        addDependentObject(_healthMeter, _sprite);
+        addObject(_healthMeter, _sprite);
         _healthMeter.sprite.x = -60;
         _healthMeter.sprite.y = -200;
         _healthMeter.maxValue = 1.0;
@@ -43,7 +44,7 @@ public class TempleView extends LocalSpriteObject
         _healthMeter.outlineSize = 2;
         _healthMeter.outlineColor = 0;
 
-        addDependentObject(_defenseMeter, _sprite);
+        addObject(_defenseMeter, _sprite);
         _defenseMeter.sprite.x = -60;
         _defenseMeter.sprite.y = -230;
         _defenseMeter.maxValue = 1.0;
@@ -76,12 +77,12 @@ public class TempleView extends LocalSpriteObject
         var loc :Point = DisplayUtil.transformPoint(GOD_LOC, _sprite, _ctx.effectLayer);
         godMovie.display.x = loc.x;
         godMovie.display.y = loc.y;
-        addDependentObject(godMovie, _ctx.effectLayer);
+        addObject(godMovie, _ctx.effectLayer);
         godMovie.display.scaleY = 0;
         godMovie.display.scaleX = 0;
         var movie :Movie = Movie(godMovie.display);
         movie.stop();
-        godMovie.addTask(new SerialTask(
+        godMovie.addObject(new SerialTask(
             new ScaleTask(_onRight ? 1 : -1, 1, 1),
             new PlayMovieTask(),
             new TimedTask(1),

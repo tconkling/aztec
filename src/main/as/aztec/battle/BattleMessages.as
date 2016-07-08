@@ -65,7 +65,7 @@ public class BattleMessages
             for each (var msg :AztecMessage in ticks) {
                 handleMessage(msg);
             }
-            _ctx.netObjects.update(Aztec.NETWORK_UPDATE_RATE);
+            _ctx.netObjects.doUpdate(Aztec.NETWORK_UPDATE_RATE);
         }
     }
 
@@ -97,11 +97,11 @@ public class BattleMessages
             } else {
                 Aztec.newGameCondition = NewGameCondition.LOST;
             }
-            Flashbang.app.defaultViewport.popMode();
+            Flashbang.app.modeStack.popMode();
         } else if (msg is PlayerDisconnectedMessage) {
             log.info("Opponent disconnected! Ending game.");
             Aztec.newGameCondition = NewGameCondition.OPPONENT_DISCONNECTED;
-            Flashbang.app.defaultViewport.popMode();
+            Flashbang.app.modeStack.popMode();
         } else {
             log.error("Unhandled message!", "msg", msg);
         }
@@ -160,7 +160,7 @@ public class BattleMessages
         }
 
         if (!sender.canSummon(god)) {
-            log.warning("handleSummon: player can't summon god", "player", player, "god", god);
+            log.warning("handleSummon: player can't summon god", "player", sender, "god", god);
             return;
         }
 
