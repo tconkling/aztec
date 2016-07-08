@@ -58,7 +58,7 @@ public class NameEntryView extends SpriteObject {
             .hAlign(Align.LEFT)
             .font(font)
             .fontSize(size)
-            .autoSizeVertical()
+            .autoSizeHorizontal()
             .build();
 
         tf.x = x;

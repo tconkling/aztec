@@ -14,13 +14,22 @@ import aztec.connect.ConnectMode;
 import aztec.net.LoopbackMessageMgr;
 
 import flash.display.DisplayObject;
+import flash.display.Screen;
+import flash.display3D.Context3DProfile;
+import flash.display3D.Context3DRenderMode;
 import flash.events.Event;
+import flash.geom.Rectangle;
+import flash.system.Capabilities;
 
 import flashbang.core.FlashbangApp;
 import flashbang.core.FlashbangConfig;
 import flashbang.util.Timers;
 
+import starling.core.Starling;
+import starling.display.Sprite;
+
 import starling.utils.Align;
+import starling.utils.RectangleUtil;
 
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
 public class AztecApp extends FlashbangApp
@@ -37,6 +46,17 @@ public class AztecApp extends FlashbangApp
 
     public function get active () :Boolean {
         return _active;
+    }
+
+    override protected function onAddedToStage (e :Event) :void {
+        // center our window and show it
+        var screenBounds :Rectangle = Screen.mainScreen.bounds;
+        var windowBounds :Rectangle = this.stage.nativeWindow.bounds;
+        this.stage.nativeWindow.x = screenBounds.x + ((screenBounds.width - windowBounds.width) * 0.5);
+        this.stage.nativeWindow.y = screenBounds.y + ((screenBounds.height - windowBounds.height) * 0.5);
+        this.stage.nativeWindow.visible = true;
+
+        super.onAddedToStage(e);
     }
 
     override protected function run () :void {
@@ -81,6 +101,20 @@ public class AztecApp extends FlashbangApp
             .onFailure(function (e :Error) :void {
                 Log.getLog(AztecApp).error("Error loading resources", e);
             });
+    }
+
+    override protected function createStarling () :Starling {
+        var viewPort :Rectangle = RectangleUtil.fit(
+            new Rectangle(0, 0, config.stageWidth, config.stageHeight),
+            new Rectangle(0, 0, config.windowWidth, config.windowHeight));
+
+        var starling :Starling = new Starling(Sprite, this.stage, viewPort,
+            null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
+        starling.stage.stageWidth = config.stageWidth;
+        starling.stage.stageHeight = config.stageHeight;
+        starling.enableErrorChecking = Capabilities.isDebugger;
+
+        return starling;
     }
 
     override protected function createConfig () :FlashbangConfig {

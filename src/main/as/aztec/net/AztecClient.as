@@ -52,12 +52,12 @@ public class AztecClient extends Client {
 
     private function onMatchSubscribe (dobj :DObject) :void {
         log.info("Subscribed", "MatchObj", MatchObject(dobj));
-        onMatchObject.dispatch(dobj);
+        onMatchObject.emit(dobj);
     }
 
     private function onMatchSubscribeFail (oid :int, cause :ObjectAccessError) :void {
         log.warning("Failed to subscribe", "oid", oid, "cause", cause);
-        Flashbang.app.defaultViewport.pushMode(new NetworkFailureMode("Unable to get match: " + cause));
+        Flashbang.app.modeStack.pushMode(new NetworkFailureMode("Unable to get match: " + cause));
     }
 
     private static const log :Log = Log.getLog(AztecClient);

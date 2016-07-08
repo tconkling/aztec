@@ -26,7 +26,7 @@ public class StartMatchView extends SpriteObject {
 
     public function StartMatchView (condition :NewGameCondition) {
         _condition = condition;
-        _textField = new TextEntryField(200, 30, "", Aztec.UI_FONT, 24);
+        _textField = new TextEntryField(200, 30, "", Aztec.TITLE_FONT2, 24);
 
         var fixed :Sprite = new Sprite();
         _sprite.addChild(fixed);
@@ -127,7 +127,7 @@ public class StartMatchView extends SpriteObject {
             .hAlign(Align.LEFT)
             .font(font)
             .fontSize(size)
-            .autoSize(TextFieldAutoSize.VERTICAL)
+            .autoSize(TextFieldAutoSize.BOTH_DIRECTIONS)
             .build();
         tf.x = x;
         tf.y = y;

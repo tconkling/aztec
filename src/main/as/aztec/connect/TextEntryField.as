@@ -37,8 +37,9 @@ public class TextEntryField extends SpriteObject implements KeyboardListener {
             .fontSize(fontSize)
             .color(color)
             .bold(true)
+            .autoSizeHorizontal()
             .build();
-        
+
         _sprite.addChild(_tf);
         _pipe = DisplayUtil.fillRect(2, _tf.height - 4, color);
         _sprite.addChild(_pipe);

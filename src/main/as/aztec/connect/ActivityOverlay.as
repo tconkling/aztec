@@ -30,7 +30,7 @@ public class ActivityOverlay extends SpriteObject
             .font(Aztec.UI_FONT)
             .fontSize(42)
             .color(0xffffff)
-            .autoSizeVertical()
+            .autoSize()
             .build();
         tfActivity.x = (Flashbang.stageWidth - tfActivity.width) * 0.5;
         tfActivity.y = (Flashbang.stageHeight - tfActivity.height) * 0.5;
@@ -58,7 +58,7 @@ public class ActivityOverlay extends SpriteObject
                 .font(Aztec.UI_FONT)
                 .fontSize(20)
                 .color(0xEBEBEB)
-                .autoSizeVertical()
+                .autoSize()
                 .build();
             tfSubText.x = (Flashbang.stageWidth - tfSubText.width) * 0.5;
             tfSubText.y = tfActivity.y + tfActivity.height + 30;

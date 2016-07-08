@@ -52,7 +52,7 @@ public class ConnectMode extends AppMode {
 
     protected function connect (name :String) :void {
         _client = new AztecClient(name);
-        _client.onMatchObject.add(function (matchObj: MatchObject) :void {
+        _client.onMatchObject.connect(function (matchObj: MatchObject) :void {
             trace("Switching to battle mode!");
             var player1Local :Boolean = matchObj.player1.equals(_client.getClientObject().username);
             var player1 :Player = new Player(1, matchObj.player1.toString(), GameDesc.player1, player1Local);

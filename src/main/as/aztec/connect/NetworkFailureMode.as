@@ -46,7 +46,7 @@ public class NetworkFailureMode extends AppMode {
             .hAlign(Align.LEFT)
             .font(font)
             .fontSize(size)
-            .autoSize(TextFieldAutoSize.VERTICAL)
+            .autoSize(TextFieldAutoSize.BOTH_DIRECTIONS)
             .build();
         tf.x = x;
         tf.y = y;
