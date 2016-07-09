@@ -13,9 +13,9 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>com.bungleton</groupId>
+      <groupId>com.timconkling</groupId>
       <artifactId>naryalib</artifactId>
-      <version>1.13</version>
+      <version>1.15</version>
       <type>swc</type>
     </dependency>
     <dependency>
