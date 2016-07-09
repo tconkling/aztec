@@ -13,12 +13,12 @@ import flash.utils.getDefinitionByName;
 
 /**
  * <p>The following compiler argument is required to make this work:</p>
- * <pre>-frame=two,aztec.AztecApp</pre>
+ * <pre>-frame=two,aztec.AztecWebApp</pre>
  */
 [SWF(width="1024", height="768", frameRate="60", backgroundColor="#FFFFFF")]
-public class AztecPreloader extends MovieClip
+public class AztecWebPreloader extends MovieClip
 {
-    public function AztecPreloader() {
+    public function AztecWebPreloader() {
         //the document class must be a MovieClip so that things can go on
         //the second frame.
         stop();
@@ -51,7 +51,7 @@ public class AztecPreloader extends MovieClip
         _splashScreen.parent.removeChild(_splashScreen);
         removeChildren();
 
-        var appClass :Class = getDefinitionByName("aztec.AztecApp") as Class;
+        var appClass :Class = getDefinitionByName("aztec.AztecWebApp") as Class;
         addChild(new appClass(_splashScreen));
     }
 
@@ -73,7 +73,7 @@ public class AztecPreloader extends MovieClip
 
     protected var _splashScreen :Sprite = new Sprite();
 
-    [Embed(source="../../../../rsrc/art/preloader.jpg")]
+    [Embed(source="../../../../../rsrc/art/preloader.jpg")]
     protected static const IMAGE :Class;
 }
 }

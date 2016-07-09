@@ -80,37 +80,37 @@ public class AztecResources extends ResourceSet
         };
     }
 
-    [Embed(source="../../../../rsrc/art/aztec.zip", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/art/aztec.zip", mimeType="application/octet-stream")]
     protected static const AZTEC_FLUMP :Class;
 
-    [Embed(source="../../../../rsrc/fonts/FuturaCondensedExtraBold.fnt", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/FuturaCondensedExtraBold.fnt", mimeType="application/octet-stream")]
     protected static const FUTURA_XML :Class;
 
-    [Embed(source="../../../../rsrc/fonts/FuturaCondensedExtraBold.png", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/FuturaCondensedExtraBold.png", mimeType="application/octet-stream")]
     protected static const FUTURA_TEX :Class;
 
-    [Embed(source="../../../../rsrc/fonts/herculanum18.fnt", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/herculanum18.fnt", mimeType="application/octet-stream")]
     protected static const HERCULANUM18_XML :Class;
 
-    [Embed(source="../../../../rsrc/fonts/herculanum18.png", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/herculanum18.png", mimeType="application/octet-stream")]
     protected static const HERCULANUM18_TEX :Class;
 
-    [Embed(source="../../../../rsrc/fonts/herculanum70.fnt", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/herculanum70.fnt", mimeType="application/octet-stream")]
     protected static const HERCULANUM70_XML :Class;
 
-    [Embed(source="../../../../rsrc/fonts/herculanum70.png", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/herculanum70.png", mimeType="application/octet-stream")]
     protected static const HERCULANUM70_TEX :Class;
 
-    [Embed(source="../../../../rsrc/fonts/arial24.fnt", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/arial24.fnt", mimeType="application/octet-stream")]
     protected static const ARIAL24_XML :Class;
 
-    [Embed(source="../../../../rsrc/fonts/arial24.png", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/fonts/arial24.png", mimeType="application/octet-stream")]
     protected static const ARIAL24_TEX :Class;
 
-    [Embed(source="../../../../rsrc/villager_names.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/villager_names.xml", mimeType="application/octet-stream")]
     protected static const VILLAGER_NAMES_XML :Class;
 
-    [Embed(source="../../../../rsrc/villager_commands.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../rsrc/villager_commands.xml", mimeType="application/octet-stream")]
     protected static const VILLAGER_COMMANDS_XML :Class;
 }
 }

@@ -11,7 +11,9 @@ public class ObjectDB extends AppMode {
     }
 
     public function doUpdate (dt :Number) :void {
-        updateInternal(dt);
+        _runningTime += dt;
+        // update all Updatable objects
+        _update.emit(dt);
     }
 
     public final function shutdown () :void {
