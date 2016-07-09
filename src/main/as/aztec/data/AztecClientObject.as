@@ -3,10 +3,12 @@
 // GENERATED PREAMBLE START
 package aztec.data {
 
-import com.threerings.io.ObjectInputStream;
-import com.threerings.presents.data.ClientObject;
-
 import org.osflash.signals.Signal;
+
+import com.threerings.io.ObjectInputStream;
+import com.threerings.io.ObjectOutputStream;
+
+import com.threerings.presents.data.ClientObject;
 
 // GENERATED PREAMBLE END
 
@@ -40,7 +42,7 @@ public class AztecClientObject extends ClientObject
 // GENERATED CLASSFINISH END
 
 // GENERATED SIGNALLER START
-import aztec.data.AztecClientObject;
+import org.osflash.signals.Signal;
 
 import com.threerings.presents.dobj.AttributeChangeListener;
 import com.threerings.presents.dobj.AttributeChangedEvent;
@@ -49,12 +51,16 @@ import com.threerings.presents.dobj.ElementUpdatedEvent;
 import com.threerings.presents.dobj.EntryAddedEvent;
 import com.threerings.presents.dobj.EntryRemovedEvent;
 import com.threerings.presents.dobj.EntryUpdatedEvent;
+import com.threerings.presents.dobj.MessageEvent;
+import com.threerings.presents.dobj.MessageListener;
 import com.threerings.presents.dobj.ObjectAddedEvent;
+import com.threerings.presents.dobj.ObjectDeathListener;
+import com.threerings.presents.dobj.ObjectDestroyedEvent;
 import com.threerings.presents.dobj.ObjectRemovedEvent;
 import com.threerings.presents.dobj.OidListListener;
 import com.threerings.presents.dobj.SetListener;
 
-import org.osflash.signals.Signal;
+import aztec.data.AztecClientObject;
 
 class Signaller
     implements AttributeChangeListener, SetListener, ElementUpdateListener, OidListListener
@@ -118,7 +124,7 @@ class Signaller
         signal.dispatch(event.getIndex(), event.getValue(), event.getOldValue());
     }
 
-    public function objectAdded (event:ObjectAddedEvent) :void
+    public function objectAdded (event :ObjectAddedEvent) :void
     {
         var signal :Signal;
         switch (event.getName()) {

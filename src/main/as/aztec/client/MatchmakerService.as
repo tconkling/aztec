@@ -1,6 +1,5 @@
 //
-// aztec
-
+// SPACK
 package aztec.client {
 
 import com.threerings.presents.client.InvocationService;

@@ -5,6 +5,7 @@
   <property name="asrc.dir" location="src/main/as"/>
   <property name="deploy.dir" location="dist"/>
   <property name="classes.dir" location="${deploy.dir}/classes"/>
+  <property name="swf.version" value="30"/>
 
   <property name="ooo-build.vers" value="2.5"/>
   <ant antfile="etc/bootstrap.xml"/>
@@ -22,7 +23,7 @@
 
   <target name="-preptools" depends="-prepare">
     <artifact:dependencies pathId="tools.classpath">
-      <dependency groupId="com.threerings" artifactId="narya-tools" version="1.11"/>
+      <dependency groupId="com.threerings" artifactId="narya-tools" version="1.15"/>
     </artifact:dependencies>
     <taskdef resource="com/threerings/presents/tools.properties" classpathref="tools.classpath"/>
   </target>
@@ -48,12 +49,12 @@
   <target name="swf" depends="-prepare" description="Builds the swf">
     <mkdir dir="${deploy.dir}"/>
     <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.6"/>
-    <mxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
+    <amxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
       dest="${deploy.dir}/${ant.project.name}.swf" static-lrsl="true"
       main="aztec/AztecPreloader.as">
-      <arg value="-swf-version=13"/>
+      <arg value="-swf-version=${swf.version}"/>
       <arg value="-frame=two,aztec.AztecApp"/>
-    </mxmlc>
+    </amxmlc>
   </target>
 
   <target name="swf-wrapper" depends="-prepare" description="Builds aztec-wrapper.swf">
@@ -62,7 +63,7 @@
     <mxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
       dest="${deploy.dir}/${ant.project.name}-wrapper.swf" static-lrsl="true"
       main="aztec/AztecWrapper.as">
-      <arg value="-swf-version=13"/>
+      <arg value="-swf-version=${swf.version}"/>
     </mxmlc>
   </target>
 

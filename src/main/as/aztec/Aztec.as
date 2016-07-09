@@ -21,8 +21,8 @@ public class Aztec {
     public static const TITLE_COLOR :uint = 0x192E20;
 
     public static const MULTIPLAYER :Boolean = true;
-    //public static const SERVER :String = "localhost";
-    public static const SERVER :String = "aztec.bungleton.com";
+    public static const SERVER :String = "localhost";
+//    public static const SERVER :String = "aztec.bungleton.com";
     public static const DEBUG :Boolean = false;
 }
 }
