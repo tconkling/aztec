@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/21.0">
+    <id>aztec</id>
+    <name>Aztec</name>
+    <filename>Aztec</filename>
+    <versionNumber>0.1</versionNumber>
+    <initialWindow>
+        <renderMode>direct</renderMode>
+        <content>AztecApp.swf</content>
+        <title>Aztec</title>
+        <visible>false</visible>
+        <resizable>false</resizable>
+        <maximizable>false</maximizable>
+    </initialWindow>
+    <supportedLanguages>en</supportedLanguages>
+</application>
