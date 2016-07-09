@@ -19,6 +19,7 @@
       <path refid="pom.xml.path"/>
       <pathelement location="${classes.dir}"/>
     </path>
+    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.8"/>
   </target>
 
   <target name="-preptools" depends="-prepare">
@@ -48,9 +49,9 @@
 
   <target name="swf" depends="-prepare" description="Builds the swf">
     <mkdir dir="${deploy.dir}"/>
-    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.6"/>
-    <amxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
-      dest="${deploy.dir}/${ant.project.name}.swf" static-lrsl="true"
+    <amxmlc srcdir="${asrc.dir}"
+      libpath="${aslib.path}"
+      dest="${deploy.dir}/${ant.project.name}.swf"
       main="aztec/AztecPreloader.as">
       <arg value="-swf-version=${swf.version}"/>
       <arg value="-frame=two,aztec.AztecApp"/>
@@ -59,9 +60,9 @@
 
   <target name="swf-wrapper" depends="-prepare" description="Builds aztec-wrapper.swf">
     <mkdir dir="${deploy.dir}"/>
-    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.6"/>
-    <mxmlc srcdir="${asrc.dir}" libpath="${aslib.path}"
-      dest="${deploy.dir}/${ant.project.name}-wrapper.swf" static-lrsl="true"
+    <mxmlc srcdir="${asrc.dir}"
+      libpath="${aslib.path}"
+      dest="${deploy.dir}/${ant.project.name}-wrapper.swf"
       main="aztec/AztecWrapper.as">
       <arg value="-swf-version=${swf.version}"/>
     </mxmlc>
