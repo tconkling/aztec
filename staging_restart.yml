@@ -1,0 +1,3 @@
+---
+- include: restart.yml hosts="staging.antihero-game.com" base=/home/ec2-user/realtime/staging
+

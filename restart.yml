@@ -1,0 +1,24 @@
+---
+- hosts: "{{ hosts }}"
+  tasks:
+  - name: Stat the to-be-started version
+    stat: path={{ base }}/{{ hash }}
+    register: hash_stat
+  - name: Check that the to-be-started version exists
+    assert: that="hash_stat.stat.exists"
+  - name: Stat pid
+    stat: path={{ base }}/running/aztecserver.pid
+    register: pid_stat
+  - name: Kill running server if pid exists
+    shell: "kill `cat {{ base }}/running/aztecserver.pid`"
+    when: pid_stat.stat.exists
+  - name: Wait for server shutdown
+    wait_for: port=47624 state=stopped
+  - name: Remove pidfile
+    file: path={{ base }}/running/aztecserver.pid state=absent
+  - name: Link hash dir to running
+    file: src={{ base }}/{{ hash }} path={{ base }}/running state=link
+  - name: Start server
+    command: sh bin/aztecserver.sh chdir={{ base }}/running
+  - name: Wait for server startup
+    wait_for: port=47624
