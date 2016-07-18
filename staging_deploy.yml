@@ -1,4 +1,0 @@
----
-- include: deploy.yml hosts="staging.antihero-game.com" base=/home/ec2-user/realtime/staging
-- include: restart.yml hosts="staging.antihero-game.com" base=/home/ec2-user/realtime/staging hash="{{ hostvars['localhost']['git_rev'].stdout }}"
-

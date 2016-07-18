@@ -1,26 +1,22 @@
 ---
-- hosts: localhost
-  connection: local
+- hosts: all
   tasks:
-  - name: Get current git hash
-    command: git rev-parse --short HEAD warn=no
-    register: git_rev
-- hosts: "{{ hosts }}"
-  vars:
-      hash: "{{ hostvars['localhost']['git_rev'].stdout }}"
-  tasks:
-  - name: Stat latest
-    stat: path={{ base }}/latest
-    register: latest_stat
-  - name: Stat hash dir
-    stat: path={{ base }}/{{ hash }}
-    register: hash_stat
-  - name: Copy latest to hash if latest exists and hash doesn't
-    command: cp -rL {{ base }}/latest {{ base }}/{{ hash }}
-    when: latest_stat.stat.exists and not hash_stat.stat.exists
-  - name: Sync libs with hash dir
-    synchronize: src=dist/server/libs dest={{ base }}/{{ hash }} delete=yes
-  - name: Sync commands with hash dir
-    synchronize: src=bin dest={{ base }}/{{ hash }} delete=yes
-  - name: Link hash dir to latest
-    file: src={{ base }}/{{ hash }} path={{ base }}/latest state=link
+    - name: Get current git hash
+      local_action: command git rev-parse --short HEAD warn=no
+      register: git_rev
+    - name: Stat latest
+      stat: path={{ base }}/latest
+      register: latest_stat
+    - name: Stat hash dir
+      stat: path={{ base }}/{{ git_rev.stdout }}
+      register: hash_stat
+    - name: Copy latest to hash if latest exists and hash doesn't
+      command: cp -rL {{ base }}/latest {{ base }}/{{ git_rev.stdout }}
+      when: latest_stat.stat.exists and not hash_stat.stat.exists
+    - name: Sync libs with hash dir
+      synchronize: src=dist/server/libs dest={{ base }}/{{ git_rev.stdout }} delete=yes
+    - name: Sync commands with hash dir
+      synchronize: src=bin dest={{ base }}/{{ git_rev.stdout }} delete=yes
+    - name: Link hash dir to latest
+      file: src={{ base }}/{{ git_rev.stdout }} path={{ base }}/latest state=link
+- include: restart.yml hash="{{ git_rev.stdout }}"

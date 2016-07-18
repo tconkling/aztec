@@ -1,3 +1,0 @@
----
-- include: restart.yml hosts="release.antihero-game.com" base=/home/ec2-user/realtime/release
-
